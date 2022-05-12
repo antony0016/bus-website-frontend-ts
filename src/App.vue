@@ -4,52 +4,22 @@
       <nav-bar/>
     </el-header>
     <el-container>
-      <el-menu
-        :collapse="menuSwitch"
-      >
-        <el-sub-menu index="1">
-          <template v-slot:title>
-            <el-icon>
-              <location/>
-            </el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item-group>
-            <template #title><span>Group One</span></template>
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title><span>item four</span></template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-      </el-menu>
-      <el-main id="main">
-        <el-row>
-          <el-col :span="24">
-            <el-card style="width: 100%;height:100%;">
-              <router-view/>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-main>
+      <side-menu v-if="loggedIn"/>
+      <main-section/>
     </el-container>
   </el-container>
 </template>
 
 <script setup lang="ts">
+import { computed, toRefs } from "vue";
 import NavBar from "./components/NavBar.vue";
-import { Location } from "@element-plus/icons-vue";
-import { storeToRefs } from "pinia";
+import SideMenu from './layout/SideMenu.vue'
+import MainSection from "./layout/MainSection.vue";
 
-import useViewControllerStore from "./store/ViewControllerStore";
+import useLoginManagerStore from "./store/LoginManagerStore";
 
-const viewControllerStore = useViewControllerStore();
-const { menuSwitch } = storeToRefs(viewControllerStore);
+const loginManagerStore = useLoginManagerStore();
+const loggedIn = computed(() => loginManagerStore.loggedIn);
 
 </script>
 
@@ -62,16 +32,11 @@ body {
 }
 
 #header {
-  background-color: var(--el-color-primary);
+  background-color: var(--el-color-primary-dark-2);
   color: white;
-  display: flex;
 }
 
 #whole {
   height: 100vh;
-}
-
-#main {
-  background-color: var(--el-color-info-light-9);
 }
 </style>

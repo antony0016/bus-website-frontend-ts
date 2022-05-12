@@ -1,23 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
-import vr from "vue-router";
-import Home from "../views/Home.vue";
-
-// define your routes here
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: Home,
-  },
-]
+import useLoginManagerStore from "../store/LoginManagerStore";
+import routes from "./routes";
 
 const router = createRouter({
   routes: routes,
   history: createWebHistory(""),
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to, from, next) => {
+  const loginManagerStore = useLoginManagerStore();
   console.log(to, from);
+  if (to.matched.some(record => record.meta.requiredAuth)) {
+    loginManagerStore.loggedIn ? next() : next({ path: "/login" })
+  } else {
+    next();
+  }
 })
 
 export default router;
