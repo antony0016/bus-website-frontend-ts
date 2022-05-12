@@ -3,6 +3,7 @@ const barItemIds = {
   cRouter: "cRouter",
   bRouter: "bRouter",
   unitTest: "unitTest",
+  tRouter: "tRouter",
 }
 
 export default {

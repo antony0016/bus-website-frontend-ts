@@ -3,7 +3,10 @@ import Login from '../views/Login.vue';
 import Example1 from '../components/example/Example1.vue'
 import Example2 from '../components/example/Example2.vue'
 import NotFound from '../views/NotFound.vue';
-
+import Sample from '../components/Sample.vue';
+import NewTodoSample from '../components/NewTodoSample.vue';
+import FindTodo from '../components/FindTodo.vue';
+import NewTodo from '../components/NewTodo.vue';
 
 const routes = [
   {
@@ -36,10 +39,25 @@ const routes = [
     }
   },
   {
-    path: "/not-found",
-    name: "NotFound",
-    component: NotFound,
+    path: "/sample",
+    name: "Sample",
+    component: Sample,
   },
+  {
+    path: "/NewTodoSample",
+    name: "NewTodoSample",
+    component: NewTodoSample
+  },
+  {
+    path: "/NewTodo",
+    name: "NewTodo",
+    component: NewTodo
+  },
+  {
+    path: "/FindTodo",
+    name: "FindTodo",
+    component: FindTodo
+  }
 ]
 
 export default routes;

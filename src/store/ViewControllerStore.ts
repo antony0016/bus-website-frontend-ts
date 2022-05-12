@@ -8,6 +8,7 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
       { id: Env.barItemIds.mRouter, to: "/", isShow: true, name: "營運管理" },
       { id: Env.barItemIds.cRouter, to: "/", isShow: true, name: "行控管理" },
       { id: Env.barItemIds.bRouter, to: "/", isShow: true, name: "廣播系統" },
+      { id: Env.barItemIds.tRouter, to: "/", isShow: true, name: "TodoList" },
     ],
     sideMenuItems: [
       {
@@ -15,7 +16,8 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
           { isShow: true, name: 'Camera', to: '/Camera', id: 'Camera' },
           { isShow: true, name: 'TTS', to: '/TTS', id: 'TTS' },
           { isShow: true, name: 'CMS', to: '/CMS', id: 'CMS' },
-          { isShow: true, name: 'CMS', to: '/CMS', id: 'CMS' },
+          { isShow: true, name: 'Sample', to: '/Sample', id: 'Sample' },
+          { isShow: true, name: 'NewTodoSample', to: '/NewTodoSample', id: 'NewTodoSample' },
         ],
       },
       {
@@ -50,10 +52,16 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
           { isShow: true, name: '廣播排程', to: '/BSchedule', id: 'BSchedule' },
           { isShow: true, name: '車務自動插播', to: '/BInStream', id: 'BInStream' },]
       },
+      {
+        id: Env.barItemIds.tRouter, subMenu: [
+          { isShow: true, name: '新建事項', to: '/NewTodo', id: 'NewTodo' },
+          { isShow: true, name: '查詢事項', to: '/FindTodo', id: 'FindTodo' },
+        ],
+      },
     ],
     menuSwitch: {
       isFold: false,
-      topBarId: Env.barItemIds.mRouter,
+      topBarId: Env.barItemIds.tRouter,
     }
 
   }),
