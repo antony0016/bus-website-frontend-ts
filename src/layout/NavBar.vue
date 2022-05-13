@@ -11,27 +11,34 @@
     <el-col :span="1">
       <h1>{{ title }}</h1>
     </el-col>
-    <el-col :span="16">
-      <el-button v-for="(barItem, index) in topBarItems"
-                 @click="changeSideMenu(barItem.id)" :key="index"
-                 type="primary" size="large">
-        {{ barItem.name }}
-      </el-button>
+    <el-col :span="15">
+      <!-- todo: make this component more easy to use -->
+      <simple-scrollbar>
+        <el-button v-for="(barItem, index) in topBarItems" @click="changeSideMenu(barItem.id)"
+                   :key="index" v-show="barItem.isShow"
+                   type="primary" size="large" class="scrollbar-demo-item">
+          {{ barItem.name }}
+        </el-button>
+      </simple-scrollbar>
+    </el-col>
+    <el-col :span="1">
       <el-button type="primary" size="large">{{ "Now path: " + menuSwitch.topBarId }}</el-button>
     </el-col>
     <el-col :span="6">
       <login-button/>
     </el-col>
   </el-row>
+
 </template>
 
 <script setup lang="ts">
 import { Expand, Fold, ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
 import { storeToRefs } from "pinia";
-import LoginButton from './LoginButton.vue';
+import LoginButton from '../components/LoginButton.vue';
 
 import useViewControllerStore from "../store/ViewControllerStore";
 import { ref } from "vue";
+import SimpleScrollbar from "../components/SimpleScrollbar.vue";
 
 const viewControllerStore = useViewControllerStore();
 const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
@@ -62,6 +69,15 @@ const changeSideMenu = (topBarItemId: string) => {
 .nav-buttons button:hover {
   background-color: var(--el-color-primary);
   border-color: var(--el-color-primary);
+}
+
+
+.scrollbar-flex-content {
+  display: flex;
+}
+
+.scrollbar-demo-item {
+  flex-shrink: 0;
 }
 
 </style>

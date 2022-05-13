@@ -3,6 +3,10 @@ import Env from './env'
 
 const useViewControllerStore = defineStore('ViewControllerStore', {
   state: () => ({
+    menuSwitch: {
+      isFold: false,
+      topBarId: Env.barItemIds.unitTest,
+    },
     topBarItems: [
       { id: Env.barItemIds.unitTest, to: "/", isShow: true, name: "單元測試" },
       { id: Env.barItemIds.mRouter, to: "/", isShow: true, name: "營運管理" },
@@ -14,9 +18,10 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
       {
         id: Env.barItemIds.unitTest, subMenu: [
           { isShow: true, name: 'Camera', to: '/Camera', id: 'Camera' },
-          { isShow: true, name: 'TTS', to: '/TTS', id: 'TTS' },
-          { isShow: true, name: 'CMS', to: '/CMS', id: 'CMS' },
+          { isShow: false, name: 'TTS', to: '/TTS', id: 'TTS' },
+          { isShow: false, name: 'CMS', to: '/CMS', id: 'CMS' },
           { isShow: true, name: 'Sample', to: '/Sample', id: 'Sample' },
+          { isShow: true, name: 'AxiosExample', to: '/AxiosExample', id: 'AxiosExample' },
           { isShow: true, name: 'NewTodoSample', to: '/NewTodoSample', id: 'NewTodoSample' },
         ],
       },
@@ -59,11 +64,6 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
         ],
       },
     ],
-    menuSwitch: {
-      isFold: false,
-      topBarId: Env.barItemIds.tRouter,
-    }
-
   }),
   actions: {}
 })

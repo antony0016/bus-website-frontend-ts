@@ -1,19 +1,12 @@
 import Home from "../views/Home.vue";
 import Login from '../views/Login.vue';
-import Example1 from '../components/example/Example1.vue'
-import Example2 from '../components/example/Example2.vue'
+import AxiosExample from '../components/example/AxiosExample.vue';
 import NotFound from '../views/NotFound.vue';
-import Sample from '../components/Sample.vue';
-import NewTodoSample from '../components/NewTodoSample.vue';
+import NewTodoSample from '../components/example/NewTodoSample.vue';
 import FindTodo from '../components/FindTodo.vue';
 import NewTodo from '../components/NewTodo.vue';
 
 const routes = [
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-  },
   {
     path: "/",
     name: "Home",
@@ -23,25 +16,17 @@ const routes = [
     }
   },
   {
-    path: "/example1",
-    name: "Example1",
-    component: Example1,
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/AxiosExample",
+    name: "AxiosExample",
+    component: AxiosExample,
     meta: {
       requiredAuth: true,
     }
-  },
-  {
-    path: "/example2",
-    name: "Example2",
-    component: Example2,
-    meta: {
-      requiredAuth: true,
-    }
-  },
-  {
-    path: "/sample",
-    name: "Sample",
-    component: Sample,
   },
   {
     path: "/NewTodoSample",
@@ -57,6 +42,11 @@ const routes = [
     path: "/FindTodo",
     name: "FindTodo",
     component: FindTodo
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound
   }
 ]
 

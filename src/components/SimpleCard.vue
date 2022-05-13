@@ -3,8 +3,8 @@
     <template v-slot:header>
       <div class="simple-card-title">
         <!-- Don't use props and slot at the same time -->
-        <span v-if="title.length">{{ props.title }}</span>
-        <slot v-if="!title.length" name="title"/>
+        <span v-if="title">{{ title }}</span>
+        <slot v-if="!title" name="title"/>
       </div>
     </template>
     <el-row :justify="justify?justify:'start'">
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["title", "justify", "span"])
+defineProps<{ title?: string, justify?: string, span?: number }>()
 </script>
 
 <style scoped>

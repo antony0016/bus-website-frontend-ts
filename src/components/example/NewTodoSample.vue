@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 
-import useTodoListSampleStore from "../store/TodoListSampleStore";
+import useTodoListSampleStore from "../../store/TodoListSampleStore";
 import { ref, toRefs } from "vue";
 
 const todoListSampleStore = useTodoListSampleStore();

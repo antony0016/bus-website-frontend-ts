@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from "vue";
-import NavBar from "./components/NavBar.vue";
+import { computed } from "vue";
+import NavBar from "./layout/NavBar.vue";
 import SideMenu from './layout/SideMenu.vue'
 import MainSection from "./layout/MainSection.vue";
 

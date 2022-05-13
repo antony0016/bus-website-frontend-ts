@@ -14,8 +14,8 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
   }),
   getters: {
     loggedIn: function (state) {
-      // return state.token.access.length > 0;
-      return true;
+      return state.token.access.length > 0;
+      // return true;
     }
   },
   actions: {
