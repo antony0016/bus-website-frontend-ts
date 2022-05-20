@@ -5,14 +5,15 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
   state: () => ({
     menuSwitch: {
       isFold: false,
+      isShow: false,
       topBarId: Env.barItemIds.unitTest,
     },
     topBarItems: [
-      { id: Env.barItemIds.unitTest, to: "/", isShow: true, name: "單元測試" },
-      { id: Env.barItemIds.mRouter, to: "/", isShow: true, name: "營運管理" },
-      { id: Env.barItemIds.cRouter, to: "/", isShow: true, name: "行控管理" },
-      { id: Env.barItemIds.bRouter, to: "/", isShow: true, name: "廣播系統" },
-      { id: Env.barItemIds.tRouter, to: "/", isShow: true, name: "TodoList" },
+      { id: Env.barItemIds.unitTest, to: "/", isShow: false, name: "單元測試" },
+      { id: Env.barItemIds.mRouter, to: "/", isShow: false, name: "營運管理" },
+      { id: Env.barItemIds.cRouter, to: "/", isShow: false, name: "行控管理" },
+      { id: Env.barItemIds.bRouter, to: "/", isShow: false, name: "廣播系統" },
+      { id: Env.barItemIds.tRouter, to: "/", isShow: false, name: "TodoList" },
     ],
     sideMenuItems: [
       {

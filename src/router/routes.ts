@@ -6,6 +6,8 @@ import NewTodoSample from '../components/example/NewTodoSample.vue';
 import FindTodo from '../components/FindTodo.vue';
 import NewTodo from '../components/NewTodo.vue';
 
+import MCompany from '../views/MCompany_Page.vue';
+
 const routes = [
   {
     path: "/",
@@ -19,6 +21,14 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/MCompany",
+    name: "MCompany",
+    component: MCompany,
+    meta: {
+      requiredAuth: true,
+    }
   },
   {
     path: "/AxiosExample",

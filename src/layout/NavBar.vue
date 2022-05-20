@@ -1,7 +1,7 @@
 <template>
   <el-row justify="space-between" align="middle" class="nav-buttons">
     <el-col :span="1" style="white-space: nowrap">
-      <el-button type="primary" size="large" @click="openOrClose" circle>
+      <el-button v-show="menuSwitch.isShow" type="primary" size="large" @click="openOrClose" circle>
         <el-icon :size="18">
           <expand v-show="menuSwitch.isFold"></expand>
           <fold v-show="!menuSwitch.isFold"></fold>
@@ -22,7 +22,9 @@
       </simple-scrollbar>
     </el-col>
     <el-col :span="1">
-      <el-button type="primary" size="large">{{ "Now path: " + menuSwitch.topBarId }}</el-button>
+      <el-button type="primary" size="large">
+        {{ "Now path: " + menuSwitch.topBarId }}
+      </el-button>
     </el-col>
     <el-col :span="6">
       <login-button/>
