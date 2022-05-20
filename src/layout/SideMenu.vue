@@ -4,7 +4,7 @@
     class="el-menu-vertical-fix"
   >
     <el-menu-item
-      v-for="(item, index) in routedSideMenuItems" :key="index" v-show="item.isShow"
+      v-for="(item, index) in routedSideMenuItems" :key="index" v-show="item.isShow" 
       :index="item.name" @click="goto(item.to)" class="el-sub-menu">
       <el-icon>
         <location/>
@@ -13,6 +13,7 @@
         <span>{{ item.name }}</span>
       </template>
     </el-menu-item>
+    <el-button to="/MCompany">a</el-button>
   </el-menu>
 </template>
 
