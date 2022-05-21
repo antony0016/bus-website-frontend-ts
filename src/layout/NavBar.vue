@@ -23,7 +23,7 @@
     </el-col>
     <el-col :span="1">
       <el-button type="primary" size="large">
-        {{ "Now path: " + menuSwitch.topBarId }}
+        {{ "Now path: " + menuSwitch.topBarId + nowPath}}
       </el-button>
     </el-col>
     <el-col :span="6">
@@ -39,11 +39,12 @@ import { storeToRefs } from "pinia";
 import LoginButton from '../components/LoginButton.vue';
 
 import useViewControllerStore from "../store/ViewControllerStore";
-import { ref } from "vue";
+import { useRoute } from 'vue-router';
+import { ref, computed, watch } from "vue";
 import SimpleScrollbar from "../components/SimpleScrollbar.vue";
 
 const viewControllerStore = useViewControllerStore();
-const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
+const { menuSwitch, sideMenuItems, topBarItems, nowPath } = storeToRefs(viewControllerStore);
 
 const title = ref('A8')
 
@@ -54,6 +55,26 @@ const openOrClose = () => {
 const changeSideMenu = (topBarItemId: string) => {
   menuSwitch.value.topBarId = topBarItemId
 }
+
+// get now path
+const route = useRoute();
+const goPath = computed(() => route.path)
+
+// control now path and select
+watch(goPath,(curVal,preVal)=>{
+    for (var val of sideMenuItems.value){
+      for (var sval of val['subMenu']){
+        if (curVal == sval['to']){
+          console.log('nowGroup:' + val['id'])
+          console.log('nowPath:' + sval['to'])
+          menuSwitch.value.topBarId = val['id']
+          nowPath.value = sval['to']
+        }
+      }  
+    }
+  },{
+   //配置項
+  })
 
 </script>
 

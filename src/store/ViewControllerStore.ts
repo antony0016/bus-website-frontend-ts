@@ -3,6 +3,7 @@ import Env from './env'
 
 const useViewControllerStore = defineStore('ViewControllerStore', {
   state: () => ({
+    nowPath: '',
     menuSwitch: {
       isFold: false,
       isShow: false,

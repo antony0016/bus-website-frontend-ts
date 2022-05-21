@@ -19,13 +19,24 @@
 </template>
 
 <script setup lang="ts">
-import { User as UserIcon, Key } from "@element-plus/icons-vue";
+import { User as UserIcon, Key, SetUp } from "@element-plus/icons-vue";
 import useLoginManagerStore from "../store/LoginManagerStore";
-import { toRefs } from "vue";
+import useViewControllerStore from "../store/ViewControllerStore";
+import { toRefs, watch } from "vue";
+import { storeToRefs } from "pinia";
 
 const loginManagerStore = useLoginManagerStore();
-const { user } = toRefs(loginManagerStore);
+const { user, token } = toRefs(loginManagerStore);
 const { login } = loginManagerStore;
+
+const viewControllerStore = useViewControllerStore();
+const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
+
+watch(token.value, (curVal,preVal)=>{
+  sessionStorage.setItem('access', curVal['access'])
+  sessionStorage.setItem('refresh', curVal['refresh'])
+})
+
 </script>
 
 <style scoped>

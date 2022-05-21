@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import router from "../router";
 import axios from "../axios";
 import useViewControllerStore from "../store/ViewControllerStore";
+import { useStorage } from '@vueuse/core'
 
 const useLoginManagerStore = defineStore('LoginManagerStore', {
   state: () => ({
@@ -10,8 +11,8 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       password: '',
     },
     token: {
-      access: '',
-      refresh: '',
+      access: useStorage('access', ''),
+      refresh: useStorage('refresh', ''),
     },
     address:{
       get_token: 'http://localhost:8000/token/',
@@ -20,6 +21,23 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
   }),
   getters: {
     loggedIn: function (state) {
+      if (this.token.access != ''){
+        // use useViewControllerStore's data
+        const viewControllerStore = useViewControllerStore();
+        // set navbar item show
+        viewControllerStore.menuSwitch.isShow = true
+          for (var val of viewControllerStore.topBarItems){
+            val['isShow'] = true 
+          }
+      }else if (this.token.access == ''){
+        // use useViewControllerStore's data
+        const viewControllerStore = useViewControllerStore();
+        // set navbar item show
+        viewControllerStore.menuSwitch.isShow = false
+          for (var val of viewControllerStore.topBarItems){
+            val['isShow'] = false 
+          }
+      }
       return state.token.access.length > 0;
       // return true;
     }
@@ -31,13 +49,6 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           // set access and refresh token
           this.token.access = response.data['access']
           this.token.refresh = response.data['refresh']
-          // use useViewControllerStore's data
-          const viewControllerStore = useViewControllerStore();
-          // set navbar item show
-          viewControllerStore.menuSwitch.isShow = true
-          for (var val of viewControllerStore.topBarItems){
-            val['isShow'] = true 
-          }
           // send logging message
           console.log('login!', this.loggedIn);
           // go to home page
@@ -52,13 +63,6 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       this.token.refresh = ''
       this.user.username = ''
       this.user.password = ''
-      // use useViewControllerStore's data
-      const viewControllerStore = useViewControllerStore();
-      // set navbar item disable show
-      viewControllerStore.menuSwitch.isShow = false
-      for (var val of viewControllerStore.topBarItems){
-        val['isShow'] = false 
-      }
       console.log('logout', this.loggedIn)
       // go to login page
       router.push('/login')

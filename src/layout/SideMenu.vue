@@ -1,11 +1,12 @@
 <template>
   <el-menu
     :collapse="menuSwitch.isFold"
+    :default-active="nowPath"
     class="el-menu-vertical-fix"
   >
     <el-menu-item
       v-for="(item, index) in routedSideMenuItems" :key="index" v-show="item.isShow" 
-      :index="item.name" @click="goto(item.to)" class="el-sub-menu">
+      :index="item.to" @click="goto(item.to, item.name)" class="el-sub-menu">
       <el-icon>
         <location/>
       </el-icon>
@@ -13,7 +14,6 @@
         <span>{{ item.name }}</span>
       </template>
     </el-menu-item>
-    <el-button to="/MCompany">a</el-button>
   </el-menu>
 </template>
 
@@ -27,14 +27,15 @@ import router from "../router";
 
 const viewControllerStore = useViewControllerStore();
 
-const { menuSwitch, sideMenuItems } = storeToRefs(viewControllerStore);
+const { menuSwitch, sideMenuItems, nowPath } = storeToRefs(viewControllerStore);
 
 const routedSideMenuItems = computed(() => {
   const items = sideMenuItems.value.filter(item => item.id == menuSwitch.value.topBarId)
   return items[0].subMenu;
 })
 
-const goto = (path: string) => {
+const goto = (path: string, name: string) => {
+  // nowPath.value = path;
   router.push(path).then(r => r);
 }
 </script>
