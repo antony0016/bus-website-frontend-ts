@@ -66,6 +66,16 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       console.log('logout', this.loggedIn)
       // go to login page
       router.push('/login')
+    },
+    refreshtoken: function () {
+      axios.post(this.address.refresh_token, {refresh: this.token.refresh})
+      .then(response => {
+        //console.log(response.data.access)
+        this.token.access = response.data.access
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
   }
 })

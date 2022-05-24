@@ -1,0 +1,86 @@
+<template>
+  <el-button text @click="dialogFormVisible = true">
+    增加群組
+  </el-button>
+  <el-dialog 
+    v-model="dialogFormVisible" 
+    title="增加群組"
+    :before-close="handleClose"
+  >
+    <el-form :model="DialogForm" label-position="top">
+      <el-form-item label="群組名稱：" :label-width="formLabelWidth">
+        <el-select v-model="DialogForm.grouptype" placeholder="請選擇群組">
+          <el-option 
+            v-for="gtitem in GroupTypeSelections"
+            :label="gtitem.labelname" :value="gtitem.value" 
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="群組代碼：" :label-width="formLabelWidth">
+        <el-input v-model="DialogForm.groupcode" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="群組名稱：" :label-width="formLabelWidth">
+        <el-input v-model="DialogForm.groupname" autocomplete="off" />
+      </el-form-item>
+      <el-form-item 
+        v-for="(value, name, index) in PermissionSelections"
+        :label="value.GroupName" :label-width="formLabelWidth">
+        <el-col :span="12">
+          <el-checkbox 
+            v-for="(subvalue, subname, index) in value.GroupMember"
+            v-model="subvalue.allow" :label="subvalue.name"
+          />
+        </el-col>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogClear(); dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogClear(); dialogFormVisible = false">
+          提交
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+</template>
+
+<script setup lang="ts">
+import { ref, toRefs, reactive } from 'vue'
+import { storeToRefs } from "pinia";
+import { ElMessageBox } from 'element-plus'
+import useMAccountStore from "../../../store/MGroup/MAccountStore";
+
+const MAccountStore = useMAccountStore();
+const { DialogForm, GroupTypeSelections, PermissionSelections } = storeToRefs(MAccountStore);
+const { dialogClear } = MAccountStore;
+
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('您確定要關閉視窗?(內容不會保存)')
+    .then(() => {
+      done()
+      dialogClear()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+
+</script>
+
+<style scoped>
+.el-button--text {
+  margin-right: 15px;
+}
+.el-select {
+  width: 300px;
+}
+.el-input {
+  width: 300px;
+}
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>
