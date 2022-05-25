@@ -1,5 +1,7 @@
 <template>
-  <simple-card title="帳號管理">
+  <el-button @click="GroupUserSwitchG()">編輯群組</el-button>
+  <el-button @click="GroupUserSwitchU()">使用者列表</el-button>
+  <simple-card title="群組管理" v-show="GroupUserSwitch.Switch_G">
     <el-row>
       <el-col :span="6">
         <el-menu 
@@ -16,10 +18,13 @@
         <MAccountDialog/>
       </el-col>
       <el-col :span="6">
-        {{getData.selectGroup}}
+        <MAccountGroupShow/>
       </el-col>
     </el-row>
-    
+  </simple-card>
+  <simple-card title="使用者列表" v-show="GroupUserSwitch.Switch_U">
+    <MAccountUserShow/>
+    <MAccountUserDialog/>
   </simple-card>
 </template>
 
@@ -27,13 +32,16 @@
 import { toRefs, defineComponent, watch } from "vue";
 import { storeToRefs } from "pinia";
 import MAccountDialog from "../../components/MGroup/MAccount/MAccountDialog.vue";
+import MAccountGroupShow from "../../components/MGroup/MAccount/MAccountGroupShow.vue";
+import MAccountUserShow from "../../components/MGroup/MAccount/MAccountUserShow.vue";
+import MAccountUserDialog from "../../components/MGroup/MAccount/MAccountUserDialog.vue";
 
 import useMAccountStore from "../../store/MGroup/MAccountStore"
 
 const MAccountStore = useMAccountStore();
-const { getData, nowGroupSelect } = storeToRefs(MAccountStore);
-const { getGroupName, selectGroupFunction } = MAccountStore;
-getGroupName()
+const { GroupUserSwitch, getData, nowGroupSelect } = storeToRefs(MAccountStore);
+const { getGroupName, selectGroupFunction, GroupUserSwitchG, GroupUserSwitchU } = MAccountStore;
+getGroupName({getcount: 0})
 
 </script>
 

@@ -17,7 +17,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="群組代碼：" :label-width="formLabelWidth">
-        <el-input v-model="DialogForm.groupcode" autocomplete="off" />
+        <el-input v-model="DialogForm.groupcode" autocomplete="off" disabled/>
       </el-form-item>
       <el-form-item label="群組名稱：" :label-width="formLabelWidth">
         <el-input v-model="DialogForm.groupname" autocomplete="off" />
@@ -36,7 +36,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogClear(); dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogClear(); dialogFormVisible = false">
+        <el-button type="primary" @click="postGroupName({postcount: 0}); dialogFormVisible = false">
           提交
         </el-button>
       </span>
@@ -52,7 +52,7 @@ import useMAccountStore from "../../../store/MGroup/MAccountStore";
 
 const MAccountStore = useMAccountStore();
 const { DialogForm, GroupTypeSelections, PermissionSelections } = storeToRefs(MAccountStore);
-const { dialogClear } = MAccountStore;
+const { dialogClear, postGroupName } = MAccountStore;
 
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'

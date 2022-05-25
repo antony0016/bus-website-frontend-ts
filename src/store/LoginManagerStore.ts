@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import router from "../router";
 import axios from "../axios";
+import Vue from "vue";
 import useViewControllerStore from "../store/ViewControllerStore";
 import { useStorage } from '@vueuse/core'
 
@@ -49,6 +50,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           // set access and refresh token
           this.token.access = response.data['access']
           this.token.refresh = response.data['refresh']
+          axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
           // send logging message
           console.log('login!', this.loggedIn);
           // go to home page
@@ -72,6 +74,9 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       .then(response => {
         //console.log(response.data.access)
         this.token.access = response.data.access
+        axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
+        sessionStorage.setItem('access', response.data.access)
+        //console.log(this.token.access)
       })
       .catch(error => {
         console.log(error)
