@@ -40,8 +40,9 @@ import useMAccountStore from "../../store/MGroup/MAccountStore"
 
 const MAccountStore = useMAccountStore();
 const { GroupUserSwitch, getData, nowGroupSelect } = storeToRefs(MAccountStore);
-const { getGroupName, selectGroupFunction, GroupUserSwitchG, GroupUserSwitchU } = MAccountStore;
+const { getGroupName, getUser, selectGroupFunction, GroupUserSwitchG, GroupUserSwitchU } = MAccountStore;
 getGroupName({getcount: 0})
+getUser({getcount: 0})
 
 </script>
 
