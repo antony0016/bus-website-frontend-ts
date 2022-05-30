@@ -24,11 +24,10 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
     loggedIn: function (state) {
       // use useViewControllerStore's data
       const viewControllerStore = useViewControllerStore();
-      // set navbar item show
       viewControllerStore.menuSwitch.isShow = true
-        for (let val of viewControllerStore.topBarItems){
-          val['isShow'] = this.token.access != ''
-        }
+      for (let val of viewControllerStore.topBarItems) {
+        val['isShow'] = this.token.access != ''
+      }
       return state.token.access.length > 0;
       // return true;
     }
