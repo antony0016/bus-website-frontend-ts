@@ -22,23 +22,13 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
   }),
   getters: {
     loggedIn: function (state) {
-      if (this.token.access != ''){
-        // use useViewControllerStore's data
-        const viewControllerStore = useViewControllerStore();
-        // set navbar item show
-        viewControllerStore.menuSwitch.isShow = true
-          for (let val of viewControllerStore.topBarItems){
-            val['isShow'] = true 
-          }
-      }else if (this.token.access == ''){
-        // use useViewControllerStore's data
-        const viewControllerStore = useViewControllerStore();
-        // set navbar item show
-        viewControllerStore.menuSwitch.isShow = false
-          for (let val of viewControllerStore.topBarItems){
-            val['isShow'] = false 
-          }
-      }
+      // use useViewControllerStore's data
+      const viewControllerStore = useViewControllerStore();
+      // set navbar item show
+      viewControllerStore.menuSwitch.isShow = true
+        for (let val of viewControllerStore.topBarItems){
+          val['isShow'] = this.token.access != ''
+        }
       return state.token.access.length > 0;
       // return true;
     }
