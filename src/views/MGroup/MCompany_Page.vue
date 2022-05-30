@@ -6,7 +6,8 @@
     <MCompanyCompanyDialog/>
   </simple-card>
   <simple-card title="客運路線管理" v-show="CompanyRouteSwitch.Switch_R">
-    
+    <MCompanyRouteShow/>
+    <MCompanyRouteDialog/>
   </simple-card>
 </template>
 
@@ -16,12 +17,15 @@ import { storeToRefs } from "pinia";
 
 import useMCompanyStore from "../../store/MGroup/MCompanyStore"
 import MCompanyCompanyShow from "../../components/MGroup/MCompany/MCompanyCompanyShow.vue";
-import MCompanyCompanyDialog from "../../components/MGroup/MCompany/MCompanyCompanyDialog.vue"
+import MCompanyCompanyDialog from "../../components/MGroup/MCompany/MCompanyCompanyDialog.vue";
+import MCompanyRouteShow from "../../components/MGroup/MCompany/MCompanyRouteShow.vue";
+import MCompanyRouteDialog from "../../components/MGroup/MCompany/MCompanyRouteDialog.vue";
 
 const MCompanyStore = useMCompanyStore();
 const { CompanyRouteSwitch } = storeToRefs(MCompanyStore);
-const { CompanyRouteSwitchC, CompanyRouteSwitchR, getCompany } = MCompanyStore;
+const { CompanyRouteSwitchC, CompanyRouteSwitchR, getCompany, getRoute } = MCompanyStore;
 getCompany({getcount:0})
+getRoute({getcount:0})
 
 </script>
 

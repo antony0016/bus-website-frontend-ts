@@ -63,8 +63,7 @@
     </el-table-column>
     <el-table-column label="操作">
       <template #default="{row,$index}">
-        <el-button
-        >
+        <el-button @click="CompanyGoToRoute({data: row})">
           路線管理
         </el-button>
         <el-button @click="CompanyDialogEditShow({data: row})">
@@ -83,7 +82,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
-const { CompanyDialogAddShow, CompanyDialogEditShow } = MCompanyStore;
+const { CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute } = MCompanyStore;
 
 </script>
 

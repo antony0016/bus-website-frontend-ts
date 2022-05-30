@@ -1,7 +1,7 @@
 <template>
   <el-dialog 
     v-model="DialogVisible.CompanyDialogFormVisible" 
-    title="新增客運業者"
+    title="客運業者管理"
     :before-close="handleClose"
   >
     <el-form :model="CompanyDialogForm" label-position="left">
@@ -41,7 +41,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="deleteUser({deletecount: 0}); DialogVisible.CompanyDialogFormVisible = false" type="danger" v-show="DialogVisible.CompanyAddChangeSwitch">刪除</el-button>
+        <el-button @click="deleteCompany({deletecount: 0}); DialogVisible.CompanyDialogFormVisible = false" type="danger" v-show="DialogVisible.CompanyAddChangeSwitch">刪除</el-button>
         <el-button @click="DialogVisible.CompanyDialogFormVisible = false; CompanyDialogClear()">取消</el-button>
         <el-button type="primary" @click="putCompany({putcount: 0}); DialogVisible.CompanyDialogFormVisible = false;" v-show="DialogVisible.CompanyAddChangeSwitch">
           儲存
@@ -62,7 +62,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
 const { DialogVisible, CompanyDialogForm, getData } = storeToRefs(MCompanyStore);
-const { CompanyDialogClear, postCompany, putCompany, deleteUser } = MCompanyStore;
+const { CompanyDialogClear, postCompany, putCompany, deleteCompany } = MCompanyStore;
 
 const formLabelWidth = '50px'
 
