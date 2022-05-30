@@ -25,7 +25,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       // use useViewControllerStore's data
       const viewControllerStore = useViewControllerStore();
       viewControllerStore.menuSwitch.isShow = true
-      for (var val of viewControllerStore.topBarItems) {
+      for (let val of viewControllerStore.topBarItems) {
         val['isShow'] = this.token.access != ''
       }
       return state.token.access.length > 0;
@@ -58,7 +58,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       // go to login page
       router.push('/login')
     },
-    refreshtoken: function () {
+    refreshToken: function () {
       axios.post(this.address.refresh_token, { refresh: this.token.refresh })
         .then(response => {
           //console.log(response.data.access)
