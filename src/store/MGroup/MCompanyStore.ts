@@ -106,7 +106,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.getCompany({ getcount: payload.getcount + 1 })
             } else {
               console.log('沒有權限')
@@ -143,7 +143,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           .catch(error => {
             if (error.response.status == '401' || error.response.status == '403') {
               if (payload.postcount < 6) {
-                loginManagerStore.refreshtoken()
+                loginManagerStore.refreshToken()
                 this.postCompany({ postcount: payload.postcount + 1 })
               } else {
                 console.log('沒有權限')
@@ -184,7 +184,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           .catch(error => {
             if (error.response.status == '401' || error.response.status == '403') {
               if (payload.putcount < 6) {
-                loginManagerStore.refreshtoken()
+                loginManagerStore.refreshToken()
                 this.putCompany({ putcount: payload.putcount + 1 })
               } else {
                 console.log('沒有權限')
@@ -212,7 +212,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.deletecount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.deleteCompany({ deletecount: payload.deletecount + 1 })
             } else {
               console.log('沒有權限')
@@ -269,7 +269,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.getRoute({ getcount: payload.getcount + 1 })
             } else {
               console.log('沒有權限')
@@ -297,7 +297,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.postcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.postRoute({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
@@ -328,7 +328,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.putcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.putRoute({ putcount: payload.putcount + 1 })
             } else {
               console.log('沒有權限')
@@ -355,7 +355,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.deletecount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.deleteRoute({ deletecount: payload.deletecount + 1 })
             } else {
               console.log('沒有權限')
