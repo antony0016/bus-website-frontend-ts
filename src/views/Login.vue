@@ -32,11 +32,6 @@ const { login } = loginManagerStore;
 const viewControllerStore = useViewControllerStore();
 const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
 
-watch(token.value, (curVal,preVal)=>{
-  sessionStorage.setItem('access', curVal['access'])
-  sessionStorage.setItem('refresh', curVal['refresh'])
-})
-
 </script>
 
 <style scoped>

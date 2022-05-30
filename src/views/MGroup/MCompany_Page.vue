@@ -1,18 +1,20 @@
 <template>
-  <el-button @click="CompanyRouteSwitchC()">業者基本資料</el-button>
-  <el-button @click="CompanyRouteSwitchR()">客運路線管理</el-button>
-  <simple-card title="業者基本資料" v-show="CompanyRouteSwitch.Switch_C">
-    <MCompanyCompanyShow/>
-    <MCompanyCompanyDialog/>
-  </simple-card>
-  <simple-card title="客運路線管理" v-show="CompanyRouteSwitch.Switch_R">
-    <MCompanyRouteShow/>
-    <MCompanyRouteDialog/>
+  <simple-card title="客運與路線">
+    <el-tabs v-model="companyRouteActiveTab" @tab-click="getCompany({getcount:0}); getRoute({getcount:0})">
+      <el-tab-pane label="業者基本資料" name="companys">
+        <MCompanyCompanyShow/>
+        <MCompanyCompanyDialog/>
+      </el-tab-pane>
+      <el-tab-pane label="客運路線管理" name="routes">
+        <MCompanyRouteShow/>
+        <MCompanyRouteDialog/>
+      </el-tab-pane>
+    </el-tabs>
   </simple-card>
 </template>
 
 <script setup lang="ts">
-import { toRefs, defineComponent, watch } from "vue";
+import { ref, toRefs, defineComponent, watch } from "vue";
 import { storeToRefs } from "pinia";
 
 import useMCompanyStore from "../../store/MGroup/MCompanyStore"
@@ -22,8 +24,9 @@ import MCompanyRouteShow from "../../components/MGroup/MCompany/MCompanyRouteSho
 import MCompanyRouteDialog from "../../components/MGroup/MCompany/MCompanyRouteDialog.vue";
 
 const MCompanyStore = useMCompanyStore();
-const { CompanyRouteSwitch } = storeToRefs(MCompanyStore);
-const { CompanyRouteSwitchC, CompanyRouteSwitchR, getCompany, getRoute } = MCompanyStore;
+const { companyRouteActiveTab } = storeToRefs(MCompanyStore);
+const { getCompany, getRoute } = MCompanyStore;
+
 getCompany({getcount:0})
 getRoute({getcount:0})
 

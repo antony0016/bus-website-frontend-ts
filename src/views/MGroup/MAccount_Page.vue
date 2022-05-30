@@ -1,6 +1,6 @@
 <template>
   <simple-card title="帳號群組">
-    <el-tabs v-model="activeTab">
+    <el-tabs v-model="activeTab" @tab-click="getGroupName({getcount:0}); getUser({getcount:0})">
       <el-tab-pane label="編輯群組" name="groups">
         <el-row>
           <el-col :span="6">

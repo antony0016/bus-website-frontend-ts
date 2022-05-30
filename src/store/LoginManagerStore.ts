@@ -27,7 +27,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
         const viewControllerStore = useViewControllerStore();
         // set navbar item show
         viewControllerStore.menuSwitch.isShow = true
-          for (var val of viewControllerStore.topBarItems){
+          for (let val of viewControllerStore.topBarItems){
             val['isShow'] = true 
           }
       }else if (this.token.access == ''){
@@ -35,7 +35,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
         const viewControllerStore = useViewControllerStore();
         // set navbar item show
         viewControllerStore.menuSwitch.isShow = false
-          for (var val of viewControllerStore.topBarItems){
+          for (let val of viewControllerStore.topBarItems){
             val['isShow'] = false 
           }
       }
@@ -50,6 +50,8 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           // set access and refresh token
           this.token.access = response.data['access']
           this.token.refresh = response.data['refresh']
+          sessionStorage.setItem('access', response.data['access'])
+          sessionStorage.setItem('refresh', response.data['refresh'])
           axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
           // send logging message
           console.log('login!', this.loggedIn);
@@ -72,7 +74,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
     refreshtoken: function () {
       axios.post(this.address.refresh_token, {refresh: this.token.refresh})
       .then(response => {
-        //console.log(response.data.access)
+        console.log(response.data.access)
         this.token.access = response.data.access
         axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
         sessionStorage.setItem('access', response.data.access)

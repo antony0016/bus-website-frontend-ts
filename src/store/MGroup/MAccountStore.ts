@@ -6,10 +6,6 @@ import useLoginManagerStore from "../LoginManagerStore";
 
 const useMAccountStore = defineStore('MAccountStore', {
   state: () => ({
-    GroupUserSwitch: {
-      Switch_G: true,
-      Switch_U: false,
-    },
     nowGroupSelect: '',
     nowGroupSelectshow: false,
     ApiUrl: {
@@ -151,16 +147,6 @@ const useMAccountStore = defineStore('MAccountStore', {
           subvalue['allow'] = false
         }
       }
-    },
-    GroupUserSwitchG: function () {
-      this.GroupUserSwitch.Switch_G = true
-      this.GroupUserSwitch.Switch_U = false
-      this.getGroupName({getcount: 0})
-    },
-    GroupUserSwitchU: function () {
-      this.GroupUserSwitch.Switch_G = false
-      this.GroupUserSwitch.Switch_U = true
-      this.getUser({getcount: 0})
     },
     getGroupName: function (payload: {getcount: number}) {
       const loginManagerStore = useLoginManagerStore();

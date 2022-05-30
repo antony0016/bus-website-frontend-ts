@@ -5,10 +5,7 @@ import useLoginManagerStore from "../LoginManagerStore";
 
 const useMCompanyStore = defineStore('MCompanyStore', {
   state: () => ({
-    CompanyRouteSwitch: {
-      Switch_C: true,
-      Switch_R: false,
-    },
+    companyRouteActiveTab: 'companys',
     ApiUrl: {
       companybaseurl: 'http://127.0.0.1:8000/api/company/',
       companygeturl: 'view_company/',
@@ -59,18 +56,6 @@ const useMCompanyStore = defineStore('MCompanyStore', {
   }),
   getters: {},
   actions: {
-    CompanyRouteSwitchC: function () {
-      this.CompanyRouteSwitch.Switch_C = true
-      this.CompanyRouteSwitch.Switch_R = false
-      this.getCompany({ getcount: 0 })
-      this.getRoute({ getcount: 0 })
-    },
-    CompanyRouteSwitchR: function () {
-      this.CompanyRouteSwitch.Switch_C = false
-      this.CompanyRouteSwitch.Switch_R = true
-      this.getCompany({ getcount: 0 })
-      this.getRoute({ getcount: 0 })
-    },
     CompanyDialogClear: function () {
       this.CompanyDialogForm.company_uuid = ''
       this.CompanyDialogForm.company_no = ''
@@ -242,8 +227,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
     CompanyGoToRoute: function (payload: { data: object }) {
       this.getData.RouteCompanySelect = payload.data['company_uuid']
       this.getRoute({ getcount: 0 })
-      this.CompanyRouteSwitch.Switch_C = false
-      this.CompanyRouteSwitch.Switch_R = true
+      this.companyRouteActiveTab = 'routes'
     },
     RouteDialogClear: function () {
       this.RouteDialogForm.route_uuid = ''
