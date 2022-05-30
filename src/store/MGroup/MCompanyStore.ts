@@ -1,6 +1,5 @@
 import { kebabCase } from "element-plus/lib/utils";
 import { defineStore } from "pinia";
-import { setTimeout } from "timers/promises";
 import axios from "../../axios";
 import useLoginManagerStore from "../LoginManagerStore";
 
@@ -29,9 +28,9 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       RouteAddChangeSwitch: false,
       RoutrDisable: false,
     },
-    getData:{
+    getData: {
       getCompanyData: [],
-      getCompanyNameData: [{label: '全部', value: '全部'}],
+      getCompanyNameData: [{ label: '全部', value: '全部' }],
       RouteCompanySelect: '全部',
       getRouteData: [],
       RouteinDialogSelect: '',
@@ -58,21 +57,19 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       route_via_station: '',
     }
   }),
-  getters: {
-
-  },
+  getters: {},
   actions: {
     CompanyRouteSwitchC: function () {
       this.CompanyRouteSwitch.Switch_C = true
       this.CompanyRouteSwitch.Switch_R = false
-      this.getCompany({getcount: 0})
-      this.getRoute({getcount: 0})
+      this.getCompany({ getcount: 0 })
+      this.getRoute({ getcount: 0 })
     },
     CompanyRouteSwitchR: function () {
       this.CompanyRouteSwitch.Switch_C = false
       this.CompanyRouteSwitch.Switch_R = true
-      this.getCompany({getcount: 0})
-      this.getRoute({getcount: 0})
+      this.getCompany({ getcount: 0 })
+      this.getRoute({ getcount: 0 })
     },
     CompanyDialogClear: function () {
       this.CompanyDialogForm.company_uuid = ''
@@ -85,14 +82,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.CompanyDialogForm.contract_state = ''
       this.CompanyDialogForm.contract_datetime = ''
       this.CompanyDialogForm.company_email = '',
-      this.CompanyDialogForm.company_password = '',
-      this.CompanyDialogForm.company_checkpassword = ''
+        this.CompanyDialogForm.company_password = '',
+        this.CompanyDialogForm.company_checkpassword = ''
     },
     CompanyDialogAddShow: function () {
       this.DialogVisible.CompanyAddChangeSwitch = false
       this.DialogVisible.CompanyDialogFormVisible = true
     },
-    CompanyDialogEditShow: function (payload: {data: object}) {
+    CompanyDialogEditShow: function (payload: { data: object }) {
       this.CompanyDialogClear()
       console.log(payload.data)
       this.CompanyDialogForm.company_uuid = payload.data['company_uuid']
@@ -110,35 +107,35 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.DialogVisible.CompanyAddChangeSwitch = true
       this.DialogVisible.CompanyDialogFormVisible = true
     },
-    getCompany: function (payload: {getcount: number}) {
+    getCompany: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.ApiUrl.companybaseurl + this.ApiUrl.companygeturl)
-      .then(response => {
-        console.log('get company data')
-        this.getData.getCompanyNameData = [{label: '全部', value: '全部'}]
-        for (let v of response.data){
-          this.getData.getCompanyNameData.push({label: v['company_name'], value: v['company_uuid']})
-        }
-        this.getData.getCompanyData = response.data
-      })
-      .catch(error => {
-        if (error.response.status == '401' || error.response.status == '403'){
-          if (payload.getcount < 6){
-            loginManagerStore.refreshtoken()
-            this.getCompany({getcount: payload.getcount+1})
-          }else{
-            console.log('沒有權限')
+        .then(response => {
+          console.log('get company data')
+          this.getData.getCompanyNameData = [{ label: '全部', value: '全部' }]
+          for (let v of response.data) {
+            this.getData.getCompanyNameData.push({ label: v['company_name'], value: v['company_uuid'] })
           }
-        }else{
-          console.log(error)
-        }
-      })
+          this.getData.getCompanyData = response.data
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.getcount < 6) {
+              loginManagerStore.refreshtoken()
+              this.getCompany({ getcount: payload.getcount + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
+          }
+        })
     },
-    postCompany: function (payload: {postcount: number}) {
+    postCompany: function (payload: { postcount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      if (this.CompanyDialogForm.company_password != this.CompanyDialogForm.company_checkpassword){
+      if (this.CompanyDialogForm.company_password != this.CompanyDialogForm.company_checkpassword) {
         console.log('密碼與確認密碼不相同')
-      }else{
+      } else {
         axios.post(this.ApiUrl.companybaseurl + this.ApiUrl.companyposturl, {
           data: {
             company_no: this.CompanyDialogForm.company_no,
@@ -153,32 +150,32 @@ const useMCompanyStore = defineStore('MCompanyStore', {
             company_password: this.CompanyDialogForm.company_password
           }
         })
-        .then(response => {
-          console.log('post company data')
-          this.getCompany({getcount: 0})
-          this.CompanyDialogClear()
-        })
-        .catch(error => {
-          if (error.response.status == '401' || error.response.status == '403'){
-            if (payload.postcount < 6){
-              loginManagerStore.refreshtoken()
-              this.postCompany({postcount: payload.postcount+1})
-            }else{
-              console.log('沒有權限')
+          .then(response => {
+            console.log('post company data')
+            this.getCompany({ getcount: 0 })
+            this.CompanyDialogClear()
+          })
+          .catch(error => {
+            if (error.response.status == '401' || error.response.status == '403') {
+              if (payload.postcount < 6) {
+                loginManagerStore.refreshtoken()
+                this.postCompany({ postcount: payload.postcount + 1 })
+              } else {
+                console.log('沒有權限')
+                this.CompanyDialogClear()
+              }
+            } else {
+              console.log(error)
               this.CompanyDialogClear()
             }
-          }else{
-            console.log(error)
-            this.CompanyDialogClear()
-          }
-        })
+          })
       }
     },
-    putCompany: function (payload: {putcount: number}) {
+    putCompany: function (payload: { putcount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      if (this.CompanyDialogForm.company_password != this.CompanyDialogForm.company_checkpassword){
+      if (this.CompanyDialogForm.company_password != this.CompanyDialogForm.company_checkpassword) {
         console.log('密碼與確認密碼不相同')
-      }else{
+      } else {
         axios.put(this.ApiUrl.companybaseurl + this.CompanyDialogForm.company_uuid + '/' + this.ApiUrl.companyputurl, {
           data: {
             id: this.CompanyDialogForm.company_uuid,
@@ -194,57 +191,57 @@ const useMCompanyStore = defineStore('MCompanyStore', {
             company_password: this.CompanyDialogForm.company_password
           }
         })
-        .then(response => {
-          console.log('put company data')
-          this.getCompany({getcount: 0})
-          this.CompanyDialogClear()
-        })
-        .catch(error => {
-          if (error.response.status == '401' || error.response.status == '403'){
-            if (payload.putcount < 6){
-              loginManagerStore.refreshtoken()
-              this.putCompany({putcount: payload.putcount+1})
-            }else{
-              console.log('沒有權限')
+          .then(response => {
+            console.log('put company data')
+            this.getCompany({ getcount: 0 })
+            this.CompanyDialogClear()
+          })
+          .catch(error => {
+            if (error.response.status == '401' || error.response.status == '403') {
+              if (payload.putcount < 6) {
+                loginManagerStore.refreshtoken()
+                this.putCompany({ putcount: payload.putcount + 1 })
+              } else {
+                console.log('沒有權限')
+                this.CompanyDialogClear()
+              }
+            } else {
+              console.log(error)
               this.CompanyDialogClear()
             }
-          }else{
-            console.log(error)
-            this.CompanyDialogClear()
-          }
-        })
+          })
       }
     },
-    deleteCompany: function (payload: {deletecount: number}) {
+    deleteCompany: function (payload: { deletecount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.ApiUrl.companybaseurl + this.CompanyDialogForm.company_uuid + '/' + this.ApiUrl.companydeleteurl, {
         data: {
           id: this.CompanyDialogForm.company_uuid,
         }
       })
-      .then(response => {
-        console.log('delete company data')
-        this.getCompany({getcount: 0})
-        this.CompanyDialogClear()
-      })
-      .catch(error => {
-        if (error.response.status == '401' || error.response.status == '403'){
-          if (payload.deletecount < 6){
-            loginManagerStore.refreshtoken()
-            this.deleteCompany({deletecount: payload.deletecount+1})
-          }else{
-            console.log('沒有權限')
+        .then(response => {
+          console.log('delete company data')
+          this.getCompany({ getcount: 0 })
+          this.CompanyDialogClear()
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.deletecount < 6) {
+              loginManagerStore.refreshtoken()
+              this.deleteCompany({ deletecount: payload.deletecount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.CompanyDialogClear()
+            }
+          } else {
+            console.log(error)
             this.CompanyDialogClear()
           }
-        }else{
-          console.log(error)
-          this.CompanyDialogClear()
-        }
-      })
+        })
     },
-    CompanyGoToRoute: function (payload: {data: object}) {
+    CompanyGoToRoute: function (payload: { data: object }) {
       this.getData.RouteCompanySelect = payload.data['company_uuid']
-      this.getRoute({getcount: 0})
+      this.getRoute({ getcount: 0 })
       this.CompanyRouteSwitch.Switch_C = false
       this.CompanyRouteSwitch.Switch_R = true
     },
@@ -262,7 +259,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.DialogVisible.RouteAddChangeSwitch = false
       this.DialogVisible.RouteDialogFormVisible = true
     },
-    RouteDialogEditShow: function (payload: {data: object}) {
+    RouteDialogEditShow: function (payload: { data: object }) {
       this.RouteDialogClear()
       this.RouteDialogForm.route_uuid = payload.data['route_uuid']
       this.RouteDialogForm.belong_company = payload.data['belong_company']
@@ -274,31 +271,31 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.DialogVisible.RouteAddChangeSwitch = true
       this.DialogVisible.RouteDialogFormVisible = true
     },
-    getRoute: function (payload: {getcount: number}) {
+    getRoute: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.ApiUrl.routebaseurl + this.ApiUrl.routegeturl, {
         data: {
           company_filter: this.getData.RouteCompanySelect
         }
       })
-      .then(response => {
-        console.log('get route data')
-        this.getData.getRouteData = response.data
-      })
-      .catch(error => {
-        if (error.response.status == '401' || error.response.status == '403'){
-          if (payload.getcount < 6){
-            loginManagerStore.refreshtoken()
-            this.getRoute({getcount: payload.getcount+1})
-          }else{
-            console.log('沒有權限')
+        .then(response => {
+          console.log('get route data')
+          this.getData.getRouteData = response.data
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.getcount < 6) {
+              loginManagerStore.refreshtoken()
+              this.getRoute({ getcount: payload.getcount + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
           }
-        }else{
-          console.log(error)
-        }
-      })
+        })
     },
-    postRoute: function (payload: {postcount: number}) {
+    postRoute: function (payload: { postcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.ApiUrl.routebaseurl + this.ApiUrl.routeposturl, {
         data: {
@@ -308,27 +305,27 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           route_via_station: this.RouteDialogForm.route_via_station
         }
       })
-      .then(response => {
-        console.log('post company data')
-        this.getRoute({getcount: 0})
-        this.RouteDialogClear()
-      })
-      .catch(error => {
-        if (error.response.status == '401' || error.response.status == '403'){
-          if (payload.postcount < 6){
-            loginManagerStore.refreshtoken()
-            this.postRoute({postcount: payload.postcount+1})
-          }else{
-            console.log('沒有權限')
+        .then(response => {
+          console.log('post company data')
+          this.getRoute({ getcount: 0 })
+          this.RouteDialogClear()
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshtoken()
+              this.postRoute({ postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.RouteDialogClear()
+            }
+          } else {
+            console.log(error)
             this.RouteDialogClear()
           }
-        }else{
-          console.log(error)
-          this.RouteDialogClear()
-        }
-      })
+        })
     },
-    putRoute: function (payload: {putcount: number}) {
+    putRoute: function (payload: { putcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.ApiUrl.routebaseurl + this.RouteDialogForm.route_uuid + '/' + this.ApiUrl.routeputurl, {
         data: {
@@ -339,52 +336,52 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           route_via_station: this.RouteDialogForm.route_via_station
         }
       })
-      .then(response => {
-        console.log('put company data')
-        this.getRoute({getcount: 0})
-        this.RouteDialogClear()
-      })
-      .catch(error => {
-        if (error.response.status == '401' || error.response.status == '403'){
-          if (payload.putcount < 6){
-            loginManagerStore.refreshtoken()
-            this.putRoute({putcount: payload.putcount+1})
-          }else{
-            console.log('沒有權限')
+        .then(response => {
+          console.log('put company data')
+          this.getRoute({ getcount: 0 })
+          this.RouteDialogClear()
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.putcount < 6) {
+              loginManagerStore.refreshtoken()
+              this.putRoute({ putcount: payload.putcount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.RouteDialogClear()
+            }
+          } else {
+            console.log(error)
             this.RouteDialogClear()
           }
-        }else{
-          console.log(error)
-          this.RouteDialogClear()
-        }
-      })
+        })
     },
-    deleteRoute: function (payload: {deletecount: number}) {
+    deleteRoute: function (payload: { deletecount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.ApiUrl.routebaseurl + this.RouteDialogForm.route_uuid + '/' + this.ApiUrl.routedeleteurl, {
         data: {
           id: this.RouteDialogForm.route_uuid,
         }
       })
-      .then(response => {
-        console.log('delete company data')
-        this.getRoute({getcount: 0})
-        this.RouteDialogClear()
-      })
-      .catch(error => {
-        if (error.response.status == '401' || error.response.status == '403'){
-          if (payload.deletecount < 6){
-            loginManagerStore.refreshtoken()
-            this.deleteRoute({deletecount: payload.deletecount+1})
-          }else{
-            console.log('沒有權限')
+        .then(response => {
+          console.log('delete company data')
+          this.getRoute({ getcount: 0 })
+          this.RouteDialogClear()
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.deletecount < 6) {
+              loginManagerStore.refreshtoken()
+              this.deleteRoute({ deletecount: payload.deletecount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.RouteDialogClear()
+            }
+          } else {
+            console.log(error)
             this.RouteDialogClear()
           }
-        }else{
-          console.log(error)
-          this.RouteDialogClear()
-        }
-      })
+        })
     },
   }
 })
