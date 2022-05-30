@@ -171,7 +171,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.getGroupName({ getcount: payload.getcount + 1 })
             } else {
               console.log('沒有權限')
@@ -210,7 +210,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.postcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.postGroupName({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
@@ -239,7 +239,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.putcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.putGroupName({ putcount: payload.putcount + 1 })
             } else {
               console.log('沒有權限')
@@ -265,7 +265,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.deletecount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.deleteGroupName({ deletecount: payload.deletecount + 1 })
             } else {
               console.log('沒有權限')
@@ -286,7 +286,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.getUser({ getcount: payload.getcount + 1 })
             } else {
               console.log('沒有權限')
@@ -349,7 +349,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.postcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.postUser({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
@@ -384,7 +384,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.putcount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.putUser({ putcount: payload.putcount + 1 })
             } else {
               console.log('沒有權限')
@@ -411,7 +411,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.deletecount < 6) {
-              loginManagerStore.refreshtoken()
+              loginManagerStore.refreshToken()
               this.deleteUser({ deletecount: payload.deletecount + 1 })
             } else {
               console.log('沒有權限')
