@@ -39,6 +39,8 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           // set access and refresh token
           this.token.access = response.data['access']
           this.token.refresh = response.data['refresh']
+          sessionStorage.setItem('access', response.data.access)
+          sessionStorage.setItem('refresh', response.data.refresh)
           axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
           // send logging message
           console.log('login!', this.loggedIn);
