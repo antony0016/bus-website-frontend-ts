@@ -6,12 +6,22 @@
   >
     <el-form :model="RouteDialogForm" label-position="left">
       <el-form-item label="客運公司" :label-width="formLabelWidth">
-        <el-select v-model="getData.RouteinDialogSelect" filterable placeholder="請選擇" :disabled="DialogVisible.RoutrDisable">
+        <el-select v-model="getData.RouteinDialogSelect" filterable placeholder="請選擇" :disabled="DialogVisible.RoutrDisable" @change="getBus({ getcount: 0 }); getData.BusDialogSelect=''">
           <el-option
             v-for="item in getData.getCompanyData"
             :key="item['company_name']"
             :label="item['company_name']"
             :value="item['company_name']">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="車籍" :label-width="formLabelWidth">
+        <el-select v-model="getData.BusDialogSelect" filterable placeholder="請選擇" :disabled="DialogVisible.RoutrDisable">
+          <el-option
+            v-for="item in getData.busDialogData"
+            :key="item['uuid']"
+            :label="item['bus_no']"
+            :value="item['uuid']">
           </el-option>
         </el-select>
       </el-form-item>
@@ -48,7 +58,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
 const { DialogVisible, RouteDialogForm, getData } = storeToRefs(MCompanyStore);
-const { RouteDialogClear, postRoute, putRoute, deleteRoute } = MCompanyStore;
+const { RouteDialogClear, postRoute, putRoute, deleteRoute, getBus } = MCompanyStore;
 
 const formLabelWidth = '50px'
 

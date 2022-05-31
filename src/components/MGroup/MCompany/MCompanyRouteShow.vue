@@ -46,6 +46,9 @@
         <el-button @click="RouteDialogEditShow({data: row})">
           編輯
         </el-button>
+        <el-button @click="busInfoDialogShow({data: row})">
+          車籍
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -59,7 +62,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
-const { getRoute, RouteDialogAddShow, RouteDialogEditShow } = MCompanyStore;
+const { getRoute, RouteDialogAddShow, RouteDialogEditShow, busInfoDialogShow } = MCompanyStore;
 
 </script>
 
