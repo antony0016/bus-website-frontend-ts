@@ -1,7 +1,9 @@
 import { kebabCase } from "element-plus/lib/utils";
 import { defineStore } from "pinia";
+import router from "../../router";
 import axios from "../../axios";
 import useLoginManagerStore from "../LoginManagerStore";
+import useMBusInfoStore from "../../store/MGroup/MBusInfoStore"
 
 const useMCompanyStore = defineStore('MCompanyStore', {
   state: () => ({
@@ -17,9 +19,6 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       routeposturl: 'add_route/',
       routeputurl: 'update_route/',
       routedeleteurl: 'delete_route/',
-      busBaseUrl: 'http://127.0.0.1:8000/api/bus/',
-      busGetUrl: 'view_bus/',
-      busGetDetailUrl: 'detail_bus/',
     },
     DialogVisible: {
       CompanyDialogFormVisible: false,
@@ -35,9 +34,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       RouteCompanySelect: 'all',
       getBusData: [],
       getRouteData: [],
-      RouteinDialogSelect: '',
-      busDialogData: [],
-      BusDialogSelect: ''
+      RouteinDialogSelect: ''
     },
     CompanyDialogForm: {
       company_uuid: '',
@@ -58,16 +55,6 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       route_no: '',
       route_name: '',
       route_via_station: '',
-    },
-    busInfoDialogForm: {
-      busNo: '',
-      busEtag: '',
-      busNote: '',
-      busStatus: '',
-      busType: '',
-      busDetailUuid: '',
-      uuid: '',
-      belong_company: '',
     },
   }),
   getters: {},
@@ -254,7 +241,6 @@ const useMCompanyStore = defineStore('MCompanyStore', {
     RouteDialogAddShow: function () {
       this.RouteDialogClear()
       this.getData.RouteinDialogSelect = ''
-      this.getData.BusDialogSelect = ''
       this.DialogVisible.RoutrDisable = false
       this.DialogVisible.RouteAddChangeSwitch = false
       this.DialogVisible.RouteDialogFormVisible = true
@@ -266,68 +252,10 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.RouteDialogForm.route_no = payload.data['route_no']
       this.RouteDialogForm.route_name = payload.data['route_name']
       this.RouteDialogForm.route_via_station = payload.data['route_via_station']
-      this.getData.BusDialogSelect = payload.data['belong_bus']
       this.getData.RouteinDialogSelect = payload.data['belong_company']
-      this.getBus({getcount: 0})
-      this.DialogVisible.RoutrDisable = false
+      this.DialogVisible.RoutrDisable = true
       this.DialogVisible.RouteAddChangeSwitch = true
       this.DialogVisible.RouteDialogFormVisible = true
-    },
-    getBus: function (payload: { getcount: number }) {
-      const loginManagerStore = useLoginManagerStore();
-      axios.post(this.ApiUrl.busBaseUrl + this.ApiUrl.busGetUrl, {
-        data: {
-          company_filter: this.getData.RouteinDialogSelect
-        }
-      })
-        .then(response => {
-          console.log('get bus data')
-          this.getData.busDialogData = response.data
-        })
-        .catch(error => {
-          if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.getcount < 6) {
-              loginManagerStore.refreshToken()
-              this.getBus({ getcount: payload.getcount + 1 })
-            } else {
-              console.log('沒有權限')
-            }
-          } else {
-            console.log(error)
-          }
-        })
-    },
-    getDetailBus: function (payload: { getcount: number, busNo: string }) {
-      const loginManagerStore = useLoginManagerStore();
-      axios.post(this.ApiUrl.busBaseUrl + this.ApiUrl.busGetDetailUrl, {
-        data: {
-          bus_no: payload.busNo
-        }
-      })
-        .then(response => {
-          console.log('get bus data')
-          this.busDialogClear()
-          this.busInfoDialogForm.uuid = response.data[0]['uuid']
-          this.busInfoDialogForm.busDetailUuid = response.data[0]['detail_uuid']
-          this.busInfoDialogForm.busEtag = response.data[0]['bus_etag']
-          this.busInfoDialogForm.busNo = response.data[0]['bus_no']
-          this.busInfoDialogForm.busNote = response.data[0]['bus_note']
-          this.busInfoDialogForm.busStatus = response.data[0]['bus_status']
-          this.busInfoDialogForm.busType = response.data[0]['bus_type']
-          this.busInfoDialogForm.belong_company = response.data[0]['belong_company']
-        })
-        .catch(error => {
-          if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.getcount < 6) {
-              loginManagerStore.refreshToken()
-              this.getDetailBus({ getcount: payload.getcount + 1, busNo: payload.busNo })
-            } else {
-              console.log('沒有權限')
-            }
-          } else {
-            console.log(error)
-          }
-        })
     },
     getRoute: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
@@ -358,7 +286,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.ApiUrl.routebaseurl + this.ApiUrl.routeposturl, {
         data: {
-          belong_bus: this.getData.BusDialogSelect,
+          belong_company: this.getData.RouteinDialogSelect,
           route_no: this.RouteDialogForm.route_no,
           route_name: this.RouteDialogForm.route_name,
           route_via_station: this.RouteDialogForm.route_via_station
@@ -389,7 +317,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       axios.put(this.ApiUrl.routebaseurl + this.RouteDialogForm.route_uuid + '/' + this.ApiUrl.routeputurl, {
         data: {
           id: this.RouteDialogForm.route_uuid,
-          belong_bus: this.getData.BusDialogSelect,
+          belong_company: this.getData.RouteinDialogSelect,
           route_no: this.RouteDialogForm.route_no,
           route_name: this.RouteDialogForm.route_name,
           route_via_station: this.RouteDialogForm.route_via_station
@@ -442,20 +370,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           }
         })
     },
-    busInfoDialogShow: function (payload: { data: object }) {
-      this.getDetailBus({getcount:0, busNo: payload.data['belong_bus']})
-      this.DialogVisible.busInfoDialogFormVisible = true
-    },
-    busDialogClear: function () {
-      this.busInfoDialogForm.uuid = ''
-      this.busInfoDialogForm.busDetailUuid = ''
-      this.busInfoDialogForm.busEtag = ''
-      this.busInfoDialogForm.busNo = ''
-      this.busInfoDialogForm.busNote = ''
-      this.busInfoDialogForm.busStatus = ''
-      this.busInfoDialogForm.busType = ''
-      this.busInfoDialogForm.belong_company = ''
-    },
+    goToBusInfo: function (payload: { data: object }) {
+      const MBusInfoStore = useMBusInfoStore();
+      MBusInfoStore.filterData.selectCompany = payload.data['belong_company_id']
+      MBusInfoStore.SelectCompanyDialogChange()
+      MBusInfoStore.filterData.selectRoute = payload.data['route_uuid']
+      MBusInfoStore.getBus({getcount:0})
+      router.push('/MBusInfo')
+    }
   }
 })
 

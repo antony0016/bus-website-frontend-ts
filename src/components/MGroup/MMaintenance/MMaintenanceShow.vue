@@ -1,15 +1,12 @@
 <template>
-  <el-select v-model="getData.RouteCompanySelect" filterable placeholder="請選擇">
+  <el-select v-model="filterData.selectCompany" filterable placeholder="請選擇" @change="getRoute({getcount:0})">
     <el-option
-      v-for="item in getData.getCompanyNameData"
+      v-for="item in getData.getCompanyName"
       :key="item['value']"
       :label="item['label']"
       :value="item['value']">
     </el-option>
   </el-select>
-  <el-button @click="getRoute({getcount: 0})">查詢</el-button>
-  <el-button @click="RouteDialogAddShow()">新增路線</el-button>
-  <el-button>匯入</el-button>
   <el-table
     :data="getData.getRouteData"
     style="width: 100%"
@@ -50,13 +47,34 @@
         <span style="margin-left: 10px">{{row.route_via_station}}</span>
       </template>
     </el-table-column>
+    <el-table-column
+      prop="startTime"
+      label="發車時間"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{row.startTime}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="route_via_station"
+      label="末車時間"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{row.endTime}}</span>
+      </template>
+    </el-table-column>
     <el-table-column label="操作">
       <template #default="{row,$index}">
-        <el-button @click="RouteDialogEditShow({data: row})">
-          編輯
+        <el-button @click="">
+          匯入
         </el-button>
-        <el-button @click="goToBusInfo({data: row})">
-          車籍
+        <el-button @click="">
+          匯出
+        </el-button>
+        <el-button @click="">
+          班表
         </el-button>
       </template>
     </el-table-column>
@@ -67,11 +85,11 @@
 import { ref, toRefs, reactive } from 'vue'
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from 'element-plus'
-import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
+import useMMaintenanceStore from "../../../store/MGroup/MMaintenanceStore";
 
-const MCompanyStore = useMCompanyStore();
-const { getData } = storeToRefs(MCompanyStore);
-const { getRoute, RouteDialogAddShow, RouteDialogEditShow, goToBusInfo } = MCompanyStore;
+const MMaintenanceStore = useMMaintenanceStore();
+const { getData, filterData } = storeToRefs(MMaintenanceStore);
+const { getRoute } = MMaintenanceStore;
 
 </script>
 

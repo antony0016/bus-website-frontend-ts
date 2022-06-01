@@ -5,13 +5,23 @@
     :before-close="handleClose"
   >
     <el-form :model="busDialogForm" label-position="left">
-      <el-form-item label="所屬客運" :label-width="formLabelWidth">
-        <el-select v-model="busDialogForm.belong_company" filterable placeholder="請選擇">
+      <el-form-item label="所屬客運" :label-width="formLabelWidth" >
+        <el-select v-model="busDialogForm.belong_company" filterable placeholder="請選擇" @change="getRoute({getcount: 0, select: 'dialog'}); busDialogForm.belong_route=''" :disabled="disableControl.dialogCompanySelect">
           <el-option
             v-for="item in getData.getCompanyData"
             :key="item['company_uuid']"
             :label="item['company_name']"
             :value="item['company_uuid']">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="所屬路線" :label-width="formLabelWidth" >
+        <el-select v-model="busDialogForm.belong_route" filterable placeholder="請選擇">
+          <el-option
+            v-for="item in getData.getRouteData"
+            :key="item['route_uuid']"
+            :label="item['route_name']"
+            :value="item['route_uuid']">
           </el-option>
         </el-select>
       </el-form-item>
@@ -53,8 +63,8 @@ import { ElMessageBox } from 'element-plus'
 import useMBusInfoStore from "../../../store/MGroup/MBusInfoStore";
 
 const MBusInfoStore = useMBusInfoStore();
-const { busDialogForm, dialogVisible, getData } = storeToRefs(MBusInfoStore);
-const { busDialogClear, postBus, putBus, deleteBus } = MBusInfoStore;
+const { busDialogForm, dialogVisible, getData, disableControl } = storeToRefs(MBusInfoStore);
+const { getRoute, busDialogClear, postBus, putBus, deleteBus } = MBusInfoStore;
 
 const formLabelWidth = '50px'
 

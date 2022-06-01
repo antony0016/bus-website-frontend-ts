@@ -8,7 +8,6 @@
       <el-tab-pane label="客運路線管理" name="routes">
         <MCompanyRouteShow/>
         <MCompanyRouteDialog/>
-        <MCompanyBusInfo/>
       </el-tab-pane>
     </el-tabs>
   </simple-card>
@@ -23,7 +22,6 @@ import MCompanyCompanyShow from "../../components/MGroup/MCompany/MCompanyCompan
 import MCompanyCompanyDialog from "../../components/MGroup/MCompany/MCompanyCompanyDialog.vue";
 import MCompanyRouteShow from "../../components/MGroup/MCompany/MCompanyRouteShow.vue";
 import MCompanyRouteDialog from "../../components/MGroup/MCompany/MCompanyRouteDialog.vue";
-import MCompanyBusInfo from "../../components/MGroup/MCompany/MCompanyBusInfo.vue";
 
 const MCompanyStore = useMCompanyStore();
 const { companyRouteActiveTab } = storeToRefs(MCompanyStore);

@@ -1,5 +1,5 @@
 <template>
-  <simple-card title="客運與路線">
+  <simple-card title="車籍管理">
     <MBusInfoShow/>
     <MBusInfoDialog/>
   </simple-card>

@@ -4,59 +4,76 @@
   <el-button>範例表格下載</el-button>
   <el-table
     :data="getData.getCompanyData"
-    style="width: 100%">
+    style="width: 100%"
+    :default-sort = "{prop: 'company_no', order: 'ascending'}">
     <el-table-column
+      prop="company_no"
       label="業者編號"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.company_no}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="company_name"
       label="客運公司"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.company_name}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="unified_no"
       label="統一編號"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.unified_no}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="company_phone"
       label="電話"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.company_phone}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="company_fax"
       label="傳真"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.company_fax}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="company_address"
       label="地址"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.company_address}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="contract_state"
       label="合約狀態"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.contract_state}}</span>
       </template>
     </el-table-column>
     <el-table-column
+      prop="contract_datetime"
       label="合約期間"
-      width="180">
+      width="180"
+      sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{row.contract_datetime}}</span>
       </template>

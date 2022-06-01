@@ -20,6 +20,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
       getCompanyRouteData: [],
     },
     selectData: {
+      selectNowPlatform: '',
       selectPlatformEtag: '',
       selectPlatformEtagAntenna: '',
       selectPlatformPeopleCount: '',

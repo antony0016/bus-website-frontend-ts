@@ -1,7 +1,15 @@
 <template>
   <span>{{platformGetData.getPlatformData}}</span>
   <span>{{platformGetData.getEquipmentData}}</span>
-  <el-form :model="platformGetData.getEquipmentData" label-position="left">
+  <el-select v-model="selectData.selectNowPlatform" filterable placeholder="請選擇">
+    <el-option
+      v-for="item in platformGetData.getPlatformData"
+      :key="item['uuid']"
+      :label="item['platform_name']"
+      :value="item['uuid']">
+    </el-option>
+  </el-select>
+  <el-form :model="platformGetData.getEquipmentData" label-position="left" :label-width="formLabelWidth">
     <el-form-item label="設定 ETAG READER">
       <el-select v-model="selectData.selectPlatformEtag" filterable placeholder="請選擇">
         <el-option
@@ -20,7 +28,7 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="設定人潮計數器">
+    <el-form-item label="設定人潮計數器" :label-width="formLabelWidth">
       <el-select v-model="selectData.selectPlatformPeopleCount" filterable placeholder="請選擇">
         <el-option
           v-for="item in platformGetData.getEquipmentData['People_Count']"
@@ -30,11 +38,11 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="設定人潮計數器帳密">
+    <el-form-item label="設定人潮計數器帳密" :label-width="formLabelWidth">
       帳號<el-input v-model="selectData.selectPlatformPeopleCountAccount" autocomplete="off"/>
       密碼<el-input v-model="selectData.selectPlatformPeopleCountPassword" autocomplete="off"/>
     </el-form-item>
-    <el-form-item label="設定雷射感應裝置">
+    <el-form-item label="設定雷射感應裝置" :label-width="formLabelWidth">
       <el-select v-model="selectData.selectPlatformLaser" filterable placeholder="請選擇">
         <el-option
           v-for="item in platformGetData.getEquipmentData['Laser']"
@@ -52,7 +60,7 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="設定 IP CAM">
+    <el-form-item label="設定 IP CAM" :label-width="formLabelWidth">
       <el-select v-model="selectData.selectPlatformCamera" filterable placeholder="請選擇">
         <el-option
           v-for="item in platformGetData.getEquipmentData['Camera']"
@@ -62,11 +70,11 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="設定 IP CAM 帳密">
+    <el-form-item label="設定 IP CAM 帳密" :label-width="formLabelWidth">
       帳號<el-input v-model="selectData.selectPlatformCameraAccount" autocomplete="off"/>
       密碼<el-input v-model="selectData.selectPlatformCameraPassword" autocomplete="off"/>
     </el-form-item>
-    <el-form-item label="設定導影看板">
+    <el-form-item label="設定導影看板" :label-width="formLabelWidth">
       <el-select v-model="selectData.selectPlatformGuidePlate" filterable placeholder="請選擇">
         <el-option
           v-for="item in platformGetData.getEquipmentData['Guide_Plate']"
@@ -76,7 +84,7 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="選擇客運業者">
+    <el-form-item label="選擇客運業者" :label-width="formLabelWidth">
       <el-select v-model="selectData.selectPlatformCompany" filterable placeholder="請選擇" @change="getSelectRoute({getcount:0}); selectData.selectPlatformRoute=''">
         <el-option
           v-for="item in getData.getCompanyData"
@@ -111,6 +119,8 @@ const { getSelectRoute } = PlatformStore;
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
 const { } = MCompanyStore;
+
+const formLabelWidth = '150px'
 
 const testAntenna = [
   {name: '天線1', value: 'antenna1'},
