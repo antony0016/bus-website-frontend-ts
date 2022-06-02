@@ -1,6 +1,7 @@
 <template>
   <simple-card title="班次維護">
     <MMaintenanceShow/>
+    <MMaintenanceDialog/>
   </simple-card>
 </template>
 
@@ -10,6 +11,7 @@ import { storeToRefs } from "pinia";
 
 import useMMaintenanceStore from "../../store/MGroup/MMaintenanceStore"
 import MMaintenanceShow from "../../components/MGroup/MMaintenance/MMaintenanceShow.vue";
+import MMaintenanceDialog from "../../components/MGroup/MMaintenance/MMaintenanceDialog.vue"
 
 const MMaintenanceStore = useMMaintenanceStore();
 const {  } = storeToRefs(MMaintenanceStore);

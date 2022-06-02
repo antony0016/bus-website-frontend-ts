@@ -70,8 +70,8 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.CompanyDialogForm.contract_state = ''
       this.CompanyDialogForm.contract_datetime = ''
       this.CompanyDialogForm.company_email = '',
-        this.CompanyDialogForm.company_password = '',
-        this.CompanyDialogForm.company_checkpassword = ''
+      this.CompanyDialogForm.company_password = '',
+      this.CompanyDialogForm.company_checkpassword = ''
     },
     CompanyDialogAddShow: function () {
       this.DialogVisible.CompanyAddChangeSwitch = false

@@ -8,9 +8,9 @@
     </el-option>
   </el-select>
   <el-table
-    :data="getData.getRouteData"
+    :data="getData.getRouteShiftData"
     style="width: 100%"
-    :default-sort = "{prop: 'belong_company', order: 'ascending'}">
+    :default-sort = "{prop: 'route_no', order: 'ascending'}">
     <el-table-column
       prop="belong_company"
       label="客運公司"
@@ -49,20 +49,38 @@
     </el-table-column>
     <el-table-column
       prop="startTime"
-      label="發車時間"
+      label="發車時間-工作日"
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.startTime}}</span>
+        <span style="margin-left: 10px">{{row.noramlStartTime}}</span>
       </template>
     </el-table-column>
     <el-table-column
       prop="route_via_station"
-      label="末車時間"
+      label="末車時間-工作日"
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.endTime}}</span>
+        <span style="margin-left: 10px">{{row.noramlEndTime}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="startTime"
+      label="發車時間-假日"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{row.weekStartTime}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="route_via_station"
+      label="末車時間-假日"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{row.weekEndTime}}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -73,7 +91,7 @@
         <el-button @click="">
           匯出
         </el-button>
-        <el-button @click="">
+        <el-button @click="shiftDialogShow({data: row})">
           班表
         </el-button>
       </template>
@@ -89,7 +107,7 @@ import useMMaintenanceStore from "../../../store/MGroup/MMaintenanceStore";
 
 const MMaintenanceStore = useMMaintenanceStore();
 const { getData, filterData } = storeToRefs(MMaintenanceStore);
-const { getRoute } = MMaintenanceStore;
+const { getRoute, shiftDialogShow } = MMaintenanceStore;
 
 </script>
 
