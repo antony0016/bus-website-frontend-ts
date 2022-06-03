@@ -15,14 +15,23 @@
           <el-form-item :label="(index+1).toString()" :label-width="formLabelWidth"
           v-for="(item, index) in ShiftDialogForm.normalDayData" :key="index"
           >
-            <el-input v-model="item.arrival_time" autocomplete="off"/>
+            <el-input type="time" v-model="item.arrival_time" autocomplete="off"/>
+            <el-button type="danger" @click="deleteDialogValue({nowId: item.shift_uuid, weekType: 'Normal'})">刪除</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="假日班次" name="week">
         <el-form :model="ShiftDialogForm" label-position="left">
-          <el-form-item label="假日班次" :label-width="formLabelWidth">
-            <span>{{ShiftDialogForm.weekDayData}}</span>
+          <el-form-item label="新增資料" :label-width="formLabelWidth">
+            <el-button type="primary" @click="addDialogValue({data: ShiftDialogForm.weekDayData, weekType: 'WeekDay'});">
+              新增
+            </el-button>
+          </el-form-item>
+          <el-form-item :label="(index+1).toString()" :label-width="formLabelWidth"
+          v-for="(item, index) in ShiftDialogForm.weekDayData" :key="index"
+          >
+            <el-input type="time" v-model="item.arrival_time" autocomplete="off"/>
+            <el-button type="danger" @click="deleteDialogValue({nowId: item.shift_uuid, weekType: 'WeekDay'})">刪除</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -46,11 +55,11 @@ import useMMaintenanceStore from "../../../store/MGroup/MMaintenanceStore";
 
 const MMaintenanceStore = useMMaintenanceStore();
 const { getData, ShiftDialogForm, visableControl } = storeToRefs(MMaintenanceStore);
-const { shifDialogClear, submitDialog, addDialogValue } = MMaintenanceStore;
+const { shifDialogClear, submitDialog, addDialogValue, deleteDialogValue } = MMaintenanceStore;
 
 const formLabelWidth = '50px'
 const activeTab = ref('normal')
-
+const time = ''
 const handleClose = (done: () => void) => {
   ElMessageBox.confirm('您確定要關閉視窗?(內容不會保存)')
     .then(() => {

@@ -9,7 +9,7 @@
         <el-input v-model="UserDialogForm.username" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="密碼" :label-width="formLabelWidth">
-        <el-input v-model="UserDialogForm.password" autocomplete="off"/>
+        <el-input type="password" v-model="UserDialogForm.password" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="UserDialogForm.name" autocomplete="off"/>
@@ -29,7 +29,7 @@
         <el-input v-model="UserDialogForm.phonesub" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="電子郵件" :label-width="formLabelWidth">
-        <el-input v-model="UserDialogForm.useremail" autocomplete="off"/>
+        <el-input type="email" v-model="UserDialogForm.useremail" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="備註" :label-width="formLabelWidth">
         <el-input v-model="UserDialogForm.note" autocomplete="off"/>

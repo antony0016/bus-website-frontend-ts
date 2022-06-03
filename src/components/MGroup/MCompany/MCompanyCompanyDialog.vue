@@ -27,16 +27,16 @@
         <el-input v-model="CompanyDialogForm.contract_state" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="合約期間" :label-width="formLabelWidth">
-        <el-input v-model="CompanyDialogForm.contract_datetime" autocomplete="off"/>
+        <el-input type="datetime-local" v-model="CompanyDialogForm.contract_datetime" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="E-mail" :label-width="formLabelWidth">
-        <el-input v-model="CompanyDialogForm.company_email" autocomplete="off"/>
+        <el-input type="email" v-model="CompanyDialogForm.company_email" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="密碼" :label-width="formLabelWidth">
-        <el-input v-model="CompanyDialogForm.company_password" autocomplete="off"/>
+        <el-input type="password" v-model="CompanyDialogForm.company_password" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="確認密碼" :label-width="formLabelWidth">
-        <el-input v-model="CompanyDialogForm.company_checkpassword" autocomplete="off"/>
+        <el-input type="password" v-model="CompanyDialogForm.company_checkpassword" autocomplete="off"/>
       </el-form-item>
     </el-form>
     <template #footer>

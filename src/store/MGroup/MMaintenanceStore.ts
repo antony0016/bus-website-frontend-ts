@@ -12,7 +12,8 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       routeBaseUrl: 'http://127.0.0.1:8000/api/route/',
       routeGetUrl: 'view_route/',
       busShiftBaseUrl: 'http://127.0.0.1:8000/api/busshift/',
-      busShiftGetUrl: 'view_busshift/'
+      busShiftGetUrl: 'view_busshift/',
+      busShiftEditUrl: 'edit_busshift/',
     },
     visableControl: {
       shiftDialogFormVisible: false,
@@ -31,10 +32,10 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           route_via_station: '',
           noramlStartTime: '',
           noramlEndTime: '',
-          noramlBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '' }],
+          noramlBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
           weekStartTime: '',
           weekEndTime: '',
-          weekBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '' }],
+          weekBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
         }
       ],
     },
@@ -42,31 +43,58 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       selectCompany: 'all'
     },
     ShiftDialogForm: {
-      normalDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '' }],
-      weekDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '' }],
+      normalDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      weekDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      belongRoute: '',
     }
   }),
   getters: {},
   actions: {
     shiftDialogShow: function (payload: {data: object}){
+      this.shifDialogClear()
       this.ShiftDialogForm.normalDayData = payload.data['noramlBusShiftData']
       this.ShiftDialogForm.weekDayData = payload.data['weekBusShiftData']
+      this.ShiftDialogForm.belongRoute = payload.data['route_uuid']
       this.visableControl.shiftDialogFormVisible = true
     },
     shifDialogClear: function (){
-      this.ShiftDialogForm.normalDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '' }]
-      this.ShiftDialogForm.weekDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '' }]
+      this.ShiftDialogForm.normalDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.weekDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.belongRoute = ''
       this.getRoute({getcount:0})
     },
     submitDialog: function (){
       console.log('here')
       console.log(this.ShiftDialogForm.normalDayData)
       console.log(this.getData.getRouteShiftData)
+      this.editBusShift({postcount:0})
       this.shifDialogClear()
     },
     addDialogValue: function (payload: {data: Array<object>, weekType: string}){
-      this.ShiftDialogForm.normalDayData.push({ shift_uuid: 0, arrival_time: '', week_type: '' })
+      let nowUuid = 0
+      if (payload.data.length <= 0){
+        nowUuid = 1
+      }else{
+        nowUuid = payload.data[payload.data.length-1]['shift_uuid'] + 1
+      }
+      if (payload.weekType == 'Normal'){
+        this.ShiftDialogForm.normalDayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Normal', is_exist: 'newdata' })
+      }else{
+        this.ShiftDialogForm.weekDayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'WeekDay', is_exist: 'newdata' })
+      }
       console.log(this.getData.getRouteShiftData)
+      console.log(this.ShiftDialogForm.normalDayData)
+    },
+    deleteDialogValue: function (payload: {nowId: number, weekType: string}){
+      if (payload.weekType == 'Normal'){
+        this.ShiftDialogForm.normalDayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.normalDayData.splice(index,1);
+        });
+      }else{
+        this.ShiftDialogForm.weekDayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.weekDayData.splice(index,1);
+        });
+      }
     },
     getCompany: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
@@ -152,6 +180,32 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             if (payload.getcount < 6) {
               loginManagerStore.refreshToken()
               this.getBusShift({ getcount: payload.getcount + 1, routeData: payload.routeData })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
+          }
+        })
+    },
+    editBusShift: function (payload: { postcount: number }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftEditUrl, {
+        data: {
+          normalData: this.ShiftDialogForm.normalDayData,
+          weekData: this.ShiftDialogForm.weekDayData,
+          belongRoute: this.ShiftDialogForm.belongRoute,
+        }
+      })
+        .then(response => {
+          console.log('post busshift data')
+          console.log(response.data)
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.editBusShift({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
             }
