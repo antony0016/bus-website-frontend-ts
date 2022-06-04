@@ -1,9 +1,18 @@
 <template>
   <el-button @click="CompanyDialogAddShow()">新增客運業者</el-button>
-  <el-button>匯入</el-button>
-  <el-button>範例表格下載</el-button>
+  <el-upload
+    class="upload"
+    action=""
+    :multiple="false"
+    :show-file-list="false"
+    accept="csv"
+    :on-change="mcompanyUploadChange">
+    <el-button type="primary">匯入</el-button>
+  </el-upload>
+  <el-button @click="exportCompanyExcel">匯出</el-button>
   <el-table
     :data="getData.getCompanyData"
+    id="company_table"
     style="width: 100%"
     :default-sort = "{prop: 'company_no', order: 'ascending'}">
     <el-table-column
@@ -94,12 +103,53 @@
 <script setup lang="ts">
 import { ref, toRefs, reactive } from 'vue'
 import { storeToRefs } from "pinia";
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus';
+import * as FileSaver from 'file-saver';
+import * as XLSX from "xlsx";
 import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
-const { CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute } = MCompanyStore;
+const { postCompanyCsvData, CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute } = MCompanyStore;
+
+const dataList = [{userId:1,name:'小白',age:'18',status:"上學"},{userId:2,name:'小黑',age:'22',status:"待業"},{userId:3,name:'小紅',age:'28',status:"就業"}]
+
+const mcompanyUploadChange = ( file: any, fileList: any ) => {
+  const files = file.raw
+  if (!/\.(csv|xls|xlsx)$/.test(files.name.toLowerCase())) {
+    console.log("上傳格式不正確，請上傳csv、xls或者xlsx格式");
+    return false;
+  }
+  // 讀取表格
+  const fileReader = new FileReader();
+  fileReader.onload = (ev: any) => {
+    const workbook = XLSX.read(ev.target.result, {
+      type: "binary",
+    });
+    const wsname = workbook.SheetNames[0];
+    const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); // 得到的資料
+    postCompanyCsvData({data: ws, postcount: 0})
+  };
+  fileReader.readAsBinaryString(files);
+}
+
+const exportCompanyExcel = () => {
+  var csvParam = { raw: true };
+  var wb = XLSX.utils.table_to_book(document.querySelector("#company_table"), csvParam);
+  var wbout = XLSX.write(wb, {
+    bookType: "csv",
+    bookSST: true,
+    type: "array"
+  });
+  try {
+    FileSaver.saveAs(
+      new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
+      "companyData.csv"
+    );
+  } catch (e) {
+    if (typeof console !== "undefined") console.log(e, wbout);
+  }
+}
 
 </script>
 

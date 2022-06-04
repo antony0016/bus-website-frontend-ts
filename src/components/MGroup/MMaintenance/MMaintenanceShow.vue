@@ -85,9 +85,24 @@
     </el-table-column>
     <el-table-column label="操作">
       <template #default="{row,$index}">
-        <el-button @click="">
-          匯入
-        </el-button>
+        <el-upload
+          class="upload"
+          action=""
+          :multiple="false"
+          :show-file-list="false"
+          accept="csv"
+          :on-change="mbusshiftUploadChange">
+          <el-button type="primary" @click="postBusShiftCsvChoice({data: row.route_uuid, weektype: 'Normal'})">工作日班表匯入</el-button>
+        </el-upload>
+        <el-upload
+          class="upload"
+          action=""
+          :multiple="false"
+          :show-file-list="false"
+          accept="csv"
+          :on-change="mbusshiftUploadChange">
+          <el-button type="primary" @click="postBusShiftCsvChoice({data: row.route_uuid, weektype: 'WeekDay'})">假日班表匯入</el-button>
+        </el-upload>
         <el-button @click="">
           匯出
         </el-button>
@@ -103,11 +118,32 @@
 import { ref, toRefs, reactive } from 'vue'
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from 'element-plus'
+import * as XLSX from "xlsx";
 import useMMaintenanceStore from "../../../store/MGroup/MMaintenanceStore";
 
 const MMaintenanceStore = useMMaintenanceStore();
 const { getData, filterData } = storeToRefs(MMaintenanceStore);
-const { getRoute, shiftDialogShow } = MMaintenanceStore;
+const { getRoute, shiftDialogShow, postBusShiftCsvChoice, postBusShiftCsvData } = MMaintenanceStore;
+
+const mbusshiftUploadChange = ( file: any, fileList: any ) => {
+  const files = file.raw
+  if (!/\.(csv|xls|xlsx)$/.test(files.name.toLowerCase())) {
+    console.log("上傳格式不正確，請上傳csv、xls或者xlsx格式");
+    return false;
+  }
+  // 讀取表格
+  const fileReader = new FileReader();
+  fileReader.onload = (ev: any) => {
+    const workbook = XLSX.read(ev.target.result, {
+      type: "binary",
+    });
+    
+    const wsname = workbook.SheetNames[0];
+    const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); // 得到的資料
+    postBusShiftCsvData({data: ws, postcount: 0})
+  };
+  fileReader.readAsBinaryString(files);
+}
 
 </script>
 

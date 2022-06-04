@@ -14,6 +14,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       busShiftBaseUrl: 'http://127.0.0.1:8000/api/busshift/',
       busShiftGetUrl: 'view_busshift/',
       busShiftEditUrl: 'edit_busshift/',
+      busShiftCsvEditUrl: 'edit_csv_busshift/',
     },
     visableControl: {
       shiftDialogFormVisible: false,
@@ -40,7 +41,9 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       ],
     },
     filterData: {
-      selectCompany: 'all'
+      selectCompany: 'all',
+      selectChoiceRoute: 0,
+      selectChoiceWeekType: ''
     },
     ShiftDialogForm: {
       normalDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
@@ -50,6 +53,40 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
   }),
   getters: {},
   actions: {
+    postBusShiftCsvChoice: function (payload:{data: number, weektype: string}){
+      this.filterData.selectChoiceRoute = payload.data
+      this.filterData.selectChoiceWeekType = payload.weektype
+    },
+    postBusShiftCsvData: function (payload:{data: any, postcount: number}){
+      const loginManagerStore = useLoginManagerStore(); 
+      axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftCsvEditUrl, {
+        data: {
+          belongroute: this.filterData.selectChoiceRoute,
+          weektype: this.filterData.selectChoiceWeekType,
+          postdata: payload.data
+        }
+      })
+        .then(response => {
+          console.log('post csv busshift data')
+          this.getRoute({getcount:0})
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.postBusShiftCsvData({ data: payload.data, postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } 
+          else if (error.response.status == '500'){
+            console.log('文件內項目已經添加了')
+          }
+          else {
+            console.log(error)
+          }
+        })    
+    },
     shiftDialogShow: function (payload: {data: object}){
       this.shifDialogClear()
       this.ShiftDialogForm.normalDayData = payload.data['noramlBusShiftData']
@@ -131,7 +168,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           console.log('get route data')
           this.getData.getRouteShiftData = []
           for (let val of response.data){
-            this.getBusShift({getcount: 0, routeData: val})
+            this.getBusShift({getcount: 0, routeData: val, len: response.data.length})
           }
         })
         .catch(error => {
@@ -147,7 +184,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           }
         })
     },
-    getBusShift: function (payload: { getcount: number, routeData: Array<object> }) {
+    getBusShift: function (payload: { getcount: number, routeData: Array<object>, len: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftGetUrl, {
         data: {
@@ -156,30 +193,32 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       })
         .then(response => {
           console.log('get busshift data')
-          this.getData.getRouteShiftData.push(
-            {
-              belong_company: payload.routeData['belong_company'],
-              belong_company_id: payload.routeData['belong_company_id'],
-              belong_platform: payload.routeData['belong_platform'],
-              route_name: payload.routeData['route_name'],
-              route_no: payload.routeData['route_no'],
-              route_uuid: payload.routeData['route_uuid'],
-              route_via_station: payload.routeData['route_via_station'],
-              noramlStartTime: response.data['NormalStartTime'],
-              noramlEndTime: response.data['NormalEndTime'],
-              noramlBusShiftData: response.data['NormalDay'],
-              weekStartTime: response.data['WeekStartTime'],
-              weekEndTime: response.data['WeekEndTime'],
-              weekBusShiftData: response.data['WeekDay'],
-            }
-          )
+          if (this.getData.getRouteShiftData.length < payload.len){
+            this.getData.getRouteShiftData.push(
+              {
+                belong_company: payload.routeData['belong_company'],
+                belong_company_id: payload.routeData['belong_company_id'],
+                belong_platform: payload.routeData['belong_platform'],
+                route_name: payload.routeData['route_name'],
+                route_no: payload.routeData['route_no'],
+                route_uuid: payload.routeData['route_uuid'],
+                route_via_station: payload.routeData['route_via_station'],
+                noramlStartTime: response.data['NormalStartTime'],
+                noramlEndTime: response.data['NormalEndTime'],
+                noramlBusShiftData: response.data['NormalDay'],
+                weekStartTime: response.data['WeekStartTime'],
+                weekEndTime: response.data['WeekEndTime'],
+                weekBusShiftData: response.data['WeekDay'],
+              }
+            )
+          }
           console.log(this.getData.getRouteShiftData)
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
               loginManagerStore.refreshToken()
-              this.getBusShift({ getcount: payload.getcount + 1, routeData: payload.routeData })
+              this.getBusShift({ getcount: payload.getcount + 1, routeData: payload.routeData, len: payload.len })
             } else {
               console.log('沒有權限')
             }

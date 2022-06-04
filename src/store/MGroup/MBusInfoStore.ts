@@ -14,6 +14,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       busGetUrl: 'view_bus/',
       busGetDetailUrl: 'detail_bus/',
       busPostUrl: 'add_bus/',
+      busPostCsvUrl: 'add_csv_bus/',
       busPutUrl: 'update_bus/',
       busDeleteUrl: 'delete_bus/',
     },
@@ -49,6 +50,34 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
   }),
   getters: {},
   actions: {
+    postBusCsvData: function (payload:{data: any, postcount: number}) {
+      const loginManagerStore = useLoginManagerStore(); 
+      axios.post(this.apiUrl.busBaseUrl + this.apiUrl.busPostCsvUrl, {
+        data: {
+          postdata: payload.data
+        }
+      })
+        .then(response => {
+          console.log('post csv bus data')
+          this.getRoute({getcount:0, select: 'main'})
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.postBusCsvData({ data: payload.data, postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } 
+          else if (error.response.status == '500'){
+            console.log('文件內項目已經添加了')
+          }
+          else {
+            console.log(error)
+          }
+        })    
+    },
     busDialogClear: function () {
       this.busDialogForm.belong_company = ''
       this.busDialogForm.belong_route = ''

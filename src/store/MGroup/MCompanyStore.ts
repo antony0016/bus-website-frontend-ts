@@ -1,4 +1,5 @@
 import { kebabCase } from "element-plus/lib/utils";
+import xlsx from 'xlsx';
 import { defineStore } from "pinia";
 import router from "../../router";
 import axios from "../../axios";
@@ -12,11 +13,13 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       companybaseurl: 'http://127.0.0.1:8000/api/company/',
       companygeturl: 'view_company/',
       companyposturl: 'add_company/',
+      companyPostCsvUrl: 'add_csv_company/',
       companyputurl: 'update_company/',
       companydeleteurl: 'delete_company/',
       routebaseurl: 'http://127.0.0.1:8000/api/route/',
       routegeturl: 'view_route/',
       routeposturl: 'add_route/',
+      routePostCsvUrl: 'add_csv_route/',
       routeputurl: 'update_route/',
       routedeleteurl: 'delete_route/',
     },
@@ -59,6 +62,34 @@ const useMCompanyStore = defineStore('MCompanyStore', {
   }),
   getters: {},
   actions: {
+    postCompanyCsvData: function (payload:{data: any, postcount: number}) {
+      const loginManagerStore = useLoginManagerStore(); 
+      axios.post(this.ApiUrl.companybaseurl + this.ApiUrl.companyPostCsvUrl, {
+        data: {
+          postdata: payload.data
+        }
+      })
+        .then(response => {
+          console.log('post csv company data')
+          this.getCompany({ getcount: 0 })
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.postCompanyCsvData({ data: payload.data, postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } 
+          else if (error.response.status == '500'){
+            console.log('文件內項目已經添加了')
+          }
+          else {
+            console.log(error)
+          }
+        })    
+    },
     CompanyDialogClear: function () {
       this.CompanyDialogForm.company_uuid = ''
       this.CompanyDialogForm.company_no = ''
@@ -231,6 +262,34 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.getData.RouteCompanySelect = payload.data['company_uuid']
       this.getRoute({ getcount: 0})
       this.companyRouteActiveTab = 'routes'
+    },
+    postRouteCsvData: function (payload:{data: any, postcount: number}) {
+      const loginManagerStore = useLoginManagerStore(); 
+      axios.post(this.ApiUrl.routebaseurl + this.ApiUrl.routePostCsvUrl, {
+        data: {
+          postdata: payload.data
+        }
+      })
+        .then(response => {
+          console.log('post csv route data')
+          this.getRoute({ getcount: 0 })
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.postRouteCsvData({ data: payload.data, postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } 
+          else if (error.response.status == '500'){
+            console.log('文件內項目已經添加了')
+          }
+          else {
+            console.log(error)
+          }
+        })  
     },
     RouteDialogClear: function () {
       this.RouteDialogForm.route_uuid = ''
