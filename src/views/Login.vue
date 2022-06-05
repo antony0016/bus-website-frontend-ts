@@ -35,6 +35,7 @@ const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
 </script>
 
 <style scoped>
+
 .login-input {
   margin: 10px 0;
 }
@@ -42,4 +43,5 @@ const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
 .login-button {
   width: 100%;
 }
+
 </style>

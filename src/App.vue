@@ -3,7 +3,7 @@
     <el-header id="header">
       <nav-bar/>
     </el-header>
-    <el-container>
+    <el-container >
       <side-menu v-if="loggedIn"/>
       <main-section/>
     </el-container>
@@ -15,7 +15,6 @@ import { computed } from "vue";
 import NavBar from "./layout/NavBar.vue";
 import SideMenu from './layout/SideMenu.vue'
 import MainSection from "./layout/MainSection.vue";
-
 import useLoginManagerStore from "./store/LoginManagerStore";
 
 const loginManagerStore = useLoginManagerStore();
@@ -39,4 +38,5 @@ body {
 #whole {
   height: 100vh;
 }
+
 </style>
