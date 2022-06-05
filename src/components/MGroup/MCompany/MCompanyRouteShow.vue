@@ -105,9 +105,22 @@ const mrouteUploadChange = ( file: any, fileList: any ) => {
 }
 
 const exportRouteExcel = () => {
-  var csvParam = { raw: true };
-  var wb = XLSX.utils.table_to_book(document.querySelector("#route_table"), csvParam);
-  var wbout = XLSX.write(wb, {
+  let exportdataList = [['客運公司', '路線代碼', '路線', '經由站']]
+  for (let v of getData.value.getRouteData){
+    let templist = [
+      v['belong_company'],
+      v['route_no'], 
+      v['route_name'], 
+      v['route_via_station'], 
+    ]
+    exportdataList.push(templist)
+  } 
+
+  let wb = XLSX.utils.book_new()
+  let ws = XLSX.utils.aoa_to_sheet(exportdataList)
+  XLSX.utils.book_append_sheet(wb, ws, 'routeData')
+
+  let wbout = XLSX.write(wb, {
     bookType: "csv",
     bookSST: true,
     type: "array"

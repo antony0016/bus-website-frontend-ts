@@ -145,9 +145,26 @@ const mbusinfoUploadChange = ( file: any, fileList: any ) => {
 }
 
 const exportBusExcel = () => {
-  var csvParam = { raw: true };
-  var wb = XLSX.utils.table_to_book(document.querySelector("#bus_table"), csvParam);
-  var wbout = XLSX.write(wb, {
+  let exportdataList = [['所屬客運', '所屬路線', '車號', 'etag', '狀態', '乘車人數', '備註', '經由站']]
+  for (let v of getData.value.getBusData){
+    let templist = [
+      v['belong_company'],
+      v['belong_route'], 
+      v['bus_no'], 
+      v['bus_etag'], 
+      v['bus_status'], 
+      v['bus_type'], 
+      v['bus_note'], 
+      v['belong_route_via']
+    ]
+    exportdataList.push(templist)
+  } 
+
+  let wb = XLSX.utils.book_new()
+  let ws = XLSX.utils.aoa_to_sheet(exportdataList)
+  XLSX.utils.book_append_sheet(wb, ws, 'busData')
+
+  let wbout = XLSX.write(wb, {
     bookType: "csv",
     bookSST: true,
     type: "array"

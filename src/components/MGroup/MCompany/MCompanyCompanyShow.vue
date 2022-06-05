@@ -112,8 +112,6 @@ const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
 const { postCompanyCsvData, CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute } = MCompanyStore;
 
-const dataList = [{userId:1,name:'小白',age:'18',status:"上學"},{userId:2,name:'小黑',age:'22',status:"待業"},{userId:3,name:'小紅',age:'28',status:"就業"}]
-
 const mcompanyUploadChange = ( file: any, fileList: any ) => {
   const files = file.raw
   if (!/\.(csv|xls|xlsx)$/.test(files.name.toLowerCase())) {
@@ -134,9 +132,27 @@ const mcompanyUploadChange = ( file: any, fileList: any ) => {
 }
 
 const exportCompanyExcel = () => {
-  var csvParam = { raw: true };
-  var wb = XLSX.utils.table_to_book(document.querySelector("#company_table"), csvParam);
-  var wbout = XLSX.write(wb, {
+  let exportdataList = [['業者編號', '客運公司', '統一編號', '電話', '傳真', '地址', '合約狀態', '合約期間', 'Email']]
+  for (let v of getData.value.getCompanyData){
+    let templist = [
+      v['company_no'],
+      v['company_name'], 
+      v['unified_no'], 
+      v['company_phone'], 
+      v['company_fax'], 
+      v['company_address'], 
+      v['contract_state'], 
+      v['contract_datetime'], 
+      v['company_email']
+    ]
+    exportdataList.push(templist)
+  } 
+
+  let wb = XLSX.utils.book_new()
+  let ws = XLSX.utils.aoa_to_sheet(exportdataList)
+  XLSX.utils.book_append_sheet(wb, ws, 'companyData')
+
+  let wbout = XLSX.write(wb, {
     bookType: "csv",
     bookSST: true,
     type: "array"
