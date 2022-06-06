@@ -29,11 +29,11 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
       {
         id: Env.barItemIds.mRouter, subMenu: [
           { isShow: true, name: '客運與路線', to: '/MCompany', id: 'MCompany' },
+          { isShow: true, name: '車籍管理', to: '/MBusInfo', id: 'MBusInfo' },
           { isShow: true, name: '月台管理', to: '/MPlatform', id: 'MPlatform' },
           { isShow: true, name: '月台申請', to: '/MPlatformApply', id: 'MPlatform_Apply' },
           { isShow: true, name: '停靠時間設定', to: '/MStopTime', id: 'MStop_Time' },
           { isShow: true, name: '班次維護', to: '/MMaintenance', id: 'MMaintenance' },
-          { isShow: true, name: '車籍管理', to: '/MBusInfo', id: 'MBusInfo' },
           { isShow: true, name: '帳號群組', to: '/MAccount', id: 'MAccount' },
           { isShow: true, name: '營運報表', to: '/MReport', id: 'MReport' },
           { isShow: true, name: '修訂紀錄', to: '/MHistory', id: 'MHistory' },

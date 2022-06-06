@@ -2,9 +2,7 @@ import Home from "../views/Home.vue";
 import Login from '../views/Login.vue';
 import AxiosExample from '../components/example/AxiosExample.vue';
 import NotFound from '../views/NotFound.vue';
-import NewTodoSample from '../components/example/NewTodoSample.vue';
-import FindTodo from '../components/FindTodo.vue';
-import NewTodo from '../components/NewTodo.vue';
+// import TTS from '../views/UnitTest.vue';
 
 //MGroup
 import MAccount from '../views/MGroup/MAccount_Page.vue';
@@ -236,21 +234,14 @@ const routes = [
       requiredAuth: true,
     }
   },
-  {
-    path: "/NewTodoSample",
-    name: "NewTodoSample",
-    component: NewTodoSample
-  },
-  {
-    path: "/NewTodo",
-    name: "NewTodo",
-    component: NewTodo
-  },
-  {
-    path: "/FindTodo",
-    name: "FindTodo",
-    component: FindTodo
-  },
+  // {
+  //   path: "/TTS",
+  //   name: "TTS",
+  //   component: TTS,
+  //   meta: {
+  //     requiredAuth: true,
+  //   }
+  // },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
