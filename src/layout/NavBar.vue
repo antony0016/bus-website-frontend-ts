@@ -8,7 +8,7 @@
         </el-icon>
       </el-button>
     </el-col>
-    <el-col :span="1">
+    <el-col :span="1" @click="router.push('/')">
       <h1>{{ title }}</h1>
     </el-col>
     <el-col :span="15">
@@ -23,7 +23,7 @@
     </el-col>
     <el-col :span="1">
       <el-button type="primary" size="large">
-        {{ "Now path: " + menuSwitch.topBarId + nowPath}}
+        <!--        {{ "Now path: " + menuSwitch.topBarId + nowPath}}-->
       </el-button>
     </el-col>
     <el-col :span="6">
@@ -40,6 +40,7 @@ import LoginButton from '../components/LoginButton.vue';
 
 import useViewControllerStore from "../store/ViewControllerStore";
 import { useRoute } from 'vue-router';
+import router from "../router";
 import { ref, computed, watch } from "vue";
 import SimpleScrollbar from "../components/SimpleScrollbar.vue";
 
@@ -61,20 +62,20 @@ const route = useRoute();
 const goPath = computed(() => route.path)
 
 // control now path and select
-watch(goPath,(curVal,preVal)=>{
-    for (var val of sideMenuItems.value){
-      for (var sval of val['subMenu']){
-        if (curVal == sval['to']){
-          console.log('nowGroup:' + val['id'])
-          console.log('nowPath:' + sval['to'])
-          menuSwitch.value.topBarId = val['id']
-          nowPath.value = sval['to']
-        }
-      }  
+watch(goPath, (curVal, preVal) => {
+  for (var val of sideMenuItems.value) {
+    for (var sval of val['subMenu']) {
+      if (curVal == sval['to']) {
+        console.log('nowGroup:' + val['id'])
+        console.log('nowPath:' + sval['to'])
+        menuSwitch.value.topBarId = val['id']
+        nowPath.value = sval['to']
+      }
     }
-  },{
-   //配置項
-  })
+  }
+}, {
+  //配置項
+})
 
 </script>
 

@@ -1,12 +1,13 @@
 <template>
-  <el-dialog 
-    v-model="DialogVisible.RouteDialogFormVisible" 
+  <el-dialog
+    v-model="DialogVisible.RouteDialogFormVisible"
     title="路線管理"
     :before-close="handleClose"
   >
     <el-form :model="RouteDialogForm" label-position="left">
       <el-form-item label="客運公司" :label-width="formLabelWidth">
-        <el-select v-model="getData.RouteinDialogSelect" filterable placeholder="請選擇" :disabled="DialogVisible.RoutrDisable">
+        <el-select v-model="getData.RouteinDialogSelect" filterable placeholder="請選擇"
+                   :disabled="DialogVisible.RoutrDisable">
           <el-option
             v-for="item in getData.getCompanyData"
             :key="item['company_name']"
@@ -27,12 +28,15 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="DialogVisible.RouteDialogFormVisible = false; deleteRoute({deletecount:0})" type="danger" v-show="DialogVisible.RouteAddChangeSwitch">刪除</el-button>
+        <el-button @click="DialogVisible.RouteDialogFormVisible = false; deleteRoute({deletecount:0})" type="danger"
+                   v-show="DialogVisible.RouteAddChangeSwitch">刪除</el-button>
         <el-button @click="DialogVisible.RouteDialogFormVisible = false; RouteDialogClear()">取消</el-button>
-        <el-button type="primary" @click="putRoute({putcount:0}); DialogVisible.RouteDialogFormVisible = false;" v-show="DialogVisible.RouteAddChangeSwitch">
+        <el-button type="primary" @click="putRoute({putcount:0}); DialogVisible.RouteDialogFormVisible = false;"
+                   v-show="DialogVisible.RouteAddChangeSwitch">
           儲存
         </el-button>
-        <el-button type="primary" @click="postRoute({postcount:0}); DialogVisible.RouteDialogFormVisible = false;" v-show="!DialogVisible.RouteAddChangeSwitch">
+        <el-button type="primary" @click="postRoute({postcount:0}); DialogVisible.RouteDialogFormVisible = false;"
+                   v-show="!DialogVisible.RouteAddChangeSwitch">
           新增
         </el-button>
       </span>
@@ -69,12 +73,15 @@ const handleClose = (done: () => void) => {
 .el-button--text {
   margin-right: 15px;
 }
+
 .el-select {
   width: 300px;
 }
+
 .el-input {
   width: 300px;
 }
+
 .dialog-footer button:first-child {
   margin-right: 10px;
 }

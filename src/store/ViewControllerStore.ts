@@ -7,14 +7,13 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
     menuSwitch: {
       isFold: false,
       isShow: false,
-      topBarId: Env.barItemIds.unitTest,
+      topBarId: Env.barItemIds.mRouter,
     },
     topBarItems: [
-      { id: Env.barItemIds.unitTest, to: "/", isShow: false, name: "單元測試" },
       { id: Env.barItemIds.mRouter, to: "/", isShow: false, name: "營運管理" },
       { id: Env.barItemIds.cRouter, to: "/", isShow: false, name: "行控管理" },
       { id: Env.barItemIds.bRouter, to: "/", isShow: false, name: "廣播系統" },
-      { id: Env.barItemIds.tRouter, to: "/", isShow: false, name: "TodoList" },
+      { id: Env.barItemIds.unitTest, to: "/", isShow: false, name: "單元測試" },
     ],
     sideMenuItems: [
       {
@@ -58,12 +57,6 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
           { isShow: true, name: '語音程序編排', to: '/BProgram', id: 'BProgram' },
           { isShow: true, name: '廣播排程', to: '/BSchedule', id: 'BSchedule' },
           { isShow: true, name: '車務自動插播', to: '/BInStream', id: 'BInStream' },]
-      },
-      {
-        id: Env.barItemIds.tRouter, subMenu: [
-          { isShow: true, name: '新建事項', to: '/NewTodo', id: 'NewTodo' },
-          { isShow: true, name: '查詢事項', to: '/FindTodo', id: 'FindTodo' },
-        ],
       },
     ],
   }),

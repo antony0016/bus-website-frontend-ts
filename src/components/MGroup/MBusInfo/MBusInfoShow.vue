@@ -7,7 +7,8 @@
       :value="item['value']">
     </el-option>
   </el-select>
-  <el-select v-model="filterData.selectRoute" filterable placeholder="請選擇" @change="getBus({getcount:0})" :disabled="disableControl.routeSelectdisable">
+  <el-select v-model="filterData.selectRoute" filterable placeholder="請選擇" @change="getBus({getcount:0})"
+             :disabled="disableControl.routeSelectdisable">
     <el-option
       v-for="item in getData.getRouteDataName"
       :key="item['value']"
@@ -15,29 +16,32 @@
       :value="item['value']">
     </el-option>
   </el-select>
-  <el-upload
-    class="upload"
-    action=""
-    :multiple="false"
-    :show-file-list="false"
-    accept="csv"
-    :on-change="mbusinfoUploadChange">
-    <el-button type="primary">匯入</el-button>
-  </el-upload>
-  <el-button @click="busDialogAdd()">手動新增</el-button>
-  <el-button @click="exportBusExcel">匯出</el-button>
+  <p></p>
+  <el-container class="button-gutter">
+    <el-button @click="busDialogAdd()">新增車籍</el-button>
+    <el-upload
+      class="upload"
+      action=""
+      :multiple="false"
+      :show-file-list="false"
+      accept="csv"
+      :on-change="mbusinfoUploadChange">
+      <el-button type="primary">匯入</el-button>
+    </el-upload>
+    <el-button @click="exportBusExcel">匯出</el-button>
+  </el-container>
   <el-table
     :data="getData.getBusData"
     id="bus_table"
     style="width: 100%"
-    :default-sort = "{prop: 'belong_company', order: 'ascending'}">
+    :default-sort="{prop: 'belong_company', order: 'ascending'}">
     <el-table-column
       prop="belong_company"
       label="所屬客運"
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.belong_company}}</span>
+        <span style="margin-left: 10px">{{ row.belong_company }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -46,7 +50,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.bus_no}}</span>
+        <span style="margin-left: 10px">{{ row.bus_no }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -55,7 +59,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.bus_etag}}</span>
+        <span style="margin-left: 10px">{{ row.bus_etag }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -64,7 +68,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.bus_status}}</span>
+        <span style="margin-left: 10px">{{ row.bus_status }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -73,7 +77,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.bus_type}}</span>
+        <span style="margin-left: 10px">{{ row.bus_type }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -82,7 +86,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.bus_note}}</span>
+        <span style="margin-left: 10px">{{ row.bus_note }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -91,7 +95,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.belong_route}}</span>
+        <span style="margin-left: 10px">{{ row.belong_route }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -100,7 +104,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.belong_route_via}}</span>
+        <span style="margin-left: 10px">{{ row.belong_route_via }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -125,7 +129,7 @@ const MBusInfoStore = useMBusInfoStore();
 const { getData, filterData, disableControl } = storeToRefs(MBusInfoStore);
 const { SelectCompanyDialogChange, getBus, busDialogEdit, busDialogAdd, postBusCsvData } = MBusInfoStore;
 
-const mbusinfoUploadChange = ( file: any, fileList: any ) => {
+const mbusinfoUploadChange = (file: any, fileList: any) => {
   const files = file.raw
   if (!/\.(csv|xls|xlsx)$/.test(files.name.toLowerCase())) {
     console.log("上傳格式不正確，請上傳csv、xls或者xlsx格式");
@@ -139,26 +143,26 @@ const mbusinfoUploadChange = ( file: any, fileList: any ) => {
     });
     const wsname = workbook.SheetNames[0];
     const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); // 得到的資料
-    postBusCsvData({data: ws, postcount: 0})
+    postBusCsvData({ data: ws, postcount: 0 })
   };
   fileReader.readAsBinaryString(files);
 }
 
 const exportBusExcel = () => {
   let exportdataList = [['所屬客運', '所屬路線', '車號', 'etag', '狀態', '乘車人數', '備註', '經由站']]
-  for (let v of getData.value.getBusData){
+  for (let v of getData.value.getBusData) {
     let templist = [
       v['belong_company'],
-      v['belong_route'], 
-      v['bus_no'], 
-      v['bus_etag'], 
-      v['bus_status'], 
-      v['bus_type'], 
-      v['bus_note'], 
+      v['belong_route'],
+      v['bus_no'],
+      v['bus_etag'],
+      v['bus_status'],
+      v['bus_type'],
+      v['bus_note'],
       v['belong_route_via']
     ]
     exportdataList.push(templist)
-  } 
+  }
 
   let wb = XLSX.utils.book_new()
   let ws = XLSX.utils.aoa_to_sheet(exportdataList)

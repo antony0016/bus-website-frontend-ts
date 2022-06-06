@@ -3,7 +3,7 @@
     <el-header id="header">
       <nav-bar/>
     </el-header>
-    <el-container >
+    <el-container>
       <side-menu v-if="loggedIn"/>
       <main-section/>
     </el-container>
@@ -37,6 +37,10 @@ body {
 
 #whole {
   height: 100vh;
+}
+
+.button-gutter > * {
+  margin-right: 5px;
 }
 
 </style>

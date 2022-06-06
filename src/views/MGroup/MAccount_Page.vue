@@ -3,7 +3,7 @@
     <el-tabs v-model="activeTab" @tab-click="getGroupName({getcount:0}); getUser({getcount:0})">
       <el-tab-pane label="編輯群組" name="groups">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="4">
             <el-menu
               :default-active="nowGroupSelect"
             >
@@ -17,7 +17,8 @@
             </el-menu>
             <MAccountDialog/>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="1"/>
+          <el-col :span="10">
             <MAccountGroupShow/>
           </el-col>
         </el-row>

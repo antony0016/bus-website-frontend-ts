@@ -9,28 +9,30 @@
   </el-select>
   <el-button @click="getRoute({getcount: 0})">查詢</el-button>
   <el-button @click="RouteDialogAddShow()">新增路線</el-button>
-  <el-upload
-    class="upload"
-    action=""
-    :multiple="false"
-    :show-file-list="false"
-    accept="csv"
-    :on-change="mrouteUploadChange">
-    <el-button type="primary">匯入</el-button>
-  </el-upload>
-  <el-button @click="exportRouteExcel">匯出</el-button>
+  <el-container class="button-gutter">
+    <el-upload
+      class="upload"
+      action=""
+      :multiple="false"
+      :show-file-list="false"
+      accept="csv"
+      :on-change="mrouteUploadChange">
+      <el-button type="primary">匯入</el-button>
+    </el-upload>
+    <el-button @click="exportRouteExcel">匯出</el-button>
+  </el-container>
   <el-table
     :data="getData.getRouteData"
     id="route_table"
     style="width: 100%"
-    :default-sort = "{prop: 'route_no', order: 'ascending'}">
+    :default-sort="{prop: 'route_no', order: 'ascending'}">
     <el-table-column
       prop="belong_company"
       label="客運公司"
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.belong_company}}</span>
+        <span style="margin-left: 10px">{{ row.belong_company }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -39,7 +41,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.route_no}}</span>
+        <span style="margin-left: 10px">{{ row.route_no }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -48,7 +50,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.route_name}}</span>
+        <span style="margin-left: 10px">{{ row.route_name }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -57,7 +59,7 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{row.route_via_station}}</span>
+        <span style="margin-left: 10px">{{ row.route_via_station }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -85,7 +87,7 @@ const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
 const { getRoute, postRouteCsvData, RouteDialogAddShow, RouteDialogEditShow, goToBusInfo } = MCompanyStore;
 
-const mrouteUploadChange = ( file: any, fileList: any ) => {
+const mrouteUploadChange = (file: any, fileList: any) => {
   const files = file.raw
   if (!/\.(csv|xls|xlsx)$/.test(files.name.toLowerCase())) {
     console.log("上傳格式不正確，請上傳csv、xls或者xlsx格式");
@@ -99,22 +101,22 @@ const mrouteUploadChange = ( file: any, fileList: any ) => {
     });
     const wsname = workbook.SheetNames[0];
     const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); // 得到的資料
-    postRouteCsvData({data: ws, postcount: 0})
+    postRouteCsvData({ data: ws, postcount: 0 })
   };
   fileReader.readAsBinaryString(files);
 }
 
 const exportRouteExcel = () => {
   let exportdataList = [['客運公司', '路線代碼', '路線', '經由站']]
-  for (let v of getData.value.getRouteData){
+  for (let v of getData.value.getRouteData) {
     let templist = [
       v['belong_company'],
-      v['route_no'], 
-      v['route_name'], 
-      v['route_via_station'], 
+      v['route_no'],
+      v['route_name'],
+      v['route_via_station'],
     ]
     exportdataList.push(templist)
-  } 
+  }
 
   let wb = XLSX.utils.book_new()
   let ws = XLSX.utils.aoa_to_sheet(exportdataList)
