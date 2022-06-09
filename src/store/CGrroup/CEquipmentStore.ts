@@ -26,7 +26,7 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
     getData: {
       equipmentData: {},
       filterEquipmentData: [],
-      platformData: []
+      platformData: [{uuid: 'null', platform_name: '無設定'}]
     },
     equipmentDialogFormData: {
       equipment_uuid: '',
@@ -118,7 +118,10 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
       axios.get(this.apiUrl.basePlatformUrl + this.apiUrl.getPlatformUrl)
         .then(response => {
           console.log('get platform data')
-          this.getData.platformData = response.data
+          this.getData.platformData = [{uuid: 'null', platform_name: '無設定'}]
+          for (let v of response.data){
+            this.getData.platformData.push(v)
+          }
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {

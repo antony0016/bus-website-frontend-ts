@@ -21,17 +21,16 @@ import MPlatformShow from "../../components/MGroup/MPlatform/MPlatformShow.vue"
 
 const PlatformStore = usePlatformStore();
 const { } = storeToRefs(PlatformStore);
-const { getPlatform, getEquipment } = PlatformStore;
+const { getPlatform, getDetailPlatform } = PlatformStore;
 
 const MCompanyStore = useMCompanyStore();
 const { } = storeToRefs(MCompanyStore);
-const { getCompany, getRoute } = MCompanyStore;
+const { getCompany } = MCompanyStore;
 
 const activeTab = ref('platforms')
 getPlatform({ getcount: 0 })
-getEquipment({ getcount: 0 })
+getDetailPlatform({ getcount: 0 })
 getCompany({ getcount: 0 })
-getRoute({ getcount: 0 })
 
 </script>
 

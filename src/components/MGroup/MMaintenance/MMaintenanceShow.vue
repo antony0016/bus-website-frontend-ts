@@ -105,14 +105,12 @@
           <el-button type="primary" @click="postBusShiftCsvChoice({data: row.route_uuid, weektype: 'WeekDay'})">假日班表匯入
           </el-button>
         </el-upload>
-        <el-container>
-          <el-button @click="exportMaintenanceExcel(row)">
-            匯出
-          </el-button>
-          <el-button @click="shiftDialogShow({data: row})">
-            班表
-          </el-button>
-        </el-container>
+        <el-button @click="exportMaintenanceExcel(row)">
+          匯出
+        </el-button>
+        <el-button @click="shiftDialogShow({data: row})">
+          班表
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
