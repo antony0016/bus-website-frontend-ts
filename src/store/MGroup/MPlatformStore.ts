@@ -53,8 +53,25 @@ const usePlatformStore = defineStore('MPlatformStore', {
   actions: {
     selectPlatform: function () {
       console.log(this.selectData.selectNowPlatform)
+      this.clearPlatformTable()
       this.getDetailPlatform({getcount:0})
       this.disableControl.choiceEquipment = false
+    },
+    clearPlatformTable: function () {
+      this.DetailPlatformData.uuid = ''
+      this.DetailPlatformData.platform_no = ''
+      this.DetailPlatformData.platform_name = ''
+      this.DetailPlatformData.platform_type = ''
+      this.DetailPlatformData.routes = Array['']
+      this.DetailPlatformData.Etag = ''
+      this.DetailPlatformData.Laser = ''
+      this.DetailPlatformData.Camera = ''
+      this.DetailPlatformData.Guide_Plate = ''
+      this.DetailPlatformData.People_Count = ''
+      this.selectData.selectPlatformCameraAccount = ''
+      this.selectData.selectPlatformCameraPassword = ''
+      this.selectData.selectPlatformPeopleCountAccount = ''
+      this.selectData.selectPlatformPeopleCountPassword = ''
     },
     getPlatform: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
