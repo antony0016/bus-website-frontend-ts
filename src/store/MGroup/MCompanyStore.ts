@@ -143,6 +143,8 @@ const useMCompanyStore = defineStore('MCompanyStore', {
               loginManagerStore.refreshToken()
               this.getCompany({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getCompanyNameData = [{ label: '全部', value: 'all' }]
+              this.getData.getCompanyData = []
               console.log('沒有權限')
             }
           } else {
@@ -334,6 +336,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
               loginManagerStore.refreshToken()
               this.getRoute({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getRouteData = []
               console.log('沒有權限')
             }
           } else {

@@ -150,6 +150,8 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               loginManagerStore.refreshToken()
               this.getCompany({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
+              this.getData.getCompanyData = []
               console.log('沒有權限')
             }
           } else {
@@ -177,6 +179,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               loginManagerStore.refreshToken()
               this.getRoute({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getRouteShiftData = []
               console.log('沒有權限')
             }
           } else {
@@ -220,6 +223,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               loginManagerStore.refreshToken()
               this.getBusShift({ getcount: payload.getcount + 1, routeData: payload.routeData, len: payload.len })
             } else {
+              this.getData.getRouteShiftData = []
               console.log('沒有權限')
             }
           } else {

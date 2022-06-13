@@ -1,6 +1,6 @@
 <template>
   <el-container class="button-gutter">
-    <el-button @click="CompanyDialogAddShow()">新增客運業者</el-button>
+    <el-button @click="CompanyDialogAddShow()" :disabled="buttonDisable.normalAdminDisable">新增客運業者</el-button>
     <el-upload
       class="upload"
       action=""
@@ -8,9 +8,9 @@
       :show-file-list="false"
       accept="csv"
       :on-change="mcompanyUploadChange">
-      <el-button type="primary">匯入</el-button>
+      <el-button type="primary" :disabled="buttonDisable.normalAdminDisable">匯入</el-button>
     </el-upload>
-    <el-button @click="exportCompanyExcel">匯出</el-button>
+    <el-button @click="exportCompanyExcel" :disabled="buttonDisable.normalAdminDisable">匯出</el-button>
   </el-container>
   <el-table
     :data="getData.getCompanyData"
@@ -109,10 +109,14 @@ import { ElMessageBox } from 'element-plus';
 import * as FileSaver from 'file-saver';
 import * as XLSX from "xlsx";
 import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
+import useLoginManagerStore from "../../../store/LoginManagerStore";
 
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
 const { postCompanyCsvData, CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute } = MCompanyStore;
+
+const loginManagerStore = useLoginManagerStore();
+const { buttonDisable } = storeToRefs(loginManagerStore);
 
 const mcompanyUploadChange = (file: any, fileList: any) => {
   const files = file.raw

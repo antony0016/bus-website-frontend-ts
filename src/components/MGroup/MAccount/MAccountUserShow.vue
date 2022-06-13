@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="addNewUserDialog()">新增使用者</el-button>
+  <el-button @click="addNewUserDialog()" :disabled="buttonDisable.superAdminDisable">新增使用者</el-button>
   <el-table
     :data="getData.getUserData"
     style="width: 100%"
@@ -57,11 +57,14 @@ import { ref, toRefs, reactive } from 'vue'
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from 'element-plus'
 import useMAccountStore from "../../../store/MGroup/MAccountStore";
+import useLoginManagerStore from "../../../store/LoginManagerStore";
 
 const MAccountStore = useMAccountStore();
 const { getData } = storeToRefs(MAccountStore);
 const { openUserEdit, addNewUserDialog } = MAccountStore;
 
+const loginManagerStore = useLoginManagerStore();
+const { buttonDisable } = storeToRefs(loginManagerStore);
 
 </script>
 

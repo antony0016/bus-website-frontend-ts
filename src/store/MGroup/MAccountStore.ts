@@ -160,6 +160,7 @@ const useMAccountStore = defineStore('MAccountStore', {
               loginManagerStore.refreshToken()
               this.getGroupName({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getGroupData = {}
               console.log('沒有權限')
             }
           } else {
@@ -275,6 +276,7 @@ const useMAccountStore = defineStore('MAccountStore', {
               loginManagerStore.refreshToken()
               this.getUser({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getUserData = []
               console.log('沒有權限')
             }
           } else {

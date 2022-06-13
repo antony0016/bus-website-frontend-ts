@@ -138,6 +138,8 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
               loginManagerStore.refreshToken()
               this.getCompany({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
+              this.getData.getCompanyData = []
               console.log('沒有權限')
             }
           } else {
@@ -176,6 +178,8 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
               loginManagerStore.refreshToken()
               this.getRoute({ getcount: payload.getcount + 1 , select: payload.select})
             } else {
+              this.getData.getRouteDataName = [{ label: '所有路線', value: 'all' }]
+              this.getData.getRouteData = []
               console.log('沒有權限')
             }
           } else {
@@ -201,6 +205,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
               loginManagerStore.refreshToken()
               this.getBus({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.getBusData = []
               console.log('沒有權限')
             }
           } else {

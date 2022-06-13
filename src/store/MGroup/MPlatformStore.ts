@@ -86,6 +86,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
               loginManagerStore.refreshToken()
               this.getPlatform({ getcount: payload.getcount + 1 })
             } else {
+              this.platformGetData.getPlatformData = []
               console.log('沒有權限')
             }
           } else {
@@ -122,6 +123,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
               loginManagerStore.refreshToken()
               this.getDetailPlatform({ getcount: payload.getcount + 1 })
             } else {
+              this.clearPlatformTable()
               console.log('沒有權限')
             }
           } else {
@@ -146,6 +148,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
               loginManagerStore.refreshToken()
               this.getPlatformEquipment({ postcount: payload.postcount + 1 })
             } else {
+              this.platformGetData.getEquipmentData = []
               console.log('沒有權限')
             }
           } else {
@@ -171,6 +174,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
               loginManagerStore.refreshToken()
               this.getSelectRoute({ getcount: payload.getcount + 1 })
             } else {
+              this.platformGetData.getCompanyRouteData = []
               console.log('沒有權限')
             }
           } else {

@@ -1,5 +1,5 @@
 <template>
-  <el-button text @click="dialogFormVisible = true">
+  <el-button text @click="dialogFormVisible = true" :disabled="buttonDisable.superAdminDisable">
     增加群組
   </el-button>
   <el-dialog 
@@ -49,10 +49,14 @@ import { ref, toRefs, reactive } from 'vue'
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from 'element-plus'
 import useMAccountStore from "../../../store/MGroup/MAccountStore";
+import useLoginManagerStore from "../../../store/LoginManagerStore";
 
 const MAccountStore = useMAccountStore();
 const { DialogForm, GroupTypeSelections, PermissionSelections } = storeToRefs(MAccountStore);
 const { dialogClear, postGroupName } = MAccountStore;
+
+const loginManagerStore = useLoginManagerStore();
+const { buttonDisable } = storeToRefs(loginManagerStore);
 
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'

@@ -106,6 +106,9 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
               loginManagerStore.refreshToken()
               this.getEquipmentType({ getcount: payload.getcount + 1 })
             } else {
+              this.selectItem = [
+                { type_id: '', type_name: '', type_ch_name: '' }
+              ]
               console.log('沒有權限')
             }
           } else {
@@ -129,6 +132,7 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
               loginManagerStore.refreshToken()
               this.getPlatform({ getcount: payload.getcount + 1 })
             } else {
+              this.getData.platformData = [{uuid: 'null', platform_name: '無設定'}]
               console.log('沒有權限')
             }
           } else {

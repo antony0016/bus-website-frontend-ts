@@ -18,7 +18,13 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
     address: {
       get_token: 'http://localhost:8000/token/',
       refresh_token: 'http://localhost:8000/token/refresh/',
+      get_user_type: 'http://127.0.0.1:8000/api/roletest/view_user_type/'
     },
+    buttonDisable: {
+      superAdminDisable: true,
+      normalAdminDisable: true,
+      userDisable: true
+    }
   }),
   getters: {
     loggedIn: function (state) {
@@ -44,6 +50,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
           // send logging message
           console.log('login!', this.loggedIn);
+          this.checkUserType()
           // go to home page
           router.push('/').then(r => r);
         })
@@ -72,7 +79,28 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
         .catch(error => {
           console.log(error)
         })
-    }
+    },
+    checkUserType: function () {
+      axios.get(this.address.get_user_type)
+        .then(response => {
+          if (response.data == 'Administartor'){
+            this.buttonDisable.superAdminDisable = false
+            this.buttonDisable.normalAdminDisable = false
+            this.buttonDisable.userDisable = false
+          }else if (response.data == 'Manager'){
+            this.buttonDisable.superAdminDisable = true
+            this.buttonDisable.normalAdminDisable = false
+            this.buttonDisable.userDisable = false
+          }else{
+            this.buttonDisable.superAdminDisable = true
+            this.buttonDisable.normalAdminDisable = true
+            this.buttonDisable.userDisable = false
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
   }
 })
 
