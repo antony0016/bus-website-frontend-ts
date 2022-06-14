@@ -112,18 +112,6 @@ const { } = MCompanyStore;
 
 const formLabelWidth = '150px'
 
-const testAntenna = [
-  {name: '天線1', value: 'antenna1'},
-  {name: '天線2', value: 'antenna2'},
-  {name: '天線3', value: 'antenna3'},
-]
-
-const testDirection = [
-  {name: '方向1', value: 'direction1'},
-  {name: '方向2', value: 'direction2'},
-  {name: '方向3', value: 'direction3'},
-]
-
 </script>
 
 <style scoped>
