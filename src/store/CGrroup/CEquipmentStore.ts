@@ -5,7 +5,7 @@ import useLoginManagerStore from "../LoginManagerStore";
 
 const useCEquipmentStore = defineStore('CEquipmentStore', {
   state: () => ({
-    equipmentSelect: 'Etag',
+    equipmentSelect: 'Camera',
     selectItem: [
       { type_id: '', type_name: '', type_ch_name: '' },
     ],
@@ -239,6 +239,13 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
     filterEquipment: function () {
       this.getData.filterEquipmentData = this.getData.equipmentData[this.equipmentSelect]
       console.log(this.getData.filterEquipmentData)
+    },
+    changeSelectPlatform: function () {
+      if (this.equipmentDialogFormData.belong_platform == 'null'){
+        this.equipmentDialogFormData.equipment_state = '未連接'
+      }else{
+        this.equipmentDialogFormData.equipment_state = '連接中'
+      }
     }
   }
 })

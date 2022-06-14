@@ -15,6 +15,16 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="所屬月台" :label-width="formLabelWidth">
+        <el-select v-model="equipmentDialogFormData.belong_platform" filterable placeholder="請選擇" @change="changeSelectPlatform()">
+          <el-option
+            v-for="v of getData.platformData"
+            :key="v['uuid']"
+            :label="v['platform_name']"
+            :value="v['uuid']">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="設備編號" :label-width="formLabelWidth">
         <el-input v-model="equipmentDialogFormData.equipment_no" autocomplete="off"/>
       </el-form-item>
@@ -32,16 +42,6 @@
       </el-form-item>
       <el-form-item label="設備密碼" :label-width="formLabelWidth">
         <el-input  type="password" v-model="equipmentDialogFormData.equipment_password" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="所屬月台" :label-width="formLabelWidth">
-        <el-select v-model="equipmentDialogFormData.belong_platform" filterable placeholder="請選擇">
-          <el-option
-            v-for="v of getData.platformData"
-            :key="v['uuid']"
-            :label="v['platform_name']"
-            :value="v['uuid']">
-          </el-option>
-        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -68,7 +68,7 @@ import useCEquipmentStore from "../../../store/CGrroup/CEquipmentStore";
 
 const CEquipmentStore = useCEquipmentStore();
 const { selectItem, getData, dialogVisible, equipmentDialogFormData } = storeToRefs(CEquipmentStore);
-const { equipmentDialogClear, postEquipment, putEquipment } = CEquipmentStore;
+const { equipmentDialogClear, postEquipment, putEquipment, changeSelectPlatform } = CEquipmentStore;
 
 const formLabelWidth = '50px'
 

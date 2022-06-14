@@ -7,7 +7,8 @@
       :multiple="false"
       :show-file-list="false"
       accept="csv"
-      :on-change="mcompanyUploadChange">
+      :on-change="mcompanyUploadChange"
+      :disabled="buttonDisable.normalAdminDisable">
       <el-button type="primary" :disabled="buttonDisable.normalAdminDisable">匯入</el-button>
     </el-upload>
     <el-button @click="exportCompanyExcel" :disabled="buttonDisable.normalAdminDisable">匯出</el-button>

@@ -1,5 +1,5 @@
 <template>
-  <simple-card title="音訊片段">
+  <simple-card title="播放紀錄">
     <template #title>
       <span>yeah</span>
     </template>

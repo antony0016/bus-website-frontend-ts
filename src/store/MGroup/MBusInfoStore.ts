@@ -43,7 +43,6 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       belong_route: '',
       bus_no: '',
       bus_status: '',
-      bus_etag: '',
       bus_note: '',
       bus_type: '',
     },
@@ -81,7 +80,6 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
     busDialogClear: function () {
       this.busDialogForm.belong_company = ''
       this.busDialogForm.belong_route = ''
-      this.busDialogForm.bus_etag = ''
       this.busDialogForm.bus_no = ''
       this.busDialogForm.bus_note = ''
       this.busDialogForm.bus_status = ''
@@ -99,7 +97,6 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       console.log(payload.data)
       this.busDialogForm.belong_company = payload.data['belong_company_uuid']
       this.busDialogForm.belong_route = payload.data['belong_route']
-      this.busDialogForm.bus_etag = payload.data['bus_etag']
       this.busDialogForm.bus_no = payload.data['bus_no']
       this.busDialogForm.bus_note = payload.data['bus_note']
       this.busDialogForm.bus_status = payload.data['bus_status']
@@ -218,7 +215,6 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       axios.post(this.apiUrl.busBaseUrl + this.apiUrl.busPostUrl, {
         data: {
           belong_route: this.busDialogForm.belong_route,
-          bus_etag: this.busDialogForm.bus_etag,
           bus_no: this.busDialogForm.bus_no,
           bus_note: this.busDialogForm.bus_note,
           bus_status: this.busDialogForm.bus_status,
@@ -251,7 +247,6 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
         data: {
           id: this.busDialogForm.uuid,
           belong_route: this.busDialogForm.belong_route,
-          bus_etag: this.busDialogForm.bus_etag,
           bus_no: this.busDialogForm.bus_no,
           bus_note: this.busDialogForm.bus_note,
           bus_status: this.busDialogForm.bus_status,

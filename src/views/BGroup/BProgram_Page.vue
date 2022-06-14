@@ -1,5 +1,5 @@
 <template>
-  <simple-card title="語音程序編排">
+  <simple-card title="程序設定">
     <template #title>
       <span>yeah</span>
     </template>

@@ -54,15 +54,6 @@
       </template>
     </el-table-column>
     <el-table-column
-      prop="bus_etag"
-      label="etag"
-      width="180"
-      sortable>
-      <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.bus_etag }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
       prop="bus_status"
       label="狀態"
       width="180"

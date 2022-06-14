@@ -28,7 +28,7 @@ import CRecord from '../views/CGroup/CRecord_Page.vue';
 
 //BGroup
 import BInStream from '../views/BGroup/BInStream_Page.vue';
-import BPart from '../views/BGroup/BPart_Page.vue';
+import BRecord from '../views/BGroup/BRecord_Page.vue';
 import BProgram from '../views/BGroup/BProgram_Page.vue';
 import BSchedule from '../views/BGroup/BSchedule_Page.vue';
 
@@ -202,9 +202,9 @@ const routes = [
     }
   },
   {
-    path: "/BPart",
-    name: "BPart",
-    component: BPart,
+    path: "/BRecord",
+    name: "BRecord",
+    component: BRecord,
     meta: {
       requiredAuth: true,
     }

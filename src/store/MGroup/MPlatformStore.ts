@@ -30,18 +30,10 @@ const usePlatformStore = defineStore('MPlatformStore', {
       platform_name: '',
       platform_type: '',
       routes: Array[''],
-      Etag: '',
-      Laser: '',
       Camera: '',
-      Guide_Plate: '',
-      People_Count: '',
     },
     selectData: {
       selectNowPlatform: '',
-      selectPlatformEtagAntenna: '',
-      selectPlatformPeopleCountAccount: '',
-      selectPlatformPeopleCountPassword: '',
-      selectPlatformDirection: '',
       selectPlatformCameraAccount: '',
       selectPlatformCameraPassword: '',
       selectPlatformCompany: '',
@@ -63,15 +55,9 @@ const usePlatformStore = defineStore('MPlatformStore', {
       this.DetailPlatformData.platform_name = ''
       this.DetailPlatformData.platform_type = ''
       this.DetailPlatformData.routes = Array['']
-      this.DetailPlatformData.Etag = ''
-      this.DetailPlatformData.Laser = ''
       this.DetailPlatformData.Camera = ''
-      this.DetailPlatformData.Guide_Plate = ''
-      this.DetailPlatformData.People_Count = ''
       this.selectData.selectPlatformCameraAccount = ''
       this.selectData.selectPlatformCameraPassword = ''
-      this.selectData.selectPlatformPeopleCountAccount = ''
-      this.selectData.selectPlatformPeopleCountPassword = ''
     },
     getPlatform: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
@@ -109,13 +95,8 @@ const usePlatformStore = defineStore('MPlatformStore', {
           this.DetailPlatformData.platform_name = response.data['platform_name']
           this.DetailPlatformData.platform_type = response.data['platform_type']
           this.DetailPlatformData.routes = response.data['routes']
-          this.DetailPlatformData.Etag = response.data['equipments']['Etag']
-          this.DetailPlatformData.Laser = response.data['equipments']['Laser']
           this.DetailPlatformData.Camera = response.data['equipments']['Camera']
-          this.DetailPlatformData.Guide_Plate = response.data['equipments']['Guide_Plate']
-          this.DetailPlatformData.People_Count = response.data['equipments']['People_Count']
           this.selectData.selectPlatformCameraAccount = response.data['equipments']['Camera_Account']
-          this.selectData.selectPlatformPeopleCountAccount = response.data['equipments']['People_Count_Account']
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -141,6 +122,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
         .then(response => {
           console.log('get equipment data')
           this.platformGetData.getEquipmentData = response.data
+          console.log(this.platformGetData.getEquipmentData)
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -202,13 +184,7 @@ const usePlatformStore = defineStore('MPlatformStore', {
           platformNo: this.DetailPlatformData.platform_no,
           platformName: this.DetailPlatformData.platform_name,
           routes: this.DetailPlatformData.routes,
-          etag: this.DetailPlatformData.Etag,
-          laser: this.DetailPlatformData.Laser,
           camera: this.DetailPlatformData.Camera,
-          guidePlate: this.DetailPlatformData.Guide_Plate,
-          peopleCount: this.DetailPlatformData.People_Count,
-          peopleCount_account: this.selectData.selectPlatformPeopleCountAccount,
-          peopleCount_password: this.selectData.selectPlatformPeopleCountPassword,
           camera_account: this.selectData.selectPlatformCameraAccount,
           camera_password: this.selectData.selectPlatformCameraPassword,
         }
@@ -229,6 +205,14 @@ const usePlatformStore = defineStore('MPlatformStore', {
             console.log(error)
           }
         })
+    },
+    changeCamera: function () {
+      for (let v of this.platformGetData.getEquipmentData['Camera']){
+        if (this.DetailPlatformData.Camera == v['uuid']){
+          this.selectData.selectPlatformCameraAccount = v.equipment_account
+        }
+      }
+      
     }
   }
 })

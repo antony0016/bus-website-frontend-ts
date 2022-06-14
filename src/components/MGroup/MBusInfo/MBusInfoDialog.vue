@@ -28,9 +28,6 @@
       <el-form-item label="車號" :label-width="formLabelWidth">
         <el-input v-model="busDialogForm.bus_no" autocomplete="off"/>
       </el-form-item>
-      <el-form-item label="etag" :label-width="formLabelWidth">
-        <el-input v-model="busDialogForm.bus_etag" autocomplete="off"/>
-      </el-form-item>
       <el-form-item label="狀態" :label-width="formLabelWidth">
         <el-input v-model="busDialogForm.bus_status" autocomplete="off"/>
       </el-form-item>

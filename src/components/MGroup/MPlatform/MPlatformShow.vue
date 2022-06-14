@@ -10,61 +10,8 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="設定 ETAG READER">
-      <el-select v-model="DetailPlatformData.Etag" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
-        <el-option
-          v-for="item in platformGetData.getEquipmentData['Etag']"
-          :key="item['uuid']"
-          :label="item['equipment_name']"
-          :value="item['uuid']"
-          :disabled="item['disable']">
-        </el-option>
-      </el-select>
-      <el-select v-model="selectData.selectPlatformEtagAntenna" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
-        <el-option
-          v-for="item in testAntenna"
-          :key="item['value']"
-          :label="item['name']"
-          :value="item['value']">
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="設定人潮計數器" :label-width="formLabelWidth">
-      <el-select v-model="DetailPlatformData.People_Count" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
-        <el-option
-          v-for="item in platformGetData.getEquipmentData['People_Count']"
-          :key="item['uuid']"
-          :label="item['equipment_name']"
-          :value="item['uuid']"
-          :disabled="item['disable']">
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="設定人潮計數器帳密" :label-width="formLabelWidth">
-      帳號<el-input v-model="selectData.selectPlatformPeopleCountAccount" autocomplete="off" :disabled="disableControl.choiceEquipment"/>
-      密碼<el-input v-model="selectData.selectPlatformPeopleCountPassword" type="password" autocomplete="off" :disabled="disableControl.choiceEquipment"/>
-    </el-form-item>
-    <el-form-item label="設定雷射感應裝置" :label-width="formLabelWidth">
-      <el-select v-model="DetailPlatformData.Laser" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
-        <el-option
-          v-for="item in platformGetData.getEquipmentData['Laser']"
-          :key="item['uuid']"
-          :label="item['equipment_name']"
-          :value="item['uuid']"
-          :disabled="item['disable']">
-        </el-option>
-      </el-select>
-      <el-select v-model="selectData.selectPlatformDirection" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
-        <el-option
-          v-for="item in testDirection"
-          :key="item['value']"
-          :label="item['name']"
-          :value="item['value']">
-        </el-option>
-      </el-select>
-    </el-form-item>
     <el-form-item label="設定 IP CAM" :label-width="formLabelWidth">
-      <el-select v-model="DetailPlatformData.Camera" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
+      <el-select v-model="DetailPlatformData.Camera" filterable placeholder="請選擇" @change="changeCamera()" :disabled="disableControl.choiceEquipment">
         <el-option
           v-for="item in platformGetData.getEquipmentData['Camera']"
           :key="item['uuid']"
@@ -78,17 +25,7 @@
       帳號<el-input v-model="selectData.selectPlatformCameraAccount" autocomplete="off" :disabled="disableControl.choiceEquipment"/>
       密碼<el-input v-model="selectData.selectPlatformCameraPassword" type="password" autocomplete="off" :disabled="disableControl.choiceEquipment"/>
     </el-form-item>
-    <el-form-item label="設定導影看板" :label-width="formLabelWidth">
-      <el-select v-model="DetailPlatformData.Guide_Plate" filterable placeholder="請選擇" :disabled="disableControl.choiceEquipment">
-        <el-option
-          v-for="item in platformGetData.getEquipmentData['Guide_Plate']"
-          :key="item['uuid']"
-          :label="item['equipment_name']"
-          :value="item['uuid']"
-          :disabled="item['disable']">
-        </el-option>
-      </el-select>
-    </el-form-item>
+    
     <el-form-item label="選擇客運業者" :label-width="formLabelWidth">
       <el-select v-model="selectData.selectPlatformCompany" filterable placeholder="請選擇" @change="getSelectRoute({getcount:0}); selectData.selectPlatformRoute=''" :disabled="disableControl.choiceEquipment">
         <el-option
@@ -167,7 +104,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const PlatformStore = usePlatformStore();
 const { platformGetData, DetailPlatformData, selectData, disableControl } = storeToRefs(PlatformStore);
-const { getSelectRoute, selectPlatform, addPlatformRoute, deletePlatformRoute, submitPlatformData } = PlatformStore;
+const { getSelectRoute, selectPlatform, addPlatformRoute, deletePlatformRoute, submitPlatformData, changeCamera } = PlatformStore;
 
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);

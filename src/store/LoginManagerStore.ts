@@ -5,6 +5,11 @@ import Vue from "vue";
 import useViewControllerStore from "../store/ViewControllerStore";
 import { useStorage } from '@vueuse/core'
 
+import useMCompanyStore from "./MGroup/MCompanyStore";
+import useMBusInfoStore from "./MGroup/MBusInfoStore";
+import useMMaintenanceStore from "./MGroup/MMaintenanceStore";
+import usePlatformStore from "./MGroup/MPlatformStore";
+
 const useLoginManagerStore = defineStore('LoginManagerStore', {
   state: () => ({
     user: {
@@ -64,6 +69,15 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
       this.user.username = ''
       this.user.password = ''
       console.log('logout', this.loggedIn)
+      const MCompanyStore = useMCompanyStore()
+      MCompanyStore.getData.RouteCompanySelect = 'all'
+      const MBusInfoStore = useMBusInfoStore()
+      MBusInfoStore.filterData.selectCompany = 'all'
+      MBusInfoStore.filterData.selectRoute = 'all'
+      const MMaintenanceStore = useMMaintenanceStore()
+      MMaintenanceStore.filterData.selectCompany = 'all'
+      const PlatformStore = usePlatformStore()
+      PlatformStore.selectData.selectNowPlatform = ''
       // go to login page
       router.push('/login')
     },
@@ -83,11 +97,11 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
     checkUserType: function () {
       axios.get(this.address.get_user_type)
         .then(response => {
-          if (response.data == 'Administartor'){
+          if (response.data['UserType'] == 'Administartor'){
             this.buttonDisable.superAdminDisable = false
             this.buttonDisable.normalAdminDisable = false
             this.buttonDisable.userDisable = false
-          }else if (response.data == 'Manager'){
+          }else if (response.data['UserType'] == 'Manager'){
             this.buttonDisable.superAdminDisable = true
             this.buttonDisable.normalAdminDisable = false
             this.buttonDisable.userDisable = false
@@ -96,6 +110,15 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
             this.buttonDisable.normalAdminDisable = true
             this.buttonDisable.userDisable = false
           }
+          
+          const viewControllerStore = useViewControllerStore();
+          for (let v of viewControllerStore.sideMenuItems) {
+            for (let sv of v.subMenu){
+              let a = Object.fromEntries(Object.entries(response.data['Permissions']).filter(([k, v]) => k == sv.id))
+              sv.isShow = a[sv.id]
+            }
+          }
+          console.log(viewControllerStore.sideMenuItems)
         })
         .catch(error => {
           console.log(error)

@@ -1,5 +1,5 @@
 <template>
-  <simple-card title="車務自動插播">
+  <simple-card title="自動插播">
     <template #title>
       <span>yeah</span>
     </template>
