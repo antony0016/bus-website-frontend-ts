@@ -16,6 +16,7 @@ const useBProgramStore = defineStore('BProgramStore', {
       postProgramUrl: 'add_program/',
       putProgramUrl: 'update_program/',
       deleteProgramUrl: 'delete_program/',
+      fileUploadUrl: 'file_upload/',
     },
     dialogSetting: {
       visable: false,
@@ -29,7 +30,8 @@ const useBProgramStore = defineStore('BProgramStore', {
       program_name: '',
       program_content_type: '',
       program_content_text: '',
-      program_content_file: '',
+      program_content_file: new FormData(),
+      uploadFileList: []
     }
   }),
   getters: {},
@@ -42,17 +44,18 @@ const useBProgramStore = defineStore('BProgramStore', {
       this.dialogSetting.program_name = ''
       this.dialogSetting.program_content_type = ''
       this.dialogSetting.program_content_text = ''
-      this.dialogSetting.program_content_file = ''
+      this.dialogSetting.program_content_file = new FormData()
+      this.dialogSetting.uploadFileList = []
     },
     contentTypeSelect: function () {
       if (this.dialogSetting.program_content_type == 'Text'){
         this.dialogSetting.program_content_text = ''
-        this.dialogSetting.program_content_file = ''
+        this.dialogSetting.program_content_file = new FormData()
         this.dialogSetting.contentTypeText = true
         this.dialogSetting.contentTypeFile = false
       }else{
         this.dialogSetting.program_content_text = ''
-        this.dialogSetting.program_content_file = ''
+        this.dialogSetting.program_content_file = new FormData()
         this.dialogSetting.contentTypeText = false
         this.dialogSetting.contentTypeFile = true
       }
@@ -74,12 +77,12 @@ const useBProgramStore = defineStore('BProgramStore', {
       this.dialogSetting.program_type_ch = payload.data['program_type_ch']
       this.dialogSetting.program_name = payload.data['program_name']
       this.dialogSetting.program_content_type = payload.data['program_content_type']
-      if (payload.data['program_type'] == 'Text'){
-        this.dialogSetting.contentTypeText = false
-        this.dialogSetting.contentTypeFile = true
-      }else{
+      if (payload.data['program_content_type'] == 'Text'){
         this.dialogSetting.contentTypeText = true
         this.dialogSetting.contentTypeFile = false
+      }else{
+        this.dialogSetting.contentTypeText = false
+        this.dialogSetting.contentTypeFile = true
       }
       this.dialogSetting.program_content_text = payload.data['program_content_text']
       this.dialogSetting.program_content_file = payload.data['program_content_file']
@@ -130,19 +133,24 @@ const useBProgramStore = defineStore('BProgramStore', {
         })
     },
     addProgram: function (payload: { postcount: number }) {
-      const loginManagerStore = useLoginManagerStore();    
-      axios.post(this.apiUrl.baseProgramUrl + this.apiUrl.postProgramUrl, {
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.apiUrl.baseProgramUrl + this.apiUrl.postProgramUrl, 
+        {
         data: {
           program_type_uuid: this.dialogSetting.program_type_uuid,
           program_name: this.dialogSetting.program_name,
           program_content_type: this.dialogSetting.program_content_type,
           program_content_text: this.dialogSetting.program_content_text,
-          program_content_file: this.dialogSetting.program_content_file,
+          }
         }
-      })
+      )
         .then(response => {
           console.log('post program data')
           this.getProgram({ getcount: 0 })
+          if (this.dialogSetting.program_content_type == 'File'){
+            this.dialogSetting.program_uuid = response.data
+            this.fileUploadProgram({putcount:0})
+          }
           this.dialogClear()
         })
         .catch(error => {
@@ -169,12 +177,14 @@ const useBProgramStore = defineStore('BProgramStore', {
           program_name: this.dialogSetting.program_name,
           program_content_type: this.dialogSetting.program_content_type,
           program_content_text: this.dialogSetting.program_content_text,
-          program_content_file: this.dialogSetting.program_content_file,
         }
       })
         .then(response => {
           console.log('put program data')
           this.getProgram({ getcount: 0 })
+          if (this.dialogSetting.program_content_type == 'File'){
+            this.fileUploadProgram({putcount:0})
+          }
           this.dialogClear()
         })
         .catch(error => {
@@ -209,6 +219,28 @@ const useBProgramStore = defineStore('BProgramStore', {
             if (payload.deletecount < 6) {
               loginManagerStore.refreshToken()
               this.deleteProgram({ deletecount: payload.deletecount + 1, id: payload.id })
+            } else {
+              console.log('沒有權限')
+              this.dialogClear()
+            }
+          } else {
+            console.log(error)
+            this.dialogClear()
+          }
+        })
+    },
+    fileUploadProgram: function (payload: { putcount: number }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.put(this.apiUrl.baseProgramUrl + this.dialogSetting.program_uuid + '/' + this.apiUrl.fileUploadUrl, this.dialogSetting.program_content_file)
+        .then(response => {
+          console.log('put file data')
+          this.getProgram({ getcount: 0 })
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.putcount < 6) {
+              loginManagerStore.refreshToken()
+              this.fileUploadProgram({ putcount: payload.putcount + 1 })
             } else {
               console.log('沒有權限')
               this.dialogClear()

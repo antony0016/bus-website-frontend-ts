@@ -35,7 +35,17 @@
         <el-input v-model="dialogSetting.program_content_text" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="檔案上傳" :label-width="formLabelWidth" v-show="dialogSetting.contentTypeFile">
-        <el-input v-model="dialogSetting.program_content_file" autocomplete="off"/>
+        <el-upload
+          action=""
+          :file-list="dialogSetting.uploadFileList"
+          :limit="1"
+          :http-request="httpRequestHandler"
+          :on-remove="handleRemove"
+          :on-change="handleChange"
+          :before-upload="beforeAvatarUpload"
+        >
+          <el-button type="primary">上傳</el-button>
+        </el-upload>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -80,6 +90,51 @@ const handleClose = (done: () => void) => {
       // catch error
     })
 }
+
+const beforeAvatarUpload = (file: any, fileList: any) => {
+  console.log('file', file)
+  console.log('file_list', dialogSetting.value.uploadFileList)
+  // 文件類型判斷
+  console.log('file', file.name.substring(file.name.length - 3))
+  // const isAudio = file.type === 'audio/mp3' || file.type === 'audio/mpeg'
+  let isAudio = false
+  if (file.name.substring(file.name.length - 3) === 'mp3' || 
+      file.name.substring(file.name.length - 3) === 'mp4'){
+    isAudio = true
+  }
+  console.log('isAudio', isAudio)
+  // 限制上傳文件大小 50M
+  const isLt2M = file.size / 1024 / 1024 < 50
+  if (!isAudio) {
+    console.log('上船文件格式只能是mp3或mp4')
+    fileList = []
+  } else {
+    if (!isLt2M) {
+      console.log('上傳文件大小不可超過50M')
+      fileList = []
+    }
+  }
+  return isAudio && isLt2M
+}
+
+const handleChange = (file: any, fileList: any) => {
+  
+}
+const handleRemove = (file: any, fileList: any) => {
+  dialogSetting.value.program_content_file = new FormData()
+  dialogSetting.value.uploadFileList = []
+  console.log('已刪除文件')
+}
+
+const httpRequestHandler = (res: any) => {
+  console.log('res', res)
+  let fd = new FormData()
+  fd.append('file', res.file, res.filename)
+  dialogSetting.value.program_content_file = fd
+  console.log(dialogSetting.value.program_content_file)
+  console.log('文件上傳成功')
+}
+
 
 </script>
 
