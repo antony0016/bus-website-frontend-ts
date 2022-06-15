@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import router from "../router";
 import axios from "../axios";
-import Vue from "vue";
 import useViewControllerStore from "../store/ViewControllerStore";
 import { useStorage } from '@vueuse/core'
 
@@ -61,6 +60,9 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
         })
         .catch(error => {
           console.log(error)
+          this.token.access = ''
+          this.token.refresh = ''
+          router.push('/login')
         })
     },
     logout: function () {
@@ -92,29 +94,32 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
         })
         .catch(error => {
           console.log(error)
+          this.token.access = ''
+          this.token.refresh = ''
+          router.push('/login')
         })
     },
     checkUserType: function () {
       axios.get(this.address.get_user_type)
         .then(response => {
-          if (response.data['UserType'] == 'Administartor'){
+          if (response.data['UserType'] == 'Administartor') {
             this.buttonDisable.superAdminDisable = false
             this.buttonDisable.normalAdminDisable = false
             this.buttonDisable.userDisable = false
-          }else if (response.data['UserType'] == 'Manager'){
+          } else if (response.data['UserType'] == 'Manager') {
             this.buttonDisable.superAdminDisable = true
             this.buttonDisable.normalAdminDisable = false
             this.buttonDisable.userDisable = false
-          }else{
+          } else {
             this.buttonDisable.superAdminDisable = true
             this.buttonDisable.normalAdminDisable = true
             this.buttonDisable.userDisable = false
           }
-          
+
           const viewControllerStore = useViewControllerStore();
           for (let v of viewControllerStore.sideMenuItems) {
-            for (let sv of v.subMenu){
-              let a = Object.fromEntries(Object.entries(response.data['Permissions']).filter(([k, v]) => k == sv.id))
+            for (let sv of v.subMenu) {
+              let a = Object.fromEntries(Object.entries(response.data['Permissions']).filter(([k]) => k == sv.id))
               sv.isShow = a[sv.id]
             }
           }
