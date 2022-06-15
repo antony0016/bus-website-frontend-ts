@@ -1,6 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
 import useLoginManagerStore from "../store/LoginManagerStore";
-import routes from "./routes";
+
+
+import BRoutes from "./routes/BRoutes";
+import MRoutes from "./routes/MRoutes";
+import CRoutes from "./routes/CRoutes";
+import UnitTestRoutes from "./routes/UnitTest";
+import Login from "../views/Login.vue";
+import NotFound from "../views/NotFound.vue";
+
+const routes = [
+  ...BRoutes,
+  ...CRoutes,
+  ...MRoutes,
+  ...UnitTestRoutes,
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound
+  },
+]
 
 const router = createRouter({
   routes: routes,
@@ -17,7 +41,7 @@ router.beforeEach((to, from, next) => {
       next({ path: "/" });
     } else {
       next();
-    } 
+    }
   }
 })
 
