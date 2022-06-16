@@ -1,18 +1,18 @@
 <template>
-  <el-card>
-    <template v-slot:header>
-      <div class="simple-card-title">
-        <!-- Don't use props and slot at the same time -->
-        <span v-if="title">{{ title }}</span>
-        <slot v-if="!title" name="title"/>
-      </div>
-    </template>
-    <el-row :justify="justify?justify:'start'">
-      <el-col :span="span?span:24">
+  <el-row :justify="justify?justify:'start'">
+    <el-col :span="span?span:24">
+      <el-card>
+        <template v-slot:header>
+          <div class="simple-card-title">
+            <!-- Don't use props and slot at the same time -->
+            <span v-if="title">{{ title }}</span>
+            <slot v-if="!title" name="title"/>
+          </div>
+        </template>
         <slot/>
-      </el-col>
-    </el-row>
-  </el-card>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>
 
 <script setup lang="ts">
