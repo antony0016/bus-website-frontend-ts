@@ -6,7 +6,7 @@
     :data="getData.programData"
     id="program_table"
     style="width: 100%"
-    :default-sort="{prop: 'belong_company', order: 'ascending'}">
+    :default-sort="{prop: 'program_type', order: 'ascending'}">
     <el-table-column
       prop="program_type"
       label="類別"
