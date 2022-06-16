@@ -42,6 +42,7 @@
           :http-request="httpRequestHandler"
           :on-remove="handleRemove"
           :on-change="handleChange"
+          :on-preview="handlePreview"
           :before-upload="beforeAvatarUpload"
         >
           <el-button type="primary">上傳</el-button>
@@ -125,13 +126,17 @@ const handleRemove = (file: any, fileList: any) => {
   dialogSetting.value.uploadFileList = []
   console.log('已刪除文件')
 }
+const handlePreview = (file: any, fileList: any) => {
+  console.log(file)
+}
 
 const httpRequestHandler = (res: any) => {
   console.log('res', res)
   let fd = new FormData()
-  fd.append('file', res.file, res.filename)
+  fd.append('file', res.file)
   dialogSetting.value.program_content_file = fd
   console.log(dialogSetting.value.program_content_file)
+  console.log(dialogSetting.value.program_content_file.get('file'))
   console.log('文件上傳成功')
 }
 

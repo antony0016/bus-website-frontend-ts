@@ -31,7 +31,7 @@ const useBProgramStore = defineStore('BProgramStore', {
       program_content_type: '',
       program_content_text: '',
       program_content_file: new FormData(),
-      uploadFileList: []
+      uploadFileList: String['']
     }
   }),
   getters: {},
@@ -45,7 +45,7 @@ const useBProgramStore = defineStore('BProgramStore', {
       this.dialogSetting.program_content_type = ''
       this.dialogSetting.program_content_text = ''
       this.dialogSetting.program_content_file = new FormData()
-      this.dialogSetting.uploadFileList = []
+      this.dialogSetting.uploadFileList = String['']
     },
     contentTypeSelect: function () {
       if (this.dialogSetting.program_content_type == 'Text'){
@@ -80,12 +80,19 @@ const useBProgramStore = defineStore('BProgramStore', {
       if (payload.data['program_content_type'] == 'Text'){
         this.dialogSetting.contentTypeText = true
         this.dialogSetting.contentTypeFile = false
+        this.dialogSetting.program_content_text = payload.data['program_content_text']
       }else{
         this.dialogSetting.contentTypeText = false
         this.dialogSetting.contentTypeFile = true
+        this.dialogSetting.program_content_text = payload.data['program_content_text']
+        this.dialogSetting.uploadFileList = [{
+          name: payload.data['program_content_file_name'],
+          url:payload.data['program_content_file']
+        }]
+        const test = new Blob([payload.data['program_content_file']], {type: 'audio/mpeg'})
+        this.dialogSetting.program_content_file.append('file', test, payload.data['program_content_file_name'])
+        console.log(this.dialogSetting.program_content_file.get('file'))
       }
-      this.dialogSetting.program_content_text = payload.data['program_content_text']
-      this.dialogSetting.program_content_file = payload.data['program_content_file']
       this.dialogSetting.visable = true
       this.dialogSetting.addEditChange = true
     },
