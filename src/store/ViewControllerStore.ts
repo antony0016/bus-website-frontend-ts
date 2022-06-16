@@ -19,7 +19,7 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
             {
                 id: Env.barItemIds.unitTest, subMenu: [
                     { isShow: true, name: 'TTS', to: '/TTS', id: 'UnitTest-TTS' },
-                    { isShow: true, name: 'MXStream', to: '/MXStream', id: 'UnitTest-MXStream' },
+                    { isShow: true, name: 'NXStream', to: '/NXStream', id: 'UnitTest-NXStream' },
                     { isShow: true, name: 'InAndOut', to: '/InAndOut', id: 'UnitTest-InAndOut' },
                 ],
             },

@@ -1,6 +1,10 @@
 <template>
   <simple-card title="即時運作圖控">
-    <img src="../../assets/controlimage.png">
+    <el-row justify="center">
+      <el-col :span="16">
+        <img alt="儀控介面" id="bus_plat" src="../../assets/control_image.png">
+      </el-col>
+    </el-row>
   </simple-card>
 </template>
 
@@ -8,5 +12,7 @@
 </script>
 
 <style scoped>
-
+#bus_plat {
+  width: 100%;
+}
 </style>
