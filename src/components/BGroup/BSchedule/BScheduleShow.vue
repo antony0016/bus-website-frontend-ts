@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="">
+  <el-button @click="dialogAddShow()">
     新增
   </el-button>
   <el-table
@@ -69,7 +69,8 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.schedule_is_cycle }}</span>
+        <span style="margin-left: 10px" v-if="row.schedule_is_cycle == true">是</span>
+        <span style="margin-left: 10px" v-else-if="row.schedule_is_cycle == false">否</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -78,12 +79,20 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.schedule_cycle_type }}{{ row.schedule_cycle_day }}</span>
+        <span style="margin-left: 10px" v-if="row.schedule_cycle_type == 'null'">
+          無
+        </span>
+        <span style="margin-left: 10px" v-else-if="row.schedule_cycle_type == 'week'">
+          每週{{ row.schedule_cycle_day_text }}
+        </span>
+        <span style="margin-left: 10px" v-else-if="row.schedule_cycle_type == 'day'">
+          每天
+        </span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
       <template #default="{row,$index}">
-        <el-button @click="">
+        <el-button @click="dialogEditShow({data:row})">
           編輯
         </el-button>
         <el-button @click="">
@@ -92,7 +101,7 @@
         <el-button @click="">
           停用/啟動
         </el-button>
-        <el-button @click="">
+        <el-button @click="deleteSchedule({deletecount:0, id:row.uuid})">
           刪除
         </el-button>
       </template>
@@ -109,7 +118,7 @@ import useBScheduleStore from "../../../store/BGroup/BScheduleStore";
 
 const BScheduleStore = useBScheduleStore();
 const { getData } = storeToRefs(BScheduleStore);
-const {  } = BScheduleStore;
+const { dialogAddShow, dialogEditShow, deleteSchedule } = BScheduleStore;
 
 </script>
 

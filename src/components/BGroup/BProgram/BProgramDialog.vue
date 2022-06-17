@@ -1,7 +1,7 @@
 <template>
   <el-dialog 
     v-model="dialogSetting.visable" 
-    title="設備編輯"
+    title="程序編輯"
     :before-close="handleClose"
   >
     <el-form :model="dialogSetting" label-position="left">
