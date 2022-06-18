@@ -11,6 +11,7 @@ const useBScheduleStore = defineStore('BScheduleStore', {
       postScheduleUrl: 'add_schedule/',
       putScheduleUrl: 'update_schedule/',
       deleteScheduleUrl: 'delete_schedule/',
+      openCloseSwitchUrl: 'open_close_schedule/',
       baseProgramUrl: 'http://127.0.0.1:8000/api/broadcastprogram/',
       getProgramUrl: 'view_program/'
     },
@@ -73,6 +74,8 @@ const useBScheduleStore = defineStore('BScheduleStore', {
       ]
       this.dialogSetting.schedule_program_select = ''
       this.dialogSetting.schedule_programs = []
+      this.dialogSetting.schedule_cycle_type_disable = true
+      this.dialogSetting.schedule_cycle_day_disable = true
     },
     dialogCycleTypeChange: function (){
       if (this.dialogSetting.schedule_is_cycle == false){
@@ -315,6 +318,33 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             if (payload.deletecount < 6) {
               loginManagerStore.refreshToken()
               this.deleteSchedule({ deletecount: payload.deletecount, id: payload.id })
+            } else {
+              console.log('沒有權限')
+              this.dialogClear()
+            }
+          } else {
+            console.log(error)
+            this.dialogClear()
+          }
+        })
+    },
+    scheduleOpenCloseSwitch: function (payload: { putcount: number, id: string }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.put(this.apiUrl.baseScheduleUrl + payload.id + '/' + this.apiUrl.openCloseSwitchUrl, {
+        data: {
+          schedule_id: payload.id,
+        }
+      })
+        .then(response => {
+          console.log('schedule open close switch ok')
+          this.getSchedule({ getcount: 0 })
+          this.dialogClear()
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.putcount < 6) {
+              loginManagerStore.refreshToken()
+              this.scheduleOpenCloseSwitch({ putcount: payload.putcount, id: payload.id })
             } else {
               console.log('沒有權限')
               this.dialogClear()

@@ -90,6 +90,16 @@
         </span>
       </template>
     </el-table-column>
+    <el-table-column
+      prop="schedule_open_close"
+      label="狀態"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px" v-if="row.schedule_open_close == true">啟用</span>
+        <span style="margin-left: 10px" v-else-if="row.schedule_open_close == false">停用</span>
+      </template>
+    </el-table-column>
     <el-table-column label="操作">
       <template #default="{row,$index}">
         <el-button @click="dialogEditShow({data:row})">
@@ -98,7 +108,7 @@
         <el-button @click="">
           插播
         </el-button>
-        <el-button @click="">
+        <el-button @click="scheduleOpenCloseSwitch({putcount:0, id:row.uuid})">
           停用/啟動
         </el-button>
         <el-button @click="deleteSchedule({deletecount:0, id:row.uuid})">
@@ -118,7 +128,7 @@ import useBScheduleStore from "../../../store/BGroup/BScheduleStore";
 
 const BScheduleStore = useBScheduleStore();
 const { getData } = storeToRefs(BScheduleStore);
-const { dialogAddShow, dialogEditShow, deleteSchedule } = BScheduleStore;
+const { dialogAddShow, dialogEditShow, deleteSchedule, scheduleOpenCloseSwitch } = BScheduleStore;
 
 </script>
 
