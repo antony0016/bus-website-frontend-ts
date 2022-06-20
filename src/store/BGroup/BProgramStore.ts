@@ -89,7 +89,7 @@ const useBProgramStore = defineStore('BProgramStore', {
           name: payload.data['program_content_file_name'],
           url:payload.data['program_content_file']
         }]
-        
+        console.log(payload.data['program_content_file'])
         const test = new Blob([payload.data['program_content_file']], {type: 'audio/mpeg'})
         this.dialogSetting.program_content_file.append('file', test, payload.data['program_content_file_name'])
         console.log(this.dialogSetting.program_content_file.get('file'))

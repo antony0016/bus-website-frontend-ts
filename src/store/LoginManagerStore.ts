@@ -54,7 +54,7 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           axios.defaults.headers.common["Authorization"] = "Bearer " + this.token.access
           // send logging message
           console.log('login!', this.loggedIn);
-          this.checkUserType()
+          this.checkUserType({count:0})
           // go to home page
           router.push('/').then(r => r);
         })
@@ -99,7 +99,8 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           router.push('/login')
         })
     },
-    checkUserType: function () {
+    checkUserType: function (payload: { count: number }) {
+      const loginManagerStore = useLoginManagerStore();
       axios.get(this.address.get_user_type)
         .then(response => {
           if (response.data['UserType'] == 'Administartor') {
@@ -126,7 +127,16 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
           console.log(viewControllerStore.sideMenuItems)
         })
         .catch(error => {
-          console.log(error)
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.count < 6) {
+              loginManagerStore.refreshToken()
+              this.checkUserType({ count: payload.count + 1 })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
+          }
         })
     },
   }

@@ -22,6 +22,11 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       routePostCsvUrl: 'add_csv_route/',
       routeputurl: 'update_route/',
       routedeleteurl: 'delete_route/',
+      baseCompanyAccountUrl: 'http://127.0.0.1:8000/api/companyaccount/',
+      companyAccountGetUrl: 'view_company_account/',
+      companyAccountPostUrl: 'add_company_account/',
+      companyAccountPutUrl: 'update_company_account/',
+      companyAccountDeleteUrl: 'delete_company_account/',
     },
     DialogVisible: {
       CompanyDialogFormVisible: false,
@@ -58,6 +63,20 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       route_no: '',
       route_name: '',
       route_via_station: '',
+    },
+    companyAccountDialog: {
+      isShow: false,
+      incomeSwitch: 'income',
+      editIsShow: false,
+      editIsAdd: false,
+      getIncomeData: [],
+      getExpenditureData:[],
+      nowComapny: '',
+      nowIsIncome: 'income',
+      nowIncomeBoolean: true,
+      nowAmount: 0,
+      nowDescription: '',
+      nowAccountUuid: '',
     },
   }),
   getters: {},
@@ -439,7 +458,176 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       MBusInfoStore.filterData.selectRoute = payload.data['route_uuid']
       MBusInfoStore.getBus({getcount:0})
       router.push('/MBusInfo')
-    }
+    },
+    companyAccountDialogClear: function () {
+      this.companyAccountDialog.getIncomeData = []
+      this.companyAccountDialog.getExpenditureData = []
+      this.companyAccountDialog.nowAmount = 0
+      this.companyAccountDialog.nowDescription = ''
+      this.companyAccountDialog.nowComapny = ''
+    },
+    companyAccountDialogOpen: function (payload: { id: string }) {
+      this.companyAccountDialogClear()
+      this.postCompanyAccount({postcount:0, id: payload.id})
+      this.companyAccountDialog.isShow = true
+    },
+    companyAccountEditDialogClear: function () {
+      this.companyAccountDialog.nowAmount = 0
+      this.companyAccountDialog.nowDescription = ''
+      this.companyAccountDialog.nowAccountUuid = ''
+    },
+    companyAccountAddDialogOpen: function (payload: { isIncome: string }) {
+      this.companyAccountEditDialogClear()
+      if (payload.isIncome == 'income'){
+        this.companyAccountDialog.nowIsIncome = '收入'
+      }else{
+        this.companyAccountDialog.nowIsIncome = '支出'
+      }
+      this.companyAccountDialog.editIsAdd = false
+      this.companyAccountDialog.editIsShow = true
+    },
+    companyAccountAddDialogSubmit: function () {
+      if (this.companyAccountDialog.nowIsIncome == '收入'){
+        this.companyAccountDialog.nowIncomeBoolean = true
+      }else{
+        this.companyAccountDialog.nowIncomeBoolean = false
+      }
+      this.postCompanyAccountData({postcount:0})
+    },
+    companyAccountEditDialogOpen: function (payload: { data: object, isIncome: String }) {
+      this.companyAccountEditDialogClear()
+      if (payload.isIncome == 'income'){
+        this.companyAccountDialog.nowIsIncome = '收入'
+      }else{
+        this.companyAccountDialog.nowIsIncome = '支出'
+      }
+      this.companyAccountDialog.nowAmount = payload.data['amount']
+      this.companyAccountDialog.nowDescription = payload.data['description']
+      this.companyAccountDialog.nowAccountUuid = payload.data['uuid']
+      this.companyAccountDialog.editIsAdd = true
+      this.companyAccountDialog.editIsShow = true
+    },
+    companyAccountEditDialogSubmit: function () {
+      if (this.companyAccountDialog.nowIsIncome == '收入'){
+        this.companyAccountDialog.nowIncomeBoolean = true
+      }else{
+        this.companyAccountDialog.nowIncomeBoolean = false
+      }
+      this.putCompanyAccountData({putcount:0})
+    },
+    postCompanyAccount: function (payload: { postcount: number, id: string }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.ApiUrl.baseCompanyAccountUrl + this.ApiUrl.companyAccountGetUrl, {
+        data: {
+          company_filter: payload.id,
+        }
+      })
+        .then(response => {
+          this.companyAccountDialog.getIncomeData = response.data['income']
+          this.companyAccountDialog.getExpenditureData = response.data['expenditure']
+          this.companyAccountDialog.nowComapny = payload.id
+          console.log('get company account data')
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.postCompanyAccount({ postcount: payload.postcount + 1, id: payload.id })
+            } else {
+              console.log('沒有權限')
+              this.companyAccountDialogClear()
+            }
+          } else {
+            console.log(error)
+            this.companyAccountDialogClear()
+          }
+        })
+    },
+    postCompanyAccountData: function (payload: { postcount: number }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.ApiUrl.baseCompanyAccountUrl + this.ApiUrl.companyAccountPostUrl, {
+        data: {
+          is_income: this.companyAccountDialog.nowIncomeBoolean,
+          amount: this.companyAccountDialog.nowAmount,
+          description: this.companyAccountDialog.nowDescription,
+          belong_company: this.companyAccountDialog.nowComapny
+        }
+      })
+        .then(response => {
+          this.postCompanyAccount({postcount:0, id: this.companyAccountDialog.nowComapny})
+          this.companyAccountEditDialogClear()
+          console.log('post company account data')
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.postCompanyAccountData({ postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.companyAccountEditDialogClear()
+            }
+          } else {
+            console.log(error)
+            this.companyAccountEditDialogClear()
+          }
+        })
+    },
+    putCompanyAccountData: function (payload: { putcount: number }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.put(this.ApiUrl.baseCompanyAccountUrl + this.companyAccountDialog.nowAccountUuid + '/' + this.ApiUrl.companyAccountPutUrl, {
+        data: {
+          account_uuid: this.companyAccountDialog.nowAccountUuid,
+          is_income: this.companyAccountDialog.nowIncomeBoolean,
+          amount: this.companyAccountDialog.nowAmount,
+          description: this.companyAccountDialog.nowDescription,
+          belong_company: this.companyAccountDialog.nowComapny
+        }
+      })
+        .then(response => {
+          console.log('put company account data')
+          this.postCompanyAccount({postcount:0, id: this.companyAccountDialog.nowComapny})
+          this.companyAccountEditDialogClear()
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.putcount < 6) {
+              loginManagerStore.refreshToken()
+              this.putCompanyAccountData({ putcount: payload.putcount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.companyAccountEditDialogClear()
+            }
+          } else {
+            console.log(error)
+            this.companyAccountEditDialogClear()
+          }
+        })
+    },
+    deleteCompanyAccountData: function (payload: { deletecount: number, id: String }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.put(this.ApiUrl.baseCompanyAccountUrl + payload.id + '/' + this.ApiUrl.companyAccountDeleteUrl, {
+        data: {
+          account_uuid: payload.id,
+        }
+      })
+        .then(response => {
+          console.log('delete company account data')
+          this.postCompanyAccount({postcount:0, id: this.companyAccountDialog.nowComapny})
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.deletecount < 6) {
+              loginManagerStore.refreshToken()
+              this.deleteCompanyAccountData({ deletecount: payload.deletecount + 1, id: payload.id })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
+          }
+        })
+    },
   }
 })
 

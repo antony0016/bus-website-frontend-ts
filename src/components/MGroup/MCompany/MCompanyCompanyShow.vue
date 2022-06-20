@@ -98,6 +98,9 @@
         <el-button @click="CompanyDialogEditShow({data: row})">
           編輯
         </el-button>
+        <el-button @click="companyAccountDialogOpen({id: row.company_uuid})">
+          收支頁面
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -114,7 +117,7 @@ import useLoginManagerStore from "../../../store/LoginManagerStore";
 
 const MCompanyStore = useMCompanyStore();
 const { getData } = storeToRefs(MCompanyStore);
-const { postCompanyCsvData, CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute } = MCompanyStore;
+const { postCompanyCsvData, CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute, companyAccountDialogOpen } = MCompanyStore;
 
 const loginManagerStore = useLoginManagerStore();
 const { buttonDisable } = storeToRefs(loginManagerStore);
