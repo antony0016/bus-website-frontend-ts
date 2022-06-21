@@ -61,7 +61,7 @@ const useMAccountStore = defineStore('MAccountStore', {
             GroupMember: {
               BVP: { name: "語音程序/語音程序建立及查詢", allow: false },
               BBS: { name: "廣播排程/固定或週期排程", allow: false },
-              BAI: { name: "車務自動插播/車輛到月台啟動廣播", allow: false },
+              BQE: { name: "車務自動插播/車輛到月台啟動廣播", allow: false },
               BRC: { name: "播放紀錄查詢", allow: false },
             }
           }
@@ -128,7 +128,7 @@ const useMAccountStore = defineStore('MAccountStore', {
         GroupMember: {
           BVP: { name: "語音程序/語音程序建立及查詢", allow: false },
           BBS: { name: "廣播排程/固定或週期排程", allow: false },
-          BAI: { name: "車務自動插播/車輛到月台啟動廣播", allow: false },
+          BQE: { name: "車務自動插播/車輛到月台啟動廣播", allow: false },
           BRC: { name: "播放紀錄查詢", allow: false },
         }
       }

@@ -4,7 +4,7 @@
     title="客運業者收支介面"
     :before-close="handleClose"
   >
-    <el-tabs v-model="companyAccountDialog.incomeSwitch" @tab-click="">
+    <el-tabs v-model="companyAccountDialog.incomeSwitch" @tab-click="postCompanyAccount({postcount:0, id:companyAccountDialog.nowComapny})">
       <el-tab-pane label="收入" name="income">
         <el-button type="primary" @click="companyAccountAddDialogOpen({isIncome: 'income'})">
           新增收入
@@ -101,7 +101,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
 const { companyAccountDialog } = storeToRefs(MCompanyStore);
-const { companyAccountDialogClear, companyAccountAddDialogOpen, companyAccountEditDialogOpen, deleteCompanyAccountData } = MCompanyStore;
+const { postCompanyAccount, companyAccountDialogClear, companyAccountAddDialogOpen, companyAccountEditDialogOpen, deleteCompanyAccountData } = MCompanyStore;
 
 const formLabelWidth = '50px'
 

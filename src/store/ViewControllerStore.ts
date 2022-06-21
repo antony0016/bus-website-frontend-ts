@@ -52,7 +52,7 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
                 id: Env.barItemIds.bRouter, subMenu: [
                     { isShow: true, name: '程序設定', to: '/BProgram', id: 'BVP' },
                     { isShow: true, name: '廣播排程', to: '/BSchedule', id: 'BBS' },
-                    { isShow: true, name: '自動插播', to: '/BInStream', id: 'BAI' },
+                    { isShow: true, name: '播放列隊', to: '/BQueue', id: 'BQE' },
                     { isShow: true, name: '播放紀錄', to: '/BRecord', id: 'BRC' },]
             },
         ],

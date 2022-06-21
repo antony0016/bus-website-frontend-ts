@@ -1,14 +1,14 @@
 // BGroup
-import BInStream from "../../views/BGroup/BInStream_Page.vue";
+import BQueue from "../../views/BGroup/BQueue_Page.vue";
 import BRecord from "../../views/BGroup/BRecord_Page.vue";
 import BProgram from "../../views/BGroup/BProgram_Page.vue";
 import BSchedule from "../../views/BGroup/BSchedule_Page.vue";
 
 const BRoutes = [
   {
-    path: "/BInStream",
-    name: "BInStream",
-    component: BInStream,
+    path: "/BQueue",
+    name: "BQueue",
+    component: BQueue,
     meta: {
       requiredAuth: true,
     }

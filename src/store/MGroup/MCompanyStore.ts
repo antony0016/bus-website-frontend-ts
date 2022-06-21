@@ -465,6 +465,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.companyAccountDialog.nowAmount = 0
       this.companyAccountDialog.nowDescription = ''
       this.companyAccountDialog.nowComapny = ''
+      this.companyAccountDialog.incomeSwitch = 'income'
     },
     companyAccountDialogOpen: function (payload: { id: string }) {
       this.companyAccountDialogClear()

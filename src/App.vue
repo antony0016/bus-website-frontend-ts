@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
 import NavBar from "./layout/NavBar.vue";
 import SideMenu from './layout/SideMenu.vue'
 import MainSection from "./layout/MainSection.vue";
@@ -19,6 +20,12 @@ import useLoginManagerStore from "./store/LoginManagerStore";
 
 const loginManagerStore = useLoginManagerStore();
 const loggedIn = computed(() => loginManagerStore.loggedIn);
+
+const LoginManagerStore = useLoginManagerStore();
+const {  } = storeToRefs(LoginManagerStore);
+const { checkUserType } = LoginManagerStore;
+
+checkUserType({count:0})
 
 </script>
 

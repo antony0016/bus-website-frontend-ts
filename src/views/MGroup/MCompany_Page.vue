@@ -20,7 +20,6 @@ import { ref, toRefs, defineComponent, watch } from "vue";
 import { storeToRefs } from "pinia";
 
 import useMCompanyStore from "../../store/MGroup/MCompanyStore"
-import useLoginManagerStore from "../../store/LoginManagerStore"
 import MCompanyCompanyShow from "../../components/MGroup/MCompany/MCompanyCompanyShow.vue";
 import MCompanyCompanyDialog from "../../components/MGroup/MCompany/MCompanyCompanyDialog.vue";
 import MCompanyRouteShow from "../../components/MGroup/MCompany/MCompanyRouteShow.vue";
@@ -32,11 +31,6 @@ const MCompanyStore = useMCompanyStore();
 const { companyRouteActiveTab } = storeToRefs(MCompanyStore);
 const { getCompany, getRoute } = MCompanyStore;
 
-const LoginManagerStore = useLoginManagerStore();
-const {  } = storeToRefs(LoginManagerStore);
-const { checkUserType } = LoginManagerStore;
-
-checkUserType({count:0})
 getCompany({getcount:0})
 getRoute({getcount:0})
 
