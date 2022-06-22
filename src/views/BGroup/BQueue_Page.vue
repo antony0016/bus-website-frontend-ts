@@ -1,7 +1,7 @@
 <template>
   <simple-card title="播放列隊">
     <BQueueShow/>
-    {{nowTime}}
+    {{nowTime.data}}
   </simple-card>
 </template>
 
@@ -38,6 +38,7 @@ const nowTimes = () => {
   setInterval(() => {
     myDate = new Date();
     setTime(myDate)
+    getQueue({getcount:0})
   }, 1000)
   return nowTime
 }

@@ -11,6 +11,7 @@ const useBQueueStore = defineStore('BQueueStore', {
       getScheduleDataUrl: 'view_schedule_data/',
       postQueueUrl: 'add_queue/',
       deleteQueueUrl: 'delete_queue/',
+      switchQueueUrl: 'switch_order_queue/',
     },
     getData: {
       scheduleData: [],
@@ -111,6 +112,31 @@ const useBQueueStore = defineStore('BQueueStore', {
             if (payload.deletecount < 6) {
               loginManagerStore.refreshToken()
               this.deleteSchedule({ deletecount: payload.deletecount, id: payload.id })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
+          }
+        })
+    },
+    switchQueue: function (payload: { putcount: number, id: string, direction: string }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.put(this.apiUrl.baseQueueUrl + payload.id + '/' + this.apiUrl.switchQueueUrl, {
+        data: {
+          uuid: payload.id,
+          direction: payload.direction
+        }
+      })
+        .then(response => {
+          console.log('put schedule data')
+          this.getQueue({ getcount: 0 })
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.putcount < 6) {
+              loginManagerStore.refreshToken()
+              this.switchQueue({ putcount: payload.putcount + 1, id: payload.id, direction: payload.direction })
             } else {
               console.log('沒有權限')
             }

@@ -72,8 +72,14 @@
     </el-table-column>
     <el-table-column label="操作">
       <template #default="{row,$index}">
-        <el-button type="danger" @click="deleteSchedule({deletecount:0, id:row['uuid']})">
+        <el-button type="danger" @click="deleteSchedule({deletecount:0, id:row.uuid})">
           刪除
+        </el-button>
+        <el-button @click="switchQueue({putcount:0, id:row.uuid, direction:'up'})">
+          ▲
+        </el-button>
+        <el-button @click="switchQueue({putcount:0, id:row.uuid, direction:'down'})">
+          ▼
         </el-button>
       </template>
     </el-table-column>
@@ -89,7 +95,7 @@ import useBQueueStore from "../../../store/BGroup/BQueueStore";
 
 const BQueueStore = useBQueueStore();
 const { getData, selectData } = storeToRefs(BQueueStore);
-const { getScheduleData, addQueue, deleteSchedule } = BQueueStore;
+const { getScheduleData, addQueue, deleteSchedule, switchQueue } = BQueueStore;
 
 getScheduleData({getcount:0})
 
