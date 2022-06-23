@@ -12,16 +12,16 @@
         <el-input v-model="dialogSetting.schedule_start_date" type="date" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="結束日期" :label-width="formLabelWidth">
-        <el-input v-model="dialogSetting.schedule_end_date" type="date" autocomplete="off"/>
+        <el-input v-model="dialogSetting.schedule_end_date" type="date" autocomplete="off" :disabled="dialogSetting.schedule_end_date_disable"/>
       </el-form-item>
       <el-form-item label="開始時間" :label-width="formLabelWidth">
         <el-input v-model="dialogSetting.schedule_start_time" type="time" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="結束時間" :label-width="formLabelWidth">
-        <el-input v-model="dialogSetting.schedule_end_time" type="time" autocomplete="off"/>
+        <el-input v-model="dialogSetting.schedule_end_time" type="time" autocomplete="off" :disabled="dialogSetting.schedule_end_time_disable"/>
       </el-form-item>
       <el-form-item label="每隔/小時" :label-width="formLabelWidth">
-        <el-select v-model="dialogSetting.schedule_frequency_hour" filterable placeholder="請選擇">
+        <el-select v-model="dialogSetting.schedule_frequency_hour" filterable placeholder="請選擇" :disabled="dialogSetting.schedule_frequency_hour_disable">
           <el-option
             v-for="v of hourSelect"
             :key="v['value']"
@@ -31,7 +31,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="每隔/分鐘" :label-width="formLabelWidth">
-        <el-select v-model="dialogSetting.schedule_frequency_minute" filterable placeholder="請選擇">
+        <el-select v-model="dialogSetting.schedule_frequency_minute" filterable placeholder="請選擇" :disabled="dialogSetting.schedule_frequency_minute_disable">
           <el-option
             v-for="v of minuteSelect"
             :key="v['value']"
@@ -83,7 +83,16 @@
           :data="dialogSetting.schedule_programs"
           id="schedule_have_programs_table"
           style="width: 100%"
-          :default-sort="{prop: 'program_name', order: 'ascending'}">
+          :default-sort="{prop: 'program_order', order: 'ascending'}">
+          <el-table-column
+            prop="program_order"
+            label="順序"
+            width="180"
+            sortable>
+            <template #default="{row,$index}">
+              <span style="margin-left: 10px">{{ row.program_order }}</span>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="program_name"
             label="程序名稱"
@@ -106,6 +115,16 @@
             <template #default="{row,$index}">
               <el-button type="danger" @click="dialogDeleteProgram({data:row})">
                 刪除
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="順序調整">
+            <template #default="{row,$index}">
+              <el-button @click="dialogSwitchProgram({data:row, direction: 'up'})">
+                ▲
+              </el-button>
+              <el-button @click="dialogSwitchProgram({data:row, direction: 'down'})">
+                ▼
               </el-button>
             </template>
           </el-table-column>
@@ -135,7 +154,7 @@ import useBScheduleStore from "../../../store/BGroup/BScheduleStore";
 
 const BScheduleStore = useBScheduleStore();
 const { getData, dialogSetting } = storeToRefs(BScheduleStore);
-const { dialogClear, dialogCycleTypeChange, dialogCycleEveryDayCheck, dialogAddProgram, dialogDeleteProgram, addSchedule, updateSchedule } = BScheduleStore;
+const { dialogClear, dialogCycleTypeChange, dialogCycleEveryDayCheck, dialogAddProgram, dialogDeleteProgram, addSchedule, updateSchedule, dialogSwitchProgram } = BScheduleStore;
 
 const formLabelWidth = '50px'
 

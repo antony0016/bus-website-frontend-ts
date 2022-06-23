@@ -17,6 +17,7 @@ const useBProgramStore = defineStore('BProgramStore', {
       putProgramUrl: 'update_program/',
       deleteProgramUrl: 'delete_program/',
       fileUploadUrl: 'file_upload/',
+      pilotUrl: 'pilot_program/',
     },
     dialogSetting: {
       visable: false,
@@ -256,6 +257,30 @@ const useBProgramStore = defineStore('BProgramStore', {
           } else {
             console.log(error)
             this.dialogClear()
+          }
+        })
+    },
+    pilotProgram: function (payload: { putcount: number, id: string }) {
+      const loginManagerStore = useLoginManagerStore();
+      axios.put(this.apiUrl.baseProgramUrl + payload.id + '/' + this.apiUrl.pilotUrl, {
+        data: {
+          program_uuid: payload.id,
+        }
+      })
+        .then(response => {
+          console.log('pilot data')
+          this.getProgram({ getcount: 0 })
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.putcount < 6) {
+              loginManagerStore.refreshToken()
+              this.pilotProgram({ putcount: payload.putcount + 1, id: payload.id })
+            } else {
+              console.log('沒有權限')
+            }
+          } else {
+            console.log(error)
           }
         })
     },

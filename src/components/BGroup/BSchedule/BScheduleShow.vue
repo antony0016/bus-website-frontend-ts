@@ -40,7 +40,8 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.schedule_end_date }}</span>
+        <span style="margin-left: 10px" v-if="row.schedule_end_date == null">無</span>
+        <span style="margin-left: 10px" v-else>{{ row.schedule_end_date }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -49,7 +50,8 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.schedule_end_time }}</span>
+        <span style="margin-left: 10px" v-if="row.schedule_end_time == null">無</span>
+        <span style="margin-left: 10px" v-else>{{ row.schedule_end_time }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -58,7 +60,10 @@
       width="180"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">
+        <span style="margin-left: 10px" v-if="row.schedule_frequency_hour == 'null' || row.schedule_frequency_minute == 'null'">
+          無播放頻率，撥放次數為{{row.schedule_frequency_number}}次
+        </span>
+        <span style="margin-left: 10px" v-else>
           每{{ row.schedule_frequency_hour }}小時，{{row.schedule_frequency_minute}}分鐘{{row.schedule_frequency_number}}次
         </span>
       </template>
@@ -105,7 +110,7 @@
         <el-button @click="dialogEditShow({data:row})">
           編輯
         </el-button>
-        <el-button @click="">
+        <el-button @click="inStreamScheduleSwitch({putcount:0, id:row.uuid})">
           插播
         </el-button>
         <el-button @click="scheduleOpenCloseSwitch({putcount:0, id:row.uuid})">
@@ -128,7 +133,7 @@ import useBScheduleStore from "../../../store/BGroup/BScheduleStore";
 
 const BScheduleStore = useBScheduleStore();
 const { getData } = storeToRefs(BScheduleStore);
-const { dialogAddShow, dialogEditShow, deleteSchedule, scheduleOpenCloseSwitch } = BScheduleStore;
+const { dialogAddShow, dialogEditShow, deleteSchedule, scheduleOpenCloseSwitch, inStreamScheduleSwitch } = BScheduleStore;
 
 </script>
 

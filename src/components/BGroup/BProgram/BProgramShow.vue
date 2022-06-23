@@ -39,7 +39,7 @@
         <el-button @click="dialogEditOpen({data:row})">
           編輯
         </el-button>
-        <el-button @click="">
+        <el-button @click="pilotProgram({putcount:0, id:row.uuid})">
           試播
         </el-button>
         <el-button @click="deleteProgram({deletecount:0, id:row.uuid})">
@@ -59,7 +59,7 @@ import useBProgramStore from "../../../store/BGroup/BProgramStore";
 
 const BProgramStore = useBProgramStore();
 const { getData } = storeToRefs(BProgramStore);
-const { dialogAddOpen, dialogEditOpen, deleteProgram } = BProgramStore;
+const { dialogAddOpen, dialogEditOpen, deleteProgram, pilotProgram } = BProgramStore;
 
 </script>
 
