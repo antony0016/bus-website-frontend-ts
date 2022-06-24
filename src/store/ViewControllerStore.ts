@@ -10,10 +10,10 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
             topBarId: Env.barItemIds.mRouter,
         },
         topBarItems: [
-            { id: Env.barItemIds.mRouter, to: "/", isShow: true, name: "營運管理" },
-            { id: Env.barItemIds.cRouter, to: "/", isShow: true, name: "行控管理" },
-            { id: Env.barItemIds.bRouter, to: "/", isShow: true, name: "廣播系統" },
-            { id: Env.barItemIds.unitTest, to: "/", isShow: true, name: "單元測試" },
+            { id: Env.barItemIds.mRouter, to: "/Manage", isShow: true, name: "營運管理" },
+            { id: Env.barItemIds.cRouter, to: "/Platform", isShow: true, name: "月台與設備" },
+            { id: Env.barItemIds.bRouter, to: "/Control", isShow: true, name: "儀控管理" },
+            { id: Env.barItemIds.unitTest, to: "/System", isShow: true, name: "系統管理" },
         ],
         sideMenuItems: [
             {
@@ -56,6 +56,7 @@ const useViewControllerStore = defineStore('ViewControllerStore', {
                     { isShow: true, name: '播放紀錄', to: '/BRecord', id: 'BRC' },]
             },
         ],
+        pageShow: []
     }),
     actions: {}
 })

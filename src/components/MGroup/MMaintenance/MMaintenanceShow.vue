@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="filterData.selectCompany" filterable placeholder="請選擇" @change="getRoute({getcount:0})">
+  <el-select v-model="filterData.selectCompany" filterable placeholder="請選擇" @change="getMaintenanceRoute({getcount:0})">
     <el-option
       v-for="item in getData.getCompanyName"
       :key="item['value']"
@@ -126,7 +126,7 @@ import useMMaintenanceStore from "../../../store/MGroup/MMaintenanceStore";
 
 const MMaintenanceStore = useMMaintenanceStore();
 const { getData, filterData } = storeToRefs(MMaintenanceStore);
-const { getRoute, shiftDialogShow, postBusShiftCsvChoice, postBusShiftCsvData } = MMaintenanceStore;
+const { getMaintenanceRoute, shiftDialogShow, postBusShiftCsvChoice, postBusShiftCsvData } = MMaintenanceStore;
 
 const mbusshiftUploadChange = (file: any, fileList: any) => {
   const files = file.raw

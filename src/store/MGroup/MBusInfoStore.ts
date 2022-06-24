@@ -118,7 +118,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
         this.getRoute({getcount:0, select: 'main'})
       }
     },
-    getCompany: function (payload: { getcount: number }) {
+    getBusCompany: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.companyBaseUrl + this.apiUrl.companyGetUrl)
         .then(response => {
@@ -133,7 +133,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
               loginManagerStore.refreshToken()
-              this.getCompany({ getcount: payload.getcount + 1 })
+              this.getBusCompany({ getcount: payload.getcount + 1 })
             } else {
               this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
               this.getData.getCompanyData = []

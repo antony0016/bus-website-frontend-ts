@@ -1,5 +1,6 @@
 <template>
   <el-row justify="space-between" align="middle" class="nav-buttons">
+    <!--
     <el-col :span="1" style="white-space: nowrap">
       <el-button v-show="menuSwitch.isShow" type="primary" size="large" @click="openOrClose" circle>
         <el-icon :size="18">
@@ -8,24 +9,28 @@
         </el-icon>
       </el-button>
     </el-col>
+    -->
     <el-col :span="1" @click="router.push('/')">
       <h1>{{ title }}</h1>
     </el-col>
     <el-col :span="15">
       <!-- todo: make this component more easy to use -->
+      <!-- @click="changeSideMenu(barItem.id)" is sideMenu Version -->
       <simple-scrollbar>
-        <el-button v-for="(barItem, index) in topBarItems" @click="changeSideMenu(barItem.id)"
-                   :key="index" v-show="barItem.isShow"
-                   type="primary" size="large" class="scrollbar-demo-item">
+        <el-button v-for="(barItem, index) in topBarItems" @click="goToPage(barItem)"
+            :key="index" v-show="barItem.isShow"
+            type="primary" size="large" class="scrollbar-demo-item">
           {{ barItem.name }}
         </el-button>
       </simple-scrollbar>
     </el-col>
+    <!--
     <el-col :span="1">
       <el-button type="primary" size="large">
-        <!--        {{ "Now path: " + menuSwitch.topBarId + nowPath}}-->
+        {{ "Now path: " + menuSwitch.topBarId + nowPath}}
       </el-button>
     </el-col>
+    -->
     <el-col :span="6">
       <login-button/>
     </el-col>
@@ -53,9 +58,13 @@ const openOrClose = () => {
   menuSwitch.value.isFold = !menuSwitch.value.isFold;
 }
 
-const changeSideMenu = (topBarItemId: string) => {
-  menuSwitch.value.topBarId = topBarItemId
+const goToPage = (topBarItem: object) => {
+  router.push(topBarItem['to'])
 }
+
+//const changeSideMenu = (topBarItemId: string) => {
+//  menuSwitch.value.topBarId = topBarItemId
+//}
 
 // get now path
 const route = useRoute();

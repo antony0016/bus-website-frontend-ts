@@ -15,9 +15,9 @@ import MBusInfoDialog from "../../components/MGroup/MBusInfo/MBusInfoDialog.vue"
 
 const MBusInfoStore = useMBusInfoStore();
 const { getData, filterData } = storeToRefs(MBusInfoStore);
-const { getCompany, getBus } = MBusInfoStore;
+const { getBusCompany, getBus } = MBusInfoStore;
 
-getCompany({getcount:0})
+getBusCompany({getcount:0})
 getBus({getcount:0})
 
 </script>

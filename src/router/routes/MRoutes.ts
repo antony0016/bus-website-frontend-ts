@@ -11,14 +11,6 @@ import MReport from '../../views/MGroup/MReport_Page.vue';
 import MStopTime from '../../views/MGroup/MStopTime_Page.vue';
 
 const MRoutes = [
-  {
-    path: "/",
-    name: "Home",
-    component: MCompany,
-    meta: {
-      requiredAuth: true,
-    }
-  },
   // MGroup
   {
     path: "/MAccount",

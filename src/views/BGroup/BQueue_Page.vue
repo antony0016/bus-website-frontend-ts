@@ -44,12 +44,6 @@ const nowTimes = () => {
 }
 nowTimes()
 
-const timecountdown = computed(() => nowTime.data)
-
-watch(timecountdown,(curVal,preVal)=>{
-  
-})
-
 getQueue({getcount:0})
 
 </script>

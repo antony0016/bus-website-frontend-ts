@@ -15,9 +15,9 @@ import MMaintenanceDialog from "../../components/MGroup/MMaintenance/MMaintenanc
 
 const MMaintenanceStore = useMMaintenanceStore();
 const {  } = storeToRefs(MMaintenanceStore);
-const { getCompany, getRoute } = MMaintenanceStore;
-getCompany({getcount:0})
-getRoute({getcount:0})
+const { getMaintenanceCompany, getMaintenanceRoute } = MMaintenanceStore;
+getMaintenanceCompany({getcount:0})
+getMaintenanceRoute({getcount:0})
 
 </script>
 

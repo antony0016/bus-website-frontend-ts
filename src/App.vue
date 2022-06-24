@@ -4,7 +4,7 @@
       <nav-bar/>
     </el-header>
     <el-container>
-      <side-menu v-if="loggedIn"/>
+      <!-- <side-menu v-if="loggedIn"/> -->
       <main-section/>
     </el-container>
   </el-container>

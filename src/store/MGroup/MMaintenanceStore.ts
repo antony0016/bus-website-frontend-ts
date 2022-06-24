@@ -68,7 +68,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       })
         .then(response => {
           console.log('post csv busshift data')
-          this.getRoute({getcount:0})
+          this.getMaintenanceRoute({getcount:0})
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -98,7 +98,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       this.ShiftDialogForm.normalDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
       this.ShiftDialogForm.weekDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
       this.ShiftDialogForm.belongRoute = ''
-      this.getRoute({getcount:0})
+      this.getMaintenanceRoute({getcount:0})
     },
     submitDialog: function (){
       console.log('here')
@@ -133,7 +133,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
         });
       }
     },
-    getCompany: function (payload: { getcount: number }) {
+    getMaintenanceCompany: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.companyBaseUrl + this.apiUrl.companyGetUrl)
         .then(response => {
@@ -148,7 +148,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
               loginManagerStore.refreshToken()
-              this.getCompany({ getcount: payload.getcount + 1 })
+              this.getMaintenanceCompany({ getcount: payload.getcount + 1 })
             } else {
               this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
               this.getData.getCompanyData = []
@@ -159,7 +159,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           }
         })
     },
-    getRoute: function (payload: { getcount: number }) {
+    getMaintenanceRoute: function (payload: { getcount: number }) {
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.routeBaseUrl + this.apiUrl.routeGetUrl, {
         data: {
@@ -177,7 +177,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
               loginManagerStore.refreshToken()
-              this.getRoute({ getcount: payload.getcount + 1 })
+              this.getMaintenanceRoute({ getcount: payload.getcount + 1 })
             } else {
               this.getData.getRouteShiftData = []
               console.log('沒有權限')

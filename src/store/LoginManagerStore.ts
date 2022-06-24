@@ -116,8 +116,10 @@ const useLoginManagerStore = defineStore('LoginManagerStore', {
             this.buttonDisable.normalAdminDisable = true
             this.buttonDisable.userDisable = false
           }
-
+          // sideMenu Use
           const viewControllerStore = useViewControllerStore();
+          viewControllerStore.pageShow = response.data['Permissions']
+          console.log(viewControllerStore.pageShow)
           for (let v of viewControllerStore.sideMenuItems) {
             for (let sv of v.subMenu) {
               let a = Object.fromEntries(Object.entries(response.data['Permissions']).filter(([k]) => k == sv.id))
