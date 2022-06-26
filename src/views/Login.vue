@@ -1,5 +1,5 @@
 <template>
-  <simple-card title="登入" :span="8" justify="center">
+  <simple-card title="登入" :span="4" justify="center" id="login-ui">
     <el-input size="large" class="login-input" v-model="user.username">
       <template #prefix>
         <el-icon>
@@ -7,14 +7,14 @@
         </el-icon>
       </template>
     </el-input>
-    <el-input size="large" type="password" class="login-input" v-model="user.password">
+    <el-input size="large" type="password" class="login-input show-ui" v-model="user.password">
       <template #prefix>
         <el-icon>
           <key/>
         </el-icon>
       </template>
     </el-input>
-    <el-button @click="login" class="login-button">登入</el-button>
+    <el-button @click="login" class="login-button show-ui">登入</el-button>
   </simple-card>
 </template>
 
@@ -44,4 +44,13 @@ const { menuSwitch, topBarItems } = storeToRefs(viewControllerStore);
   width: 100%;
 }
 
+#login-ui {
+  height: 30vh;
+  margin-top: 20vh;
+  opacity: 0.85;
+}
+
+.show-ui {
+  opacity: 1 !important;
+}
 </style>

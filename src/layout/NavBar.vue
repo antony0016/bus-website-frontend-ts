@@ -10,16 +10,16 @@
       </el-button>
     </el-col>
     -->
-    <el-col :span="1" @click="router.push('/')">
+    <el-col :span="6" @click="router.push('/')">
       <h1>{{ title }}</h1>
     </el-col>
-    <el-col :span="15">
+    <el-col :span="14">
       <!-- todo: make this component more easy to use -->
       <!-- @click="changeSideMenu(barItem.id)" is sideMenu Version -->
       <simple-scrollbar>
         <el-button v-for="(barItem, index) in topBarItems" @click="goToPage(barItem)"
-            :key="index" v-show="barItem.isShow"
-            type="primary" size="large" class="scrollbar-demo-item">
+                   :key="index" v-show="barItem.isShow"
+                   type="primary" size="large" class="scrollbar-demo-item">
           {{ barItem.name }}
         </el-button>
       </simple-scrollbar>
@@ -31,7 +31,7 @@
       </el-button>
     </el-col>
     -->
-    <el-col :span="6">
+    <el-col :span="4">
       <login-button/>
     </el-col>
   </el-row>
@@ -52,7 +52,7 @@ import SimpleScrollbar from "../components/SimpleScrollbar.vue";
 const viewControllerStore = useViewControllerStore();
 const { menuSwitch, sideMenuItems, topBarItems, nowPath } = storeToRefs(viewControllerStore);
 
-const title = ref('A8')
+const title = ref('桃園長庚轉運站旅運管理系統')
 
 const openOrClose = () => {
   menuSwitch.value.isFold = !menuSwitch.value.isFold;

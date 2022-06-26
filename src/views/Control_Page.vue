@@ -1,12 +1,13 @@
 <template>
   <simple-card title="儀控介面">
     <span v-show="pageShow['CIC']">
-      <el-row justify="center">
-        <el-col :span="12">
-          <img alt="儀控介面" id="bus_plat" src="../assets/control_image.png">
+      <el-row justify="center" :gutter="24">
+        <el-col :span="20">
+          <img alt="儀控介面" id="bus_plat" src="../assets/control_image2.png">
         </el-col>
         <el-col :span="4">
-          <span>異常車輛資訊</span>
+          <simple-card title="異常車輛資訊">
+          </simple-card>
         </el-col>
       </el-row>
     </span>
@@ -31,5 +32,10 @@ const { pageShow } = storeToRefs(viewControllerStore);
 <style scoped>
 #bus_plat {
   width: 100%;
+  border: gray solid 1px;
+}
+
+#error_log {
+  height: 100%;
 }
 </style>
