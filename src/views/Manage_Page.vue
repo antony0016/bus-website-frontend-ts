@@ -1,6 +1,6 @@
 <template>
   <simple-card title="客運業者管理">
-    <el-tabs v-model="companyRouteActiveTab" @tab-click="getCompany({getcount:0}); getRoute({getcount:0}); getBusCompany({getcount:0}); getBus({getcount:0}); getMaintenanceCompany({getcount:0}); getMaintenanceRoute({getcount:0});">
+    <el-tabs v-model="companyRouteActiveTab" @tab-click="getCompany({getcount:0}); getRoute({getcount:0}); getBusCompany({getcount:0}); SelectCompanyDialogChange(); getBus({getcount:0}); getMaintenanceCompany({getcount:0}); getMaintenanceRoute({getcount:0});">
       <el-tab-pane label="業者基本資料" name="companys" :disabled="!pageShow['MRC']">
         <span v-show="pageShow['MRC']">
           <MCompanyCompanyShow/>
@@ -31,7 +31,7 @@
   </simple-card>
   <span>&nbsp;</span>
   <simple-card title="廣播管理">
-    <el-tabs v-model="broadcastActiveTab" @tab-click="getProgram({getcount:0}); getSchedule({getcount:0}); getQueue({getcount:0});">
+    <el-tabs v-model="broadcastActiveTab" @tab-click="getProgram({getcount:0}); getSchedule({getcount:0}); getQueue({getcount:0}); getScheduleData({getcount:0});">
       <el-tab-pane label="程序設定" name="program" :disabled="!pageShow['BVP']">
         <span v-show="pageShow['BVP']">
           <BProgramShow/>
@@ -97,7 +97,7 @@ const { getCompany, getRoute } = MCompanyStore;
 
 const MBusInfoStore = useMBusInfoStore();
 const { } = storeToRefs(MBusInfoStore);
-const { getBusCompany, getBus } = MBusInfoStore;
+const { getBusCompany, getBus, SelectCompanyDialogChange } = MBusInfoStore;
 
 const MMaintenanceStore = useMMaintenanceStore();
 const {  } = storeToRefs(MMaintenanceStore);
@@ -115,7 +115,7 @@ const { getSchedule } = BScheduleStore;
 
 const BQueueStore = useBQueueStore();
 const {  } = storeToRefs(BQueueStore);
-const { getQueue } = BQueueStore;
+const { getQueue, getScheduleData } = BQueueStore;
 
 getCompany({getcount:0})
 getRoute({getcount:0})
@@ -127,6 +127,7 @@ getMaintenanceRoute({getcount:0})
 getProgram({getcount:0})
 getSchedule({getcount:0})
 getQueue({getcount:0})
+getScheduleData({getcount:0})
 
 let myDate = new Date();
 let nowTime = reactive({

@@ -457,7 +457,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       MBusInfoStore.SelectCompanyDialogChange()
       MBusInfoStore.filterData.selectRoute = payload.data['route_uuid']
       MBusInfoStore.getBus({getcount:0})
-      router.push('/MBusInfo')
+      this.companyRouteActiveTab = 'bus'
     },
     companyAccountDialogClear: function () {
       this.companyAccountDialog.getIncomeData = []

@@ -58,7 +58,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       })
         .then(response => {
           console.log('post csv bus data')
-          this.getRoute({getcount:0, select: 'main'})
+          this.getBusRoute({getcount:0, select: 'main'})
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -102,7 +102,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       this.busDialogForm.bus_status = payload.data['bus_status']
       this.busDialogForm.bus_type = payload.data['bus_type']
       this.busDialogForm.uuid = payload.data['uuid']
-      this.getRoute({getcount: 0, select: 'dialog'})
+      this.getBusRoute({getcount: 0, select: 'dialog'})
       this.dialogVisible.busDialogFormVisible = true
       this.dialogVisible.busAddChangeSwitch = true
       this.disableControl.dialogCompanySelect = true
@@ -115,7 +115,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       }else{
         this.disableControl.routeSelectdisable = false
         this.filterData.selectRoute = 'all'
-        this.getRoute({getcount:0, select: 'main'})
+        this.getBusRoute({getcount:0, select: 'main'})
       }
     },
     getBusCompany: function (payload: { getcount: number }) {
@@ -144,7 +144,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           }
         })
     },
-    getRoute: function (payload: { getcount: number, select: string }) {
+    getBusRoute: function (payload: { getcount: number, select: string }) {
       const loginManagerStore = useLoginManagerStore();
       let companyFilter: string
       if (payload.select=='main'){
@@ -173,7 +173,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           if (error.response.status == '401' || error.response.status == '403') {
             if (payload.getcount < 6) {
               loginManagerStore.refreshToken()
-              this.getRoute({ getcount: payload.getcount + 1 , select: payload.select})
+              this.getBusRoute({ getcount: payload.getcount + 1 , select: payload.select})
             } else {
               this.getData.getRouteDataName = [{ label: '所有路線', value: 'all' }]
               this.getData.getRouteData = []
