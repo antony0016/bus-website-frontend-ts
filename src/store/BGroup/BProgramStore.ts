@@ -72,6 +72,7 @@ const useBProgramStore = defineStore('BProgramStore', {
     dialogEditOpen: function (payload: { data: object }) {
       this.getProgramType({getcount:0})
       this.dialogClear()
+      console.log(payload.data)
       this.dialogSetting.program_uuid = payload.data['uuid']
       this.dialogSetting.program_type_uuid = payload.data['program_type_uuid']
       this.dialogSetting.program_type = payload.data['program_type']

@@ -78,8 +78,8 @@ const formLabelWidth = '50px'
 
 const contentType = [
   {name: '文字', value: 'Text'},
-  {name: '檔案', value: 'File'},
 ]
+//{name: '檔案', value: 'File'},
 
 const handleClose = (done: () => void) => {
   ElMessageBox.confirm('您確定要關閉視窗?(內容不會保存)')
