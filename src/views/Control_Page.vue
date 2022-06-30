@@ -3,7 +3,7 @@
     <span v-show="pageShow['CIC']">
       <el-row justify="center" :gutter="24">
         <el-col :span="20">
-          <img alt="儀控介面" id="bus_plat" src="../assets/control_image2.png">
+          <img alt="儀控介面" id="bus_plat" src="../assets/control_image.jpg">
         </el-col>
         <el-col :span="4">
           <simple-card title="異常車輛資訊">
