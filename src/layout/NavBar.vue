@@ -1,5 +1,5 @@
 <template>
-  <el-row justify="space-between" align="middle" class="nav-buttons">
+  <el-row justify="space-around" align="middle" class="nav-buttons">
     <!--
     <el-col :span="1" style="white-space: nowrap">
       <el-button v-show="menuSwitch.isShow" type="primary" size="large" @click="openOrClose" circle>
@@ -13,7 +13,7 @@
     <el-col :span="6" @click="router.push('/')">
       <h1>{{ title }}</h1>
     </el-col>
-    <el-col :span="14">
+    <el-col :span="13">
       <!-- todo: make this component more easy to use -->
       <!-- @click="changeSideMenu(barItem.id)" is sideMenu Version -->
       <simple-scrollbar>

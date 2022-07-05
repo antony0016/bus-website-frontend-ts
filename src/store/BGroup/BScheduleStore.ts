@@ -18,7 +18,8 @@ const useBScheduleStore = defineStore('BScheduleStore', {
     },
     getData:{
       programData: [],
-      scheduleData: []
+      scheduleData: [],
+      filterText: ''
     },
     dialogSetting: {
       visable: false,

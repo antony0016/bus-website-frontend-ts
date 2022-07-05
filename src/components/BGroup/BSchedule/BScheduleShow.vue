@@ -2,8 +2,9 @@
   <el-button @click="dialogAddShow()">
     新增
   </el-button>
+  <el-input v-model="getData.filterText" placeholder="請輸入排程名稱" autocomplete="off"/>
   <el-table
-    :data="getData.scheduleData"
+    :data="filterTextComputed"
     id="schedule_table"
     style="width: 100%"
     :default-sort="{prop: 'schedule_name', order: 'ascending'}">
@@ -125,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, reactive } from 'vue'
+import { ref, toRefs, reactive, computed } from 'vue'
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from 'element-plus';
 
@@ -134,6 +135,13 @@ import useBScheduleStore from "../../../store/BGroup/BScheduleStore";
 const BScheduleStore = useBScheduleStore();
 const { getData } = storeToRefs(BScheduleStore);
 const { dialogAddShow, dialogEditShow, deleteSchedule, scheduleOpenCloseSwitch, inStreamScheduleSwitch } = BScheduleStore;
+
+const filterTextComputed = computed(() => {
+  let arr = []
+  arr = getData.value.scheduleData.filter((v: any) => v['schedule_name'].indexOf(getData.value.filterText) !== -1);
+  console.log(arr)
+  return arr
+})
 
 </script>
 

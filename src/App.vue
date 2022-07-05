@@ -22,10 +22,10 @@ const loginManagerStore = useLoginManagerStore();
 const loggedIn = computed(() => loginManagerStore.loggedIn);
 
 const LoginManagerStore = useLoginManagerStore();
-const {  } = storeToRefs(LoginManagerStore);
+// const {  } = storeToRefs(LoginManagerStore);
 const { checkUserType } = LoginManagerStore;
 
-checkUserType({count:0})
+checkUserType({ count: 0 })
 
 </script>
 

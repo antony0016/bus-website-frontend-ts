@@ -2,8 +2,9 @@
   <el-button @click="dialogAddOpen()">
     新增
   </el-button>
+  <el-input v-model="getData.filterText" placeholder="請輸入程序名稱" autocomplete="off"/>
   <el-table
-    :data="getData.programData"
+    :data="filterTextComputed"
     id="program_table"
     style="width: 100%"
     :default-sort="{prop: 'program_type', order: 'ascending'}">
@@ -51,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, reactive } from 'vue'
+import { ref, toRefs, reactive, computed } from 'vue'
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from 'element-plus';
 
@@ -60,6 +61,13 @@ import useBProgramStore from "../../../store/BGroup/BProgramStore";
 const BProgramStore = useBProgramStore();
 const { getData } = storeToRefs(BProgramStore);
 const { dialogAddOpen, dialogEditOpen, deleteProgram, pilotProgram } = BProgramStore;
+
+const filterTextComputed = computed(() => {
+  let arr = []
+  arr = getData.value.programData.filter((v: any) => v['program_name'].indexOf(getData.value.filterText) !== -1);
+  console.log(arr)
+  return arr
+})
 
 </script>
 

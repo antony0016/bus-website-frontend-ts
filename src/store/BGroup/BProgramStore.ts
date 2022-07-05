@@ -7,7 +7,8 @@ const useBProgramStore = defineStore('BProgramStore', {
   state: () => ({
     getData:{
       programTypeData: [],
-      programData: []
+      programData: [],
+      filterText: ''
     },
     apiUrl:{
       baseProgramUrl: 'http://127.0.0.1:8000/api/broadcastprogram/',
