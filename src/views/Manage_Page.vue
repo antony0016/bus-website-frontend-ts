@@ -1,6 +1,7 @@
 <template>
   <simple-card title="客運業者管理">
-    <el-tabs v-model="companyRouteActiveTab" @tab-click="getCompany({getcount:0}); getRoute({getcount:0}); getBusCompany({getcount:0}); SelectCompanyDialogChange(); getBus({getcount:0}); getMaintenanceCompany({getcount:0}); getMaintenanceRoute({getcount:0});">
+    <el-tabs v-model="companyRouteActiveTab"
+             @tab-click="getCompany({getcount:0}); getRoute({getcount:0}); getBusCompany({getcount:0}); SelectCompanyDialogChange(); getBus({getcount:0}); getMaintenanceCompany({getcount:0}); getMaintenanceRoute({getcount:0});">
       <el-tab-pane label="業者基本資料" name="companys" :disabled="!pageShow['MRC']">
         <span v-show="pageShow['MRC']">
           <MCompanyCompanyShow/>
@@ -27,11 +28,22 @@
         </span>
         <MMaintenanceDialog/>
       </el-tab-pane>
+      <!-- todo: add disabled attribute on this tab -->
+      <el-tab-pane label="營運報表" name="report">
+        <el-select name="option" placeholder="請選擇報表">
+          <el-option v-for="(x, index) in ['a', 'b', 'c', 'd']" :value="x" :key="index" v-model="selectedReport">
+            {{ x + '報表' }}
+          </el-option>
+        </el-select>
+        <el-button @click="showTestError">產生報表</el-button>
+        <p/>
+      </el-tab-pane>
     </el-tabs>
   </simple-card>
   <span>&nbsp;</span>
   <simple-card title="廣播管理">
-    <el-tabs v-model="broadcastActiveTab" @tab-click="getProgram({getcount:0}); getSchedule({getcount:0}); getQueue({getcount:0}); getScheduleData({getcount:0});">
+    <el-tabs v-model="broadcastActiveTab"
+             @tab-click="getProgram({getcount:0}); getSchedule({getcount:0}); getQueue({getcount:0}); getScheduleData({getcount:0});">
       <el-tab-pane label="程序設定" name="program" :disabled="!pageShow['BVP']">
         <span v-show="pageShow['BVP']">
           <BProgramShow/>
@@ -54,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRefs, defineComponent, watch } from "vue";
+import { ref, reactive } from "vue";
 import { storeToRefs } from "pinia";
 
 import useMCompanyStore from "../store/MGroup/MCompanyStore";
@@ -80,7 +92,7 @@ import MMaintenanceShow from "../components/MGroup/MMaintenance/MMaintenanceShow
 import MMaintenanceDialog from "../components/MGroup/MMaintenance/MMaintenanceDialog.vue";
 
 import BProgramShow from "../components/BGroup/BProgram/BProgramShow.vue";
-import BProgramDialog from "../components/BGroup/BProgram/BProgramDialog.vue"; 
+import BProgramDialog from "../components/BGroup/BProgram/BProgramDialog.vue";
 import BScheduleShow from "../components/BGroup/BSchedule/BScheduleShow.vue";
 import BScheduleDialog from "../components/BGroup/BSchedule/BScheduleDialog.vue";
 import BQueueShow from "../components/BGroup/BQueue/BQueueShow.vue"
@@ -96,11 +108,11 @@ const { companyRouteActiveTab } = storeToRefs(MCompanyStore);
 const { getCompany, getRoute } = MCompanyStore;
 
 const MBusInfoStore = useMBusInfoStore();
-const { } = storeToRefs(MBusInfoStore);
+const {} = storeToRefs(MBusInfoStore);
 const { getBusCompany, getBus, SelectCompanyDialogChange } = MBusInfoStore;
 
 const MMaintenanceStore = useMMaintenanceStore();
-const {  } = storeToRefs(MMaintenanceStore);
+const {} = storeToRefs(MMaintenanceStore);
 const { getMaintenanceCompany, getMaintenanceRoute } = MMaintenanceStore;
 
 let broadcastActiveTab = 'program'
@@ -110,24 +122,30 @@ const {} = storeToRefs(BProgramStore);
 const { getProgram } = BProgramStore;
 
 const BScheduleStore = useBScheduleStore();
-const {  } = storeToRefs(BScheduleStore);
+const {} = storeToRefs(BScheduleStore);
 const { getSchedule } = BScheduleStore;
 
 const BQueueStore = useBQueueStore();
-const {  } = storeToRefs(BQueueStore);
+const {} = storeToRefs(BQueueStore);
 const { getQueue, getScheduleData } = BQueueStore;
 
-getCompany({getcount:0})
-getRoute({getcount:0})
-getBusCompany({getcount:0})
-getBus({getcount:0})
-getMaintenanceCompany({getcount:0})
-getMaintenanceRoute({getcount:0})
+// todo: wait to fix.
+const selectedReport = ref('a');
+const showTestError = () => {
+  window.alert('功能待開發')
+}
 
-getProgram({getcount:0})
-getSchedule({getcount:0})
-getQueue({getcount:0})
-getScheduleData({getcount:0})
+getCompany({ getcount: 0 })
+getRoute({ getcount: 0 })
+getBusCompany({ getcount: 0 })
+getBus({ getcount: 0 })
+getMaintenanceCompany({ getcount: 0 })
+getMaintenanceRoute({ getcount: 0 })
+
+getProgram({ getcount: 0 })
+getSchedule({ getcount: 0 })
+getQueue({ getcount: 0 })
+getScheduleData({ getcount: 0 })
 
 let myDate = new Date();
 let nowTime = reactive({
@@ -143,14 +161,14 @@ const setTime = (myDate: Date) => {
   const time = h + ":" + m + ":" + s;
   const day = year + "-" + month + "-" + date;
 
-  nowTime.data = day+' '+time;
+  nowTime.data = day + ' ' + time;
 }
 const nowTimes = () => {
   setTime(myDate);
   setInterval(() => {
     myDate = new Date();
     setTime(myDate)
-    getQueue({getcount:0})
+    getQueue({ getcount: 0 })
   }, 1000)
   return nowTime
 }
