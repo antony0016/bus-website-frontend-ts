@@ -23,13 +23,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="電話1" :label-width="formLabelWidth">
-        <el-input v-model="UserDialogForm.phonemain" autocomplete="off"/>
+        <el-input v-model="UserDialogForm.phoneMain" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="電話2" :label-width="formLabelWidth">
-        <el-input v-model="UserDialogForm.phonesub" autocomplete="off"/>
+        <el-input v-model="UserDialogForm.phoneSub" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="電子郵件" :label-width="formLabelWidth">
-        <el-input type="email" v-model="UserDialogForm.useremail" autocomplete="off"/>
+        <el-input type="email" v-model="UserDialogForm.userMail" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="備註" :label-width="formLabelWidth">
         <el-input v-model="UserDialogForm.note" autocomplete="off"/>
@@ -37,12 +37,12 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="deleteUser({deletecount: 0}); UserDialogFormVisible = false" type="danger" v-show="UserDeleteShow">刪除</el-button>
-        <el-button @click="UserdialogClear(); UserDialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="putUser({putcount: 0}); UserDialogFormVisible = false" v-show="UserDeleteShow">
+        <el-button @click="deleteUser({deleteCount: 0}); UserDialogFormVisible = false" type="danger" v-show="UserDeleteShow">刪除</el-button>
+        <el-button @click="userDialogClear(); UserDialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="putUser({putCount: 0}); UserDialogFormVisible = false" v-show="UserDeleteShow">
           修改
         </el-button>
-        <el-button type="primary" @click="postUser({postcount: 0}); UserDialogFormVisible = false" v-show="!UserDeleteShow">
+        <el-button type="primary" @click="postUser({postCount: 0}); UserDialogFormVisible = false" v-show="!UserDeleteShow">
           新增
         </el-button>
       </span>
@@ -58,7 +58,7 @@ import useMAccountStore from "../../../store/MGroup/MAccountStore";
 
 const MAccountStore = useMAccountStore();
 const { UserDialogForm, UserDeleteShow, UserDialogFormVisible, getData } = storeToRefs(MAccountStore);
-const { UserdialogClear, postUser, putUser, deleteUser } = MAccountStore;
+const { userDialogClear, postUser, putUser, deleteUser } = MAccountStore;
 
 const formLabelWidth = '50px'
 
@@ -66,7 +66,7 @@ const handleClose = (done: () => void) => {
   ElMessageBox.confirm('您確定要關閉視窗?(內容不會保存)')
     .then(() => {
       done()
-      UserdialogClear()
+      userDialogClear()
     })
     .catch(() => {
       // catch error

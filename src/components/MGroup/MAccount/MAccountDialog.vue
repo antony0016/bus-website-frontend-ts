@@ -9,25 +9,25 @@
   >
     <el-form :model="DialogForm" label-position="top">
       <el-form-item label="群組名稱：" :label-width="formLabelWidth">
-        <el-select v-model="DialogForm.grouptype" placeholder="請選擇群組">
-          <el-option 
-            v-for="gtitem in GroupTypeSelections"
-            :label="gtitem.labelname" :value="gtitem.value" 
+        <el-select v-model="DialogForm.groupType" placeholder="請選擇群組">
+          <el-option
+              v-for="gtitem in GroupTypeSelections"
+              :label="gtitem.labelName" :value="gtitem.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="群組代碼：" :label-width="formLabelWidth">
-        <el-input v-model="DialogForm.groupcode" autocomplete="off" disabled/>
+        <el-input v-model="DialogForm.groupCode" autocomplete="off" disabled/>
       </el-form-item>
       <el-form-item label="群組名稱：" :label-width="formLabelWidth">
-        <el-input v-model="DialogForm.groupname" autocomplete="off" />
+        <el-input v-model="DialogForm.groupName" autocomplete="off" />
       </el-form-item>
-      <el-form-item 
-        v-for="(value, name, index) in PermissionSelections"
-        :label="value.GroupName" :label-width="formLabelWidth">
+      <el-form-item
+          v-for="(value, name, index) in PermissionSelections"
+          :label="value.groupName" :label-width="formLabelWidth">
         <el-col :span="12">
           <el-checkbox 
-            v-for="(subvalue, subname, index) in value.GroupMember"
+            v-for="(subvalue, subname, index) in value.groupMember"
             v-model="subvalue.allow" :label="subvalue.name"
           />
         </el-col>
@@ -36,7 +36,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogClear(); dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="postGroupName({postcount: 0}); dialogFormVisible = false">
+        <el-button type="primary" @click="postGroupName({postCount: 0}); dialogFormVisible = false">
           提交
         </el-button>
       </span>

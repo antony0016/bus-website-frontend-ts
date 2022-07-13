@@ -6,30 +6,30 @@ import useLoginManagerStore from "../LoginManagerStore";
 const useMAccountStore = defineStore('MAccountStore', {
   state: () => ({
     nowGroupSelect: '',
-    nowGroupSelectshow: false,
+    nowGroupSelectShow: false,
     ApiUrl: {
-      baseurl: 'http://127.0.0.1:8000/api/roletest/',
-      geturl: 'view_role/',
-      posturl: 'add_role/',
-      puturl: 'update_role/',
-      deleteurl: 'delete_role/',
-      userbaseurl: 'http://127.0.0.1:8000/api/usertest/',
-      usergeturl: 'view_user/',
-      userposturl: 'add_user/',
-      userputurl: 'update_user/',
-      userdeleteurl: 'delete_user/',
+      baseUrl: 'http://127.0.0.1:8000/api/roletest/',
+      getUrl: 'view_role/',
+      postUrl: 'add_role/',
+      putUrl: 'update_role/',
+      deleteUrl: 'delete_role/',
+      userBaseUrl: 'http://127.0.0.1:8000/api/usertest/',
+      userGetUrl: 'view_user/',
+      userPostUrl: 'add_user/',
+      userPutUrl: 'update_user/',
+      userDeleteUrl: 'delete_user/',
     },
     getData: {
       getGroupData: {},
       selectGroup: {
-        nowselectgroup: {},
-        selectgrouptype: '',
-        selectgroupcode: '',
-        selectgroupname: '',
-        selectgrouppermission: {
-          MGroup: {
-            GroupName: "營運管理：",
-            GroupMember: {
+        nowSelectGroup: {},
+        selectGroupType: '',
+        selectGroupCode: '',
+        selectGroupName: '',
+        selectGroupPermission: {
+          mGroup: {
+            groupName: "營運管理：",
+            groupMember: {
               MRC: { name: "客運與路線/客運業者資料及路線建立", allow: false },
               MPM: { name: "月台管理/月台資料建立及申請允許維護", allow: false },
               MPA: { name: "月台申請/備用月台停靠時間及一般月台使用次數設定", allow: false },
@@ -42,9 +42,9 @@ const useMAccountStore = defineStore('MAccountStore', {
               MPG: { name: "月台群組設定/月台群組設定", allow: false },
             }
           },
-          CGroup: {
-            GroupName: "行控管理：",
-            GroupMember: {
+          cGroup: {
+            groupName: "行控管理：",
+            groupMember: {
               CIC: { name: "即時團控/現場即時狀態顯示", allow: false },
               CBA: { name: "車輛異常管理/車輛異常管理", allow: false },
               CBS: { name: "車輛進站查詢/車輛進出站資料查詢", allow: false },
@@ -57,8 +57,8 @@ const useMAccountStore = defineStore('MAccountStore', {
             }
           },
           BGroup: {
-            GroupName: "廣播管理：",
-            GroupMember: {
+            groupName: "廣播管理：",
+            groupMember: {
               BVP: { name: "語音程序/語音程序建立及查詢", allow: false },
               BBS: { name: "廣播排程/固定或週期排程", allow: false },
               BQE: { name: "車務自動插播/車輛到月台啟動廣播", allow: false },
@@ -70,18 +70,18 @@ const useMAccountStore = defineStore('MAccountStore', {
       getUserData: [],
     },
     DialogForm: {
-      grouptype: '',
-      groupcode: '',
-      groupname: '',
+      groupType: '',
+      groupCode: '',
+      groupName: '',
     },
     UserDialogForm: {
-      userid: '',
+      userID: '',
       username: '',
-      useremail: '',
-      userdetailid: '',
+      userMail: '',
+      userDetail: '',
       name: '',
-      phonemain: '',
-      phonesub: '',
+      phoneMain: '',
+      phoneSub: '',
       note: '',
       group: '',
       password: '',
@@ -89,14 +89,14 @@ const useMAccountStore = defineStore('MAccountStore', {
     UserDialogFormVisible: false,
     UserDeleteShow: false,
     GroupTypeSelections: [
-      { labelname: 'Administartor', value: 'Administartor' },
-      { labelname: 'Manager', value: 'Manager' },
-      { labelname: 'User', value: 'User' },
+      { labelName: 'Administartor', value: 'Administartor' },
+      { labelName: 'Manager', value: 'Manager' },
+      { labelName: 'User', value: 'User' },
     ],
     PermissionSelections: {
-      MGroup: {
-        GroupName: "營運管理：",
-        GroupMember: {
+      mGroup: {
+        groupName: "營運管理：",
+        groupMember: {
           MRC: { name: "客運與路線/客運業者資料及路線建立", allow: false },
           MPM: { name: "月台管理/月台資料建立及申請允許維護", allow: false },
           MPA: { name: "月台申請/備用月台停靠時間及一般月台使用次數設定", allow: false },
@@ -109,9 +109,9 @@ const useMAccountStore = defineStore('MAccountStore', {
           MPG: { name: "月台群組設定/月台群組設定", allow: false },
         }
       },
-      CGroup: {
-        GroupName: "行控管理：",
-        GroupMember: {
+      cGroup: {
+        groupName: "行控管理：",
+        groupMember: {
           CIC: { name: "即時團控/現場即時狀態顯示", allow: false },
           CBA: { name: "車輛異常管理/車輛異常管理", allow: false },
           CBS: { name: "車輛進站查詢/車輛進出站資料查詢", allow: false },
@@ -124,8 +124,8 @@ const useMAccountStore = defineStore('MAccountStore', {
         }
       },
       BGroup: {
-        GroupName: "廣播管理：",
-        GroupMember: {
+        groupName: "廣播管理：",
+        groupMember: {
           BVP: { name: "語音程序/語音程序建立及查詢", allow: false },
           BBS: { name: "廣播排程/固定或週期排程", allow: false },
           BQE: { name: "車務自動插播/車輛到月台啟動廣播", allow: false },
@@ -138,27 +138,27 @@ const useMAccountStore = defineStore('MAccountStore', {
   actions: {
     dialogClear: function () {
       //console.log(this.DialogForm)
-      this.DialogForm.grouptype = ''
-      this.DialogForm.groupcode = ''
-      this.DialogForm.groupname = ''
+      this.DialogForm.groupType = ''
+      this.DialogForm.groupCode = ''
+      this.DialogForm.groupName = ''
       for (let [key, value] of Object.entries(this.PermissionSelections)) {
-        for (let [subkey, subvalue] of Object.entries(value['GroupMember'])) {
-          subvalue['allow'] = false
+        for (let [subKey, subValue] of Object.entries(value['groupMember'])) {
+          subValue['allow'] = false
         }
       }
     },
-    getGroupName: function (payload: { getcount: number }) {
+    getGroupName: function (payload: { getCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.get(this.ApiUrl.baseurl + this.ApiUrl.geturl)
+      axios.get(this.ApiUrl.baseUrl + this.ApiUrl.getUrl)
         .then(response => {
           console.log('get group data')
           this.getData.getGroupData = response.data
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.getcount < 6) {
+            if (payload.getCount < 6) {
               loginManagerStore.refreshToken()
-              this.getGroupName({ getcount: payload.getcount + 1 })
+              this.getGroupName({ getCount: payload.getCount + 1 })
             } else {
               this.getData.getGroupData = {}
               console.log('沒有權限')
@@ -168,37 +168,37 @@ const useMAccountStore = defineStore('MAccountStore', {
           }
         })
     },
-    selectGroupFunction: function (payload: { nowselect: string, nowselectindex: string }) {
-      this.getGroupName({ getcount: 0 })
-      this.getData.selectGroup.nowselectgroup = Object.fromEntries(Object.entries(this.getData.getGroupData).filter(([k, v]) => k == payload.nowselect))
-      for (let [key, value] of Object.entries(this.getData.selectGroup.nowselectgroup)) {
-        this.getData.selectGroup.selectgrouptype = value['group_type_name']
-        this.getData.selectGroup.selectgroupname = value['group_name']
-        this.getData.selectGroup.selectgroupcode = value['group_id']
-        this.getData.selectGroup.selectgrouppermission = value['group_percode']
+    selectGroupFunction: function (payload: { nowSelect: string, nowSelectIndex: string }) {
+      this.getGroupName({ getCount: 0 })
+      this.getData.selectGroup.nowSelectGroup = Object.fromEntries(Object.entries(this.getData.getGroupData).filter(([k, v]) => k == payload.nowSelect))
+      for (let [key, value] of Object.entries(this.getData.selectGroup.nowSelectGroup)) {
+        this.getData.selectGroup.selectGroupType = value['group_type_name']
+        this.getData.selectGroup.selectGroupName = value['group_name']
+        this.getData.selectGroup.selectGroupCode = value['group_id']
+        this.getData.selectGroup.selectGroupPermission = value['group_per_code']
       }
-      this.nowGroupSelect = payload.nowselectindex
-      this.nowGroupSelectshow = true
+      this.nowGroupSelect = payload.nowSelectIndex
+      this.nowGroupSelectShow = true
     },
-    postGroupName: function (payload: { postcount: number }) {
+    postGroupName: function (payload: { postCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.post(this.ApiUrl.baseurl + this.ApiUrl.posturl, {
+      axios.post(this.ApiUrl.baseUrl + this.ApiUrl.postUrl, {
         data: {
-          roletype: this.DialogForm.grouptype,
-          rolename: this.DialogForm.groupname,
+          roletype: this.DialogForm.groupType,
+          rolename: this.DialogForm.groupName,
           permission: this.PermissionSelections,
         }
       })
         .then(response => {
           console.log('post group data')
-          this.getGroupName({ getcount: 0 })
+          this.getGroupName({ getCount: 0 })
           this.dialogClear()
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.postcount < 6) {
+            if (payload.postCount < 6) {
               loginManagerStore.refreshToken()
-              this.postGroupName({ postcount: payload.postcount + 1 })
+              this.postGroupName({ postCount: payload.postCount + 1 })
             } else {
               console.log('沒有權限')
               this.dialogClear()
@@ -209,25 +209,25 @@ const useMAccountStore = defineStore('MAccountStore', {
           }
         })
     },
-    putGroupName: function (payload: { putcount: number }) {
+    putGroupName: function (payload: { putCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.put(this.ApiUrl.baseurl + this.getData.selectGroup.selectgroupcode + '/' + this.ApiUrl.puturl, {
+      axios.put(this.ApiUrl.baseUrl + this.getData.selectGroup.selectGroupCode + '/' + this.ApiUrl.putUrl, {
         data: {
-          id: this.getData.selectGroup.selectgroupcode,
-          roletype: this.getData.selectGroup.selectgrouptype,
-          rolename: this.getData.selectGroup.selectgroupname,
-          permission: this.getData.selectGroup.selectgrouppermission,
+          id: this.getData.selectGroup.selectGroupCode,
+          roletype: this.getData.selectGroup.selectGroupType,
+          rolename: this.getData.selectGroup.selectGroupName,
+          permission: this.getData.selectGroup.selectGroupPermission,
         }
       })
         .then(response => {
           console.log('put group data')
-          this.getGroupName({ getcount: 0 })
+          this.getGroupName({ getCount: 0 })
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.putcount < 6) {
+            if (payload.putCount < 6) {
               loginManagerStore.refreshToken()
-              this.putGroupName({ putcount: payload.putcount + 1 })
+              this.putGroupName({ putCount: payload.putCount + 1 })
             } else {
               console.log('沒有權限')
             }
@@ -236,24 +236,24 @@ const useMAccountStore = defineStore('MAccountStore', {
           }
         })
     },
-    deleteGroupName: function (payload: { deletecount: number }) {
+    deleteGroupName: function (payload: { deleteCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.put(this.ApiUrl.baseurl + this.getData.selectGroup.selectgroupcode + '/' + this.ApiUrl.deleteurl, {
+      axios.put(this.ApiUrl.baseUrl + this.getData.selectGroup.selectGroupCode + '/' + this.ApiUrl.deleteUrl, {
         data: {
-          id: this.getData.selectGroup.selectgroupcode,
+          id: this.getData.selectGroup.selectGroupCode,
         }
       })
         .then(response => {
           console.log('delete group data')
-          this.getGroupName({ getcount: 0 })
+          this.getGroupName({ getCount: 0 })
           this.nowGroupSelect = ''
-          this.nowGroupSelectshow = false
+          this.nowGroupSelectShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.deletecount < 6) {
+            if (payload.deleteCount < 6) {
               loginManagerStore.refreshToken()
-              this.deleteGroupName({ deletecount: payload.deletecount + 1 })
+              this.deleteGroupName({ deleteCount: payload.deleteCount + 1 })
             } else {
               console.log('沒有權限')
             }
@@ -262,9 +262,9 @@ const useMAccountStore = defineStore('MAccountStore', {
           }
         })
     },
-    getUser: function (payload: { getcount: number }) {
+    getUser: function (payload: { getCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.get(this.ApiUrl.userbaseurl + this.ApiUrl.usergeturl)
+      axios.get(this.ApiUrl.userBaseUrl + this.ApiUrl.userGetUrl)
         .then(response => {
           console.log('get user data')
           this.getData.getUserData = response.data
@@ -272,9 +272,9 @@ const useMAccountStore = defineStore('MAccountStore', {
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.getcount < 6) {
+            if (payload.getCount < 6) {
               loginManagerStore.refreshToken()
-              this.getUser({ getcount: payload.getcount + 1 })
+              this.getUser({ getCount: payload.getCount + 1 })
             } else {
               this.getData.getUserData = []
               console.log('沒有權限')
@@ -284,26 +284,26 @@ const useMAccountStore = defineStore('MAccountStore', {
           }
         })
     },
-    UserdialogClear: function () {
-      this.UserDialogForm.userid = ''
+    userDialogClear: function () {
+      this.UserDialogForm.userID = ''
       this.UserDialogForm.username = ''
-      this.UserDialogForm.useremail = ''
-      this.UserDialogForm.userdetailid = ''
+      this.UserDialogForm.userMail = ''
+      this.UserDialogForm.userDetail = ''
       this.UserDialogForm.name = ''
-      this.UserDialogForm.phonemain = ''
-      this.UserDialogForm.phonesub = ''
+      this.UserDialogForm.phoneMain = ''
+      this.UserDialogForm.phoneSub = ''
       this.UserDialogForm.note = ''
       this.UserDialogForm.group = ''
       this.UserDialogForm.password = ''
     },
     openUserEdit: function (payload: { data: object }) {
-      this.UserDialogForm.userid = payload.data['user_id']
+      this.UserDialogForm.userID = payload.data['user_id']
       this.UserDialogForm.username = payload.data['username']
-      this.UserDialogForm.useremail = payload.data['email']
-      this.UserDialogForm.userdetailid = payload.data['user_detail_id']
+      this.UserDialogForm.userMail = payload.data['email']
+      this.UserDialogForm.userDetail = payload.data['user_detail_id']
       this.UserDialogForm.name = payload.data['name']
-      this.UserDialogForm.phonemain = payload.data['phonemain']
-      this.UserDialogForm.phonesub = payload.data['phonesub']
+      this.UserDialogForm.phoneMain = payload.data['phoneMain']
+      this.UserDialogForm.phoneSub = payload.data['phoneSub']
       this.UserDialogForm.note = payload.data['note']
       this.UserDialogForm.group = payload.data['group']
       this.UserDialogForm.password = ''
@@ -311,103 +311,103 @@ const useMAccountStore = defineStore('MAccountStore', {
       this.UserDialogFormVisible = true
     },
     addNewUserDialog: function () {
-      this.UserdialogClear()
+      this.userDialogClear()
       this.UserDeleteShow = false
       this.UserDialogFormVisible = true
     },
-    postUser: function (payload: { postcount: number }) {
+    postUser: function (payload: { postCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.post(this.ApiUrl.userbaseurl + this.ApiUrl.userposturl, {
+      axios.post(this.ApiUrl.userBaseUrl + this.ApiUrl.userPostUrl, {
         data: {
           group: this.UserDialogForm.group,
           username: this.UserDialogForm.username,
-          email: this.UserDialogForm.useremail,
+          email: this.UserDialogForm.userMail,
           password: this.UserDialogForm.password,
-          accountname: this.UserDialogForm.name,
-          phonemain: this.UserDialogForm.phonemain,
-          phonesub: this.UserDialogForm.phonesub,
+          accountName: this.UserDialogForm.name,
+          phoneMain: this.UserDialogForm.phoneMain,
+          phoneSub: this.UserDialogForm.phoneSub,
           note: this.UserDialogForm.note,
         }
       })
         .then(response => {
           console.log('post user data')
-          this.getUser({ getcount: 0 })
-          this.UserdialogClear()
+          this.getUser({ getCount: 0 })
+          this.userDialogClear()
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.postcount < 6) {
+            if (payload.postCount < 6) {
               loginManagerStore.refreshToken()
-              this.postUser({ postcount: payload.postcount + 1 })
+              this.postUser({ postCount: payload.postCount + 1 })
             } else {
               console.log('沒有權限')
-              this.UserdialogClear()
+              this.userDialogClear()
             }
           } else {
             console.log(error)
-            this.UserdialogClear()
+            this.userDialogClear()
           }
         })
     },
-    putUser: function (payload: { putcount: number }) {
+    putUser: function (payload: { putCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.put(this.ApiUrl.userbaseurl + this.UserDialogForm.userid + '/' + this.ApiUrl.userputurl, {
+      axios.put(this.ApiUrl.userBaseUrl + this.UserDialogForm.userID + '/' + this.ApiUrl.userPutUrl, {
         data: {
-          id: this.UserDialogForm.userid,
+          id: this.UserDialogForm.userID,
           group: this.UserDialogForm.group,
           username: this.UserDialogForm.username,
-          email: this.UserDialogForm.useremail,
+          email: this.UserDialogForm.userMail,
           password: this.UserDialogForm.password,
-          accountname: this.UserDialogForm.name,
-          phonemain: this.UserDialogForm.phonemain,
-          phonesub: this.UserDialogForm.phonesub,
+          accountName: this.UserDialogForm.name,
+          phoneMain: this.UserDialogForm.phoneMain,
+          phoneSub: this.UserDialogForm.phoneSub,
           note: this.UserDialogForm.note,
         }
       })
         .then(response => {
           console.log('put user data')
-          this.getUser({ getcount: 0 })
-          this.UserdialogClear()
+          this.getUser({ getCount: 0 })
+          this.userDialogClear()
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.putcount < 6) {
+            if (payload.putCount < 6) {
               loginManagerStore.refreshToken()
-              this.putUser({ putcount: payload.putcount + 1 })
+              this.putUser({ putCount: payload.putCount + 1 })
             } else {
               console.log('沒有權限')
-              this.UserdialogClear()
+              this.userDialogClear()
             }
           } else {
             console.log(error)
-            this.UserdialogClear()
+            this.userDialogClear()
           }
         })
     },
-    deleteUser: function (payload: { deletecount: number }) {
+    deleteUser: function (payload: { deleteCount: number }) {
       const loginManagerStore = useLoginManagerStore();
-      axios.put(this.ApiUrl.userbaseurl + this.UserDialogForm.userid + '/' + this.ApiUrl.userdeleteurl, {
+      axios.put(this.ApiUrl.userBaseUrl + this.UserDialogForm.userID + '/' + this.ApiUrl.userDeleteUrl, {
         data: {
-          id: this.UserDialogForm.userid,
+          id: this.UserDialogForm.userID,
         }
       })
         .then(response => {
           console.log('delete group data')
-          this.getUser({ getcount: 0 })
-          this.UserdialogClear()
+          this.getUser({ getCount: 0 })
+          this.userDialogClear()
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
-            if (payload.deletecount < 6) {
+            if (payload.deleteCount < 6) {
               loginManagerStore.refreshToken()
-              this.deleteUser({ deletecount: payload.deletecount + 1 })
+              this.deleteUser({ deleteCount: payload.deleteCount + 1 })
             } else {
               console.log('沒有權限')
-              this.UserdialogClear()
+              this.userDialogClear()
             }
           } else {
             console.log(error)
-            this.UserdialogClear()
+            this.userDialogClear()
           }
         })
     },

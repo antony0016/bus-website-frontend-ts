@@ -1,6 +1,6 @@
 <template>
   <simple-card title="帳號群組">
-    <el-tabs v-model="activeTab" @tab-click="getGroupName({getcount:0}); getUser({getcount:0})">
+    <el-tabs v-model="activeTab" @tab-click="getGroupName({getCount:0}); getUser({getCount:0})">
       <el-tab-pane label="編輯群組" name="groups">
         <el-row>
           <el-col :span="4">
@@ -10,7 +10,7 @@
               <el-menu-item
                 v-for="(value, name, index) in getData.getGroupData"
                 :index="index.toString()"
-                @click="selectGroupFunction({nowselect: name, nowselectindex: index.toString()})"
+                @click="selectGroupFunction({nowSelect: name, nowSelectIndex: index.toString()})"
               >
                 <span>{{ name }}</span>
               </el-menu-item>
@@ -47,8 +47,8 @@ const { getGroupName, getUser, selectGroupFunction } = MAccountStore;
 
 const activeTab = ref('groups')
 
-getGroupName({ getcount: 0 })
-getUser({ getcount: 0 })
+getGroupName({ getCount: 0 })
+getUser({ getCount: 0 })
 
 </script>
 
