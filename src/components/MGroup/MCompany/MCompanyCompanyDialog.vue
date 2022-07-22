@@ -11,6 +11,9 @@
       <el-form-item label="公司名稱" :label-width="formLabelWidth">
         <el-input v-model="CompanyDialogForm.company_name" autocomplete="off"/>
       </el-form-item>
+      <el-form-item label="公司英文名稱" :label-width="formLabelWidth">
+        <el-input v-model="CompanyDialogForm.company_en_name" autocomplete="off"/>
+      </el-form-item>
       <el-form-item label="統一編號" :label-width="formLabelWidth">
         <el-input v-model="CompanyDialogForm.unified_no" autocomplete="off"/>
       </el-form-item>
@@ -26,8 +29,11 @@
       <el-form-item label="合約狀態" :label-width="formLabelWidth">
         <el-input v-model="CompanyDialogForm.contract_state" autocomplete="off"/>
       </el-form-item>
-      <el-form-item label="合約期間" :label-width="formLabelWidth">
+      <el-form-item label="合約開始期間" :label-width="formLabelWidth">
         <el-input type="datetime-local" v-model="CompanyDialogForm.contract_datetime" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="合約結束期間" :label-width="formLabelWidth">
+        <el-input type="datetime-local" v-model="CompanyDialogForm.contract_end_datetime" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="E-mail" :label-width="formLabelWidth">
         <el-input type="email" v-model="CompanyDialogForm.company_email" autocomplete="off"/>

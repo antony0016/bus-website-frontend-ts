@@ -48,12 +48,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       company_uuid: '',
       company_no: '',
       company_name: '',
+      company_en_name: '',
       unified_no: '',
       company_phone: '',
       company_fax: '',
       company_address: '',
       contract_state: '',
       contract_datetime: '',
+      contract_end_datetime: '',
       company_email: '',
       company_password: '',
       company_checkpassword: ''
@@ -113,12 +115,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.CompanyDialogForm.company_uuid = ''
       this.CompanyDialogForm.company_no = ''
       this.CompanyDialogForm.company_name = ''
+      this.CompanyDialogForm.company_en_name = ''
       this.CompanyDialogForm.unified_no = ''
       this.CompanyDialogForm.company_phone = ''
       this.CompanyDialogForm.company_fax = ''
       this.CompanyDialogForm.company_address = ''
       this.CompanyDialogForm.contract_state = ''
       this.CompanyDialogForm.contract_datetime = ''
+      this.CompanyDialogForm.contract_end_datetime = ''
       this.CompanyDialogForm.company_email = '',
       this.CompanyDialogForm.company_password = '',
       this.CompanyDialogForm.company_checkpassword = ''
@@ -133,12 +137,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.CompanyDialogForm.company_uuid = payload.data['company_uuid']
       this.CompanyDialogForm.company_no = payload.data['company_no']
       this.CompanyDialogForm.company_name = payload.data['company_name']
+      this.CompanyDialogForm.company_en_name = payload.data['company_en_name']
       this.CompanyDialogForm.unified_no = payload.data['unified_no']
       this.CompanyDialogForm.company_phone = payload.data['company_phone']
       this.CompanyDialogForm.company_fax = payload.data['company_fax']
       this.CompanyDialogForm.company_address = payload.data['company_address']
       this.CompanyDialogForm.contract_state = payload.data['contract_state']
       this.CompanyDialogForm.contract_datetime = payload.data['contract_datetime']
+      this.CompanyDialogForm.contract_end_datetime = payload.data['contract_end_datetime']
       this.CompanyDialogForm.company_email = payload.data['company_email']
       this.CompanyDialogForm.company_password = ''
       this.CompanyDialogForm.company_checkpassword = ''
@@ -180,12 +186,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           data: {
             company_no: this.CompanyDialogForm.company_no,
             company_name: this.CompanyDialogForm.company_name,
+            company_en_name: this.CompanyDialogForm.company_en_name,
             unified_no: this.CompanyDialogForm.unified_no,
             company_phone: this.CompanyDialogForm.company_phone,
             company_fax: this.CompanyDialogForm.company_fax,
             company_address: this.CompanyDialogForm.company_address,
             contract_state: this.CompanyDialogForm.contract_state,
             contract_datetime: this.CompanyDialogForm.contract_datetime,
+            contract_end_datetime: this.CompanyDialogForm.contract_end_datetime,
             company_email: this.CompanyDialogForm.company_email,
             company_password: this.CompanyDialogForm.company_password
           }
@@ -221,12 +229,14 @@ const useMCompanyStore = defineStore('MCompanyStore', {
             id: this.CompanyDialogForm.company_uuid,
             company_no: this.CompanyDialogForm.company_no,
             company_name: this.CompanyDialogForm.company_name,
+            company_en_name: this.CompanyDialogForm.company_en_name,
             unified_no: this.CompanyDialogForm.unified_no,
             company_phone: this.CompanyDialogForm.company_phone,
             company_fax: this.CompanyDialogForm.company_fax,
             company_address: this.CompanyDialogForm.company_address,
             contract_state: this.CompanyDialogForm.contract_state,
             contract_datetime: this.CompanyDialogForm.contract_datetime,
+            contract_end_datetime: this.CompanyDialogForm.contract_end_datetime,
             company_email: this.CompanyDialogForm.company_email,
             company_password: this.CompanyDialogForm.company_password
           }

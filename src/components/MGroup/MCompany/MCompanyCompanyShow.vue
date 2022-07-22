@@ -37,6 +37,15 @@
       </template>
     </el-table-column>
     <el-table-column
+        prop="company_en_name"
+        label="客運公司英文"
+        width="180"
+        sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.company_en_name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
       prop="unified_no"
       label="統一編號"
       width="180"
@@ -83,11 +92,20 @@
     </el-table-column>
     <el-table-column
       prop="contract_datetime"
-      label="合約期間"
+      label="合約開始期間"
       width="180"
       sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{ row.contract_datetime }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+        prop="contract_end_datetime"
+        label="合約結束期間"
+        width="180"
+        sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.contract_end_datetime }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -130,8 +148,13 @@ const mcompanyUploadChange = (file: any, fileList: any) => {
   }
   // 讀取表格
   const fileReader = new FileReader();
+  // fileReader.readAsText(file.raw, "UTF-8")
   fileReader.onload = (ev: any) => {
-    const workbook = XLSX.read(ev.target.result, {
+    const data = ev.target.result
+    // const buf = new Uint8Array(data)
+    // const isUtf8File = isUtf8(buf)
+    // const workbook = XLSX.read(isUtf8File ? data : cptable.utils.decode(936, buf), { type: isUtf8File ? "array" : 'string'});
+    const workbook = XLSX.read(data, {
       type: "binary",
     });
     const wsname = workbook.SheetNames[0];
