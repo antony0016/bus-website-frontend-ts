@@ -64,6 +64,15 @@
       </template>
     </el-table-column>
     <el-table-column
+      prop="company_phone"
+      label="連絡人姓名"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.company_contact_name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
       prop="company_fax"
       label="傳真"
       width="180"

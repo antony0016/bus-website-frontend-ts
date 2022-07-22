@@ -51,6 +51,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       company_en_name: '',
       unified_no: '',
       company_phone: '',
+      company_contact_name: '',
       company_fax: '',
       company_address: '',
       contract_state: '',
@@ -64,7 +65,12 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       route_uuid: '',
       route_no: '',
       route_name: '',
+      route_en_name: '',
       route_via_station: '',
+      route_en_via_station: '',
+      route_to_station: '',
+      route_en_to_station: '',
+      route_is_start_stop: '',
     },
     companyAccountDialog: {
       isShow: false,
@@ -118,6 +124,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.CompanyDialogForm.company_en_name = ''
       this.CompanyDialogForm.unified_no = ''
       this.CompanyDialogForm.company_phone = ''
+      this.CompanyDialogForm.company_contact_name = ''
       this.CompanyDialogForm.company_fax = ''
       this.CompanyDialogForm.company_address = ''
       this.CompanyDialogForm.contract_state = ''
@@ -140,6 +147,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.CompanyDialogForm.company_en_name = payload.data['company_en_name']
       this.CompanyDialogForm.unified_no = payload.data['unified_no']
       this.CompanyDialogForm.company_phone = payload.data['company_phone']
+      this.CompanyDialogForm.company_contact_name = payload.data['company_contact_name']
       this.CompanyDialogForm.company_fax = payload.data['company_fax']
       this.CompanyDialogForm.company_address = payload.data['company_address']
       this.CompanyDialogForm.contract_state = payload.data['contract_state']
@@ -189,6 +197,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
             company_en_name: this.CompanyDialogForm.company_en_name,
             unified_no: this.CompanyDialogForm.unified_no,
             company_phone: this.CompanyDialogForm.company_phone,
+            company_contact_name: this.CompanyDialogForm.company_contact_name,
             company_fax: this.CompanyDialogForm.company_fax,
             company_address: this.CompanyDialogForm.company_address,
             contract_state: this.CompanyDialogForm.contract_state,
@@ -232,6 +241,7 @@ const useMCompanyStore = defineStore('MCompanyStore', {
             company_en_name: this.CompanyDialogForm.company_en_name,
             unified_no: this.CompanyDialogForm.unified_no,
             company_phone: this.CompanyDialogForm.company_phone,
+            company_contact_name: this.CompanyDialogForm.company_contact_name,
             company_fax: this.CompanyDialogForm.company_fax,
             company_address: this.CompanyDialogForm.company_address,
             contract_state: this.CompanyDialogForm.contract_state,
@@ -325,8 +335,13 @@ const useMCompanyStore = defineStore('MCompanyStore', {
     RouteDialogClear: function () {
       this.RouteDialogForm.route_uuid = ''
       this.RouteDialogForm.route_name = ''
+      this.RouteDialogForm.route_en_name = ''
       this.RouteDialogForm.route_no = ''
       this.RouteDialogForm.route_via_station = ''
+      this.RouteDialogForm.route_en_via_station = ''
+      this.RouteDialogForm.route_to_station = ''
+      this.RouteDialogForm.route_en_to_station = ''
+      this.RouteDialogForm.route_is_start_stop = ''
     },
     RouteDialogAddShow: function () {
       this.RouteDialogClear()
@@ -341,7 +356,12 @@ const useMCompanyStore = defineStore('MCompanyStore', {
       this.RouteDialogForm.route_uuid = payload.data['route_uuid']
       this.RouteDialogForm.route_no = payload.data['route_no']
       this.RouteDialogForm.route_name = payload.data['route_name']
+      this.RouteDialogForm.route_en_name = payload.data['route_en_name']
       this.RouteDialogForm.route_via_station = payload.data['route_via_station']
+      this.RouteDialogForm.route_en_via_station = payload.data['route_en_via_station']
+      this.RouteDialogForm.route_to_station = payload.data['route_to_station']
+      this.RouteDialogForm.route_en_to_station = payload.data['route_en_to_station']
+      this.RouteDialogForm.route_is_start_stop = payload.data['route_is_start_stop']
       this.getData.RouteinDialogSelect = payload.data['belong_company']
       this.DialogVisible.RoutrDisable = true
       this.DialogVisible.RouteAddChangeSwitch = true
@@ -380,7 +400,12 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           belong_company: this.getData.RouteinDialogSelect,
           route_no: this.RouteDialogForm.route_no,
           route_name: this.RouteDialogForm.route_name,
-          route_via_station: this.RouteDialogForm.route_via_station
+          route_en_name: this.RouteDialogForm.route_en_name,
+          route_via_station: this.RouteDialogForm.route_via_station,
+          route_en_via_station: this.RouteDialogForm.route_en_via_station,
+          route_to_station: this.RouteDialogForm.route_to_station,
+          route_en_to_station: this.RouteDialogForm.route_en_to_station,
+          route_is_start_stop: this.RouteDialogForm.route_is_start_stop
         }
       })
         .then(response => {
@@ -411,7 +436,12 @@ const useMCompanyStore = defineStore('MCompanyStore', {
           belong_company: this.getData.RouteinDialogSelect,
           route_no: this.RouteDialogForm.route_no,
           route_name: this.RouteDialogForm.route_name,
-          route_via_station: this.RouteDialogForm.route_via_station
+          route_en_name: this.RouteDialogForm.route_en_name,
+          route_via_station: this.RouteDialogForm.route_via_station,
+          route_en_via_station: this.RouteDialogForm.route_en_via_station,
+          route_to_station: this.RouteDialogForm.route_to_station,
+          route_en_to_station: this.RouteDialogForm.route_en_to_station,
+          route_is_start_stop: this.RouteDialogForm.route_is_start_stop
         }
       })
         .then(response => {

@@ -20,6 +20,9 @@
       <el-form-item label="電話" :label-width="formLabelWidth">
         <el-input v-model="CompanyDialogForm.company_phone" autocomplete="off"/>
       </el-form-item>
+      <el-form-item label="連絡人姓名" :label-width="formLabelWidth">
+        <el-input v-model="CompanyDialogForm.company_contact_name" autocomplete="off"/>
+      </el-form-item>
       <el-form-item label="傳真" :label-width="formLabelWidth">
         <el-input v-model="CompanyDialogForm.company_fax" autocomplete="off"/>
       </el-form-item>

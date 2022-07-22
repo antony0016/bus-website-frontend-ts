@@ -54,12 +54,57 @@
       </template>
     </el-table-column>
     <el-table-column
+      prop="route_en_name"
+      label="路線英文"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.route_en_name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
       prop="route_via_station"
       label="經由站"
       width="180"
       sortable>
       <template #default="{row,$index}">
         <span style="margin-left: 10px">{{ row.route_via_station }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="route_en_via_station"
+      label="經由站(英文)"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.route_en_via_station }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="route_to_station"
+      label="迄站"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.route_to_station }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="route_en_to_station"
+      label="迄站(英文)"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.route_en_to_station }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="route_is_start_stop"
+      label="起點站"
+      width="180"
+      sortable>
+      <template #default="{row,$index}">
+        <span style="margin-left: 10px">{{ row.route_is_start_stop }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">

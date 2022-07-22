@@ -22,8 +22,26 @@
       <el-form-item label="路線" :label-width="formLabelWidth">
         <el-input v-model="RouteDialogForm.route_name" autocomplete="off"/>
       </el-form-item>
+      <el-form-item label="路線英文" :label-width="formLabelWidth">
+        <el-input v-model="RouteDialogForm.route_en_name" autocomplete="off"/>
+      </el-form-item>
       <el-form-item label="經由站" :label-width="formLabelWidth">
         <el-input v-model="RouteDialogForm.route_via_station" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="經由站(英文)" :label-width="formLabelWidth">
+        <el-input v-model="RouteDialogForm.route_en_via_station" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="迄站" :label-width="formLabelWidth">
+        <el-input v-model="RouteDialogForm.route_to_station" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="迄站(英文)" :label-width="formLabelWidth">
+        <el-input v-model="RouteDialogForm.route_en_to_station" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="起點站" :label-width="formLabelWidth">
+        <el-radio-group v-model="RouteDialogForm.route_is_start_stop" class="ml-4">
+          <el-radio :label=true size="large">是</el-radio>
+          <el-radio :label=false size="large">否</el-radio>
+        </el-radio-group>
       </el-form-item>
     </el-form>
     <template #footer>
