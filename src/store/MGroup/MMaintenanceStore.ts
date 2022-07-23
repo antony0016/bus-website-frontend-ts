@@ -31,12 +31,27 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           route_no: '',
           route_uuid: '',
           route_via_station: '',
-          noramlStartTime: '',
-          noramlEndTime: '',
-          noramlBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-          weekStartTime: '',
-          weekEndTime: '',
-          weekBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          MondayStartTime: '',
+          MondayEndTime: '',
+          MondayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          TuesdayStartTime: '',
+          TuesdayEndTime: '',
+          TuesdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          WednesdayStartTime: '',
+          WednesdayEndTime: '',
+          WednesdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          ThursdayStartTime: '',
+          ThursdayEndTime: '',
+          ThursdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          FridayStartTime: '',
+          FridayEndTime: '',
+          FridayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          SaturdayStartTime: '',
+          SaturdayEndTime: '',
+          SaturdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          SundayStartTime: '',
+          SundayEndTime: '',
+          SundayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
         }
       ],
     },
@@ -46,23 +61,26 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       selectChoiceWeekType: ''
     },
     ShiftDialogForm: {
-      normalDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      weekDayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      MondayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      TuesdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      WednesdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      ThursdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      FridayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      SaturdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      SundayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
       belongRoute: '',
     }
   }),
   getters: {},
   actions: {
-    postBusShiftCsvChoice: function (payload:{data: number, weektype: string}){
+    postBusShiftCsvChoice: function (payload:{data: number}){
       this.filterData.selectChoiceRoute = payload.data
-      this.filterData.selectChoiceWeekType = payload.weektype
     },
     postBusShiftCsvData: function (payload:{data: any, postcount: number}){
       const loginManagerStore = useLoginManagerStore(); 
       axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftCsvEditUrl, {
         data: {
           belongroute: this.filterData.selectChoiceRoute,
-          weektype: this.filterData.selectChoiceWeekType,
           postdata: payload.data
         }
       })
@@ -89,20 +107,29 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
     },
     shiftDialogShow: function (payload: {data: object}){
       this.shifDialogClear()
-      this.ShiftDialogForm.normalDayData = payload.data['noramlBusShiftData']
-      this.ShiftDialogForm.weekDayData = payload.data['weekBusShiftData']
+      this.ShiftDialogForm.MondayData = payload.data['MondayBusShiftData']
+      this.ShiftDialogForm.TuesdayData = payload.data['TuesdayBusShiftData']
+      this.ShiftDialogForm.WednesdayData = payload.data['WednesdayBusShiftData']
+      this.ShiftDialogForm.ThursdayData = payload.data['ThursdayBusShiftData']
+      this.ShiftDialogForm.FridayData = payload.data['FridayBusShiftData']
+      this.ShiftDialogForm.SaturdayData = payload.data['SaturdayBusShiftData']
+      this.ShiftDialogForm.SundayData = payload.data['SundayBusShiftData']
       this.ShiftDialogForm.belongRoute = payload.data['route_uuid']
       this.visableControl.shiftDialogFormVisible = true
     },
     shifDialogClear: function (){
-      this.ShiftDialogForm.normalDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.weekDayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.MondayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.TuesdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.WednesdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.ThursdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.FridayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.SaturdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.SundayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
       this.ShiftDialogForm.belongRoute = ''
       this.getMaintenanceRoute({getcount:0})
     },
     submitDialog: function (){
       console.log('here')
-      console.log(this.ShiftDialogForm.normalDayData)
       console.log(this.getData.getRouteShiftData)
       this.editBusShift({postcount:0})
       this.shifDialogClear()
@@ -114,22 +141,51 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       }else{
         nowUuid = payload.data[payload.data.length-1]['shift_uuid'] + 1
       }
-      if (payload.weekType == 'Normal'){
-        this.ShiftDialogForm.normalDayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Normal', is_exist: 'newdata' })
-      }else{
-        this.ShiftDialogForm.weekDayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'WeekDay', is_exist: 'newdata' })
+      if (payload.weekType == 'Monday'){
+        this.ShiftDialogForm.MondayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Monday', is_exist: 'newdata' })
+      }else if (payload.weekType == 'Tuesday'){
+        this.ShiftDialogForm.TuesdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Tuesday', is_exist: 'newdata' })
+      }else if (payload.weekType == 'Wednesday'){
+        this.ShiftDialogForm.WednesdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Wednesday', is_exist: 'newdata' })
+      }else if (payload.weekType == 'Thursday'){
+        this.ShiftDialogForm.ThursdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Thursday', is_exist: 'newdata' })
+      }else if (payload.weekType == 'Friday'){
+        this.ShiftDialogForm.FridayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Friday', is_exist: 'newdata' })
+      }else if (payload.weekType == 'Saturday'){
+        this.ShiftDialogForm.SaturdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Saturday', is_exist: 'newdata' })
+      }else if (payload.weekType == 'Sunday'){
+        this.ShiftDialogForm.SundayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Sunday', is_exist: 'newdata' })
       }
       console.log(this.getData.getRouteShiftData)
-      console.log(this.ShiftDialogForm.normalDayData)
     },
     deleteDialogValue: function (payload: {nowId: number, weekType: string}){
-      if (payload.weekType == 'Normal'){
-        this.ShiftDialogForm.normalDayData.forEach( (item, index) => {
-          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.normalDayData.splice(index,1);
+      if (payload.weekType == 'Monday'){
+        this.ShiftDialogForm.MondayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.MondayData.splice(index,1);
         });
-      }else{
-        this.ShiftDialogForm.weekDayData.forEach( (item, index) => {
-          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.weekDayData.splice(index,1);
+      }else if (payload.weekType == 'Tuesday'){
+        this.ShiftDialogForm.TuesdayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.TuesdayData.splice(index,1);
+        });
+      }else if (payload.weekType == 'Wednesday'){
+        this.ShiftDialogForm.WednesdayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.WednesdayData.splice(index,1);
+        });
+      }else if (payload.weekType == 'Thursday'){
+        this.ShiftDialogForm.ThursdayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.ThursdayData.splice(index,1);
+        });
+      }else if (payload.weekType == 'Friday'){
+        this.ShiftDialogForm.FridayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.FridayData.splice(index,1);
+        });
+      }else if (payload.weekType == 'Saturday'){
+        this.ShiftDialogForm.SaturdayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.SaturdayData.splice(index,1);
+        });
+      }else if (payload.weekType == 'Sunday'){
+        this.ShiftDialogForm.SundayData.forEach( (item, index) => {
+          if(item.shift_uuid === payload.nowId) this.ShiftDialogForm.SundayData.splice(index,1);
         });
       }
     },
@@ -206,12 +262,27 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
                 route_no: payload.routeData['route_no'],
                 route_uuid: payload.routeData['route_uuid'],
                 route_via_station: payload.routeData['route_via_station'],
-                noramlStartTime: response.data['NormalStartTime'],
-                noramlEndTime: response.data['NormalEndTime'],
-                noramlBusShiftData: response.data['NormalDay'],
-                weekStartTime: response.data['WeekStartTime'],
-                weekEndTime: response.data['WeekEndTime'],
-                weekBusShiftData: response.data['WeekDay'],
+                MondayStartTime: response.data['MondayStartTime'],
+                MondayEndTime: response.data['MondayEndTime'],
+                MondayBusShiftData: response.data['Monday'],
+                TuesdayStartTime: response.data['TuesdayStartTime'],
+                TuesdayEndTime: response.data['TuesdayEndTime'],
+                TuesdayBusShiftData: response.data['Tuesday'],
+                WednesdayStartTime: response.data['WednesdayStartTime'],
+                WednesdayEndTime: response.data['WednesdayEndTime'],
+                WednesdayBusShiftData: response.data['Wednesday'],
+                ThursdayStartTime: response.data['ThursdayStartTime'],
+                ThursdayEndTime: response.data['ThursdayEndTime'],
+                ThursdayBusShiftData: response.data['Thursday'],
+                FridayStartTime: response.data['FridayStartTime'],
+                FridayEndTime: response.data['FridayEndTime'],
+                FridayBusShiftData: response.data['Friday'],
+                SaturdayStartTime: response.data['SaturdayStartTime'],
+                SaturdayEndTime: response.data['SaturdayEndTime'],
+                SaturdayBusShiftData: response.data['Saturday'],
+                SundayStartTime: response.data['SundayStartTime'],
+                SundayEndTime: response.data['SundayEndTime'],
+                SundayBusShiftData: response.data['Sunday'],
               }
             )
           }
@@ -235,8 +306,13 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftEditUrl, {
         data: {
-          normalData: this.ShiftDialogForm.normalDayData,
-          weekData: this.ShiftDialogForm.weekDayData,
+          MondayData: this.ShiftDialogForm.MondayData,
+          TuesdayData: this.ShiftDialogForm.TuesdayData,
+          WednesdayData: this.ShiftDialogForm.WednesdayData,
+          ThursdayData: this.ShiftDialogForm.ThursdayData,
+          FridayData: this.ShiftDialogForm.FridayData,
+          SaturdayData: this.ShiftDialogForm.SaturdayData,
+          SundayData: this.ShiftDialogForm.SundayData,
           belongRoute: this.ShiftDialogForm.belongRoute,
         }
       })

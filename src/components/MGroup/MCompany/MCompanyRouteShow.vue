@@ -152,13 +152,18 @@ const mrouteUploadChange = (file: any, fileList: any) => {
 }
 
 const exportRouteExcel = () => {
-  let exportdataList = [['客運公司', '路線代碼', '路線', '經由站']]
+  let exportdataList = [['客運公司', '路線代碼', '路線', '路線英文名稱', '經由站', '經由站英文名稱', '迄站', '迄站(英文)', '起點站']]
   for (let v of getData.value.getRouteData) {
     let templist = [
       v['belong_company'],
       v['route_no'],
       v['route_name'],
+      v['route_en_name'],
       v['route_via_station'],
+      v['route_en_via_station'],
+      v['route_to_station'],
+      v['route_en_to_station'],
+      v['route_is_start_stop']
     ]
     exportdataList.push(templist)
   }

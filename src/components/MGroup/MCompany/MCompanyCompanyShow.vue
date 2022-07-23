@@ -174,17 +174,20 @@ const mcompanyUploadChange = (file: any, fileList: any) => {
 }
 
 const exportCompanyExcel = () => {
-  let exportdataList = [['業者編號', '客運公司', '統一編號', '電話', '傳真', '地址', '合約狀態', '合約期間', 'Email']]
+  let exportdataList = [['業者編號', '客運公司', '客運公司英文', '統一編號', '電話', '聯絡人姓名', '傳真', '地址', '合約狀態', '合約開始時間', '合約結束時間', 'Email']]
   for (let v of getData.value.getCompanyData) {
     let templist = [
       v['company_no'],
       v['company_name'],
+      v['company_en_name'],
       v['unified_no'],
       v['company_phone'],
+      v['company_contact_name'],
       v['company_fax'],
       v['company_address'],
       v['contract_state'],
       v['contract_datetime'],
+      v['contract_end_datetime'],
       v['company_email']
     ]
     exportdataList.push(templist)

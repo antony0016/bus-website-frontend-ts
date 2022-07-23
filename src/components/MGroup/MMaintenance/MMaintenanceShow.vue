@@ -53,7 +53,7 @@
       width="150"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.noramlStartTime.substring(0, 5) }}</span>
+        <span style="margin-left: 10px">{{ row.MondayStartTime.substring(0, 5) }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -62,7 +62,7 @@
       width="150"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.noramlEndTime.substring(0, 5) }}</span>
+        <span style="margin-left: 10px">{{ row.MondayEndTime.substring(0, 5) }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -71,7 +71,7 @@
       width="150"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.weekStartTime.substring(0, 5) }}</span>
+        <span style="margin-left: 10px">{{ row.SaturdayStartTime.substring(0, 5) }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -80,7 +80,7 @@
       width="150"
       sortable>
       <template #default="{row,$index}">
-        <span style="margin-left: 10px">{{ row.weekEndTime.substring(0, 5) }}</span>
+        <span style="margin-left: 10px">{{ row.SaturdayEndTime.substring(0, 5) }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -92,17 +92,7 @@
           :show-file-list="false"
           accept="csv"
           :on-change="mbusshiftUploadChange">
-          <el-button type="primary" @click="postBusShiftCsvChoice({data: row.route_uuid, weektype: 'Normal'})">平日班表匯入
-          </el-button>
-        </el-upload>
-        <el-upload
-          class="upload"
-          action=""
-          :multiple="false"
-          :show-file-list="false"
-          accept="csv"
-          :on-change="mbusshiftUploadChange">
-          <el-button type="primary" @click="postBusShiftCsvChoice({data: row.route_uuid, weektype: 'WeekDay'})">假日班表匯入
+          <el-button type="primary" @click="postBusShiftCsvChoice({data: row.route_uuid})">匯入
           </el-button>
         </el-upload>
         <el-button @click="exportMaintenanceExcel(row)">
@@ -152,26 +142,62 @@ const mbusshiftUploadChange = (file: any, fileList: any) => {
 const exportMaintenanceExcel = (data: any) => {
   let exportdataList_Normal = [
     ['所屬客運', '所屬路線', '工作日首班車', '工作日末班車'],
-    [data.belong_company, data.route_name, data.noramlStartTime, data.noramlEndTime],
-    ['時刻表', null, null, null, null]
+    [data.belong_company, data.route_name, data.MondayStartTime, data.MondayEndTime],
+    ['時刻表', null, null, null, null],
+    ['一', '二', '三', '四', '五']
   ]
-  for (let nv of data.noramlBusShiftData) {
-    let templist_normal = [
-      nv['arrival_time'],
-    ]
-    exportdataList_Normal.push(templist_normal)
+  let temp_list_data = [
+    data.MondayBusShiftData.length, 
+    data.TuesdayBusShiftData.length,
+    data.WednesdayBusShiftData.length,
+    data.ThursdayBusShiftData.length,
+    data.FridayBusShiftData.length,
+  ]
+  let max_len = Math.max(...temp_list_data)
+  let day_list = [
+    data.MondayBusShiftData,
+    data.TuesdayBusShiftData,
+    data.WednesdayBusShiftData,
+    data.ThursdayBusShiftData,
+    data.FridayBusShiftData
+  ]
+  for (let i = 0; i < max_len; i++) {
+    let temp_time_list = []
+    for (let d of day_list){
+      try {
+        temp_time_list.push(d[i]['arrival_time'])
+      }catch{
+        temp_time_list.push('')
+      }   
+    }
+    exportdataList_Normal.push(temp_time_list)
   }
 
   let exportdataList_Week = [
     ['所屬客運', '所屬路線', '假日首班車', '假日末班車'],
-    [data.belong_company, data.route_name, data.weekStartTime, data.weekEndTime],
-    ['時刻表', null, null, null, null]
+    [data.belong_company, data.route_name, data.SaturdayStartTime, data.SaturdayEndTime],
+    ['時刻表', null],
+    ['六', '日']
   ]
-  for (let wv of data.weekBusShiftData) {
-    let templist_week = [
-      wv['arrival_time'],
-    ]
-    exportdataList_Week.push(templist_week)
+  let temp_list_week_data = [
+    data.SaturdayBusShiftData.length, 
+    data.SundayBusShiftData.length,
+  ]
+  let max_week_len = Math.max(...temp_list_week_data)
+  let day_week_list = [
+    data.SaturdayBusShiftData,
+    data.SundayBusShiftData,
+  ]
+  for (let i = 0; i < max_week_len; i++) {
+    let temp_time_week_list = []
+    for (let d of day_week_list){
+      try {
+        temp_time_week_list.push(d[i]['arrival_time'])
+      }catch{
+        temp_time_week_list.push('')
+      }   
+    }
+    exportdataList_Week.push(temp_time_week_list)
   }
 
   let wb_n = XLSX.utils.book_new()
