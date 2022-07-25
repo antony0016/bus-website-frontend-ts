@@ -6,7 +6,7 @@
   >
     <el-form :model="busDialogForm" label-position="left">
       <el-form-item label="所屬客運" :label-width="formLabelWidth" >
-        <el-select v-model="busDialogForm.belong_company" filterable placeholder="請選擇" @change="getBusRoute({getcount: 0, select: 'dialog'}); busDialogForm.belong_route=''" :disabled="disableControl.dialogCompanySelect">
+        <el-select v-model="busDialogForm.belong_company" filterable placeholder="請選擇" @change="getBusRoute({getcount: 0, select: 'dialog'}); busDialogForm.belong_route=''">
           <el-option
             v-for="item in getData.getCompanyData"
             :key="item['company_uuid']"
