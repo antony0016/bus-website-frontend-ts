@@ -130,10 +130,13 @@ const mbusshiftUploadChange = (file: any, fileList: any) => {
   fileReader.onload = (ev: any) => {
     const workbook = XLSX.read(ev.target.result, {
       type: "binary",
+      cellDates: true
     });
-
+    // console.log(workbook)
     const wsname = workbook.SheetNames[0];
+    // console.log(wsname)
     const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); // 得到的資料
+    // console.log(ws[0])
     postBusShiftCsvData({ data: ws, postcount: 0 })
   };
   fileReader.readAsBinaryString(files);
