@@ -44,7 +44,7 @@ import { ElMessageBox } from 'element-plus'
 import useMAccountStore from "../../../store/MGroup/MAccountStore";
 
 const MAccountStore = useMAccountStore();
-const { GroupTypeSelections, getData, nowGroupSelectShow } = storeToRefs(MAccountStore);
+const { GroupTypeSelections, getData, loadingShow, nowGroupSelectShow } = storeToRefs(MAccountStore);
 const { putGroupName, deleteGroupName } = MAccountStore;
 
 

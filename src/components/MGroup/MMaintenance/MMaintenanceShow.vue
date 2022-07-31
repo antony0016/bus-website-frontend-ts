@@ -9,6 +9,7 @@
   </el-select>
   <el-table
     :data="getData.getRouteShiftData"
+    v-loading="loadingShow.busShiftTableShow"
     style="width: 100%"
     :default-sort="{prop: 'route_no', order: 'ascending'}">
     <el-table-column
@@ -115,7 +116,7 @@ import * as XLSX from "xlsx";
 import useMMaintenanceStore from "../../../store/MGroup/MMaintenanceStore";
 
 const MMaintenanceStore = useMMaintenanceStore();
-const { getData, filterData } = storeToRefs(MMaintenanceStore);
+const { getData, loadingShow, filterData } = storeToRefs(MMaintenanceStore);
 const { getMaintenanceRoute, shiftDialogShow, postBusShiftCsvChoice, postBusShiftCsvData } = MMaintenanceStore;
 
 const mbusshiftUploadChange = (file: any, fileList: any) => {

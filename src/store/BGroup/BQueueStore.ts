@@ -19,17 +19,22 @@ const useBQueueStore = defineStore('BQueueStore', {
     },
     selectData: {
       scheduleSelect: ''
+    },
+    loadingShow: {
+      queueTableShow: false
     }
   }),
   getters: {},
   actions: {
     getScheduleData: function (payload: { getcount: number }) {
+      this.loadingShow.queueTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseQueueUrl + this.apiUrl.getScheduleDataUrl)
         .then(response => {
           console.log('get schedule data')
           this.getData.scheduleData = response.data
           console.log(this.getData.scheduleData)
+          this.loadingShow.queueTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -39,18 +44,22 @@ const useBQueueStore = defineStore('BQueueStore', {
             } else {
               this.getData.scheduleData = []
               console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.queueTableShow = false
           }
         })
     },
     getQueue: function (payload: { getcount: number }) {
+      this.loadingShow.queueTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseQueueUrl + this.apiUrl.getQueueUrl)
         .then(response => {
           console.log('get queue data')
           this.getData.queueData = response.data
+          this.loadingShow.queueTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -60,13 +69,16 @@ const useBQueueStore = defineStore('BQueueStore', {
             } else {
               this.getData.queueData = []
               console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.queueTableShow = false
           }
         })
     },
     addQueue: function (payload: { postcount: number }) {
+      this.loadingShow.queueTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.baseQueueUrl + this.apiUrl.postQueueUrl, 
         {
@@ -80,6 +92,7 @@ const useBQueueStore = defineStore('BQueueStore', {
           this.getQueue({ getcount: 0 })
           this.getScheduleData({getcount:0})
           this.selectData.scheduleSelect = ''
+          this.loadingShow.queueTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -88,13 +101,16 @@ const useBQueueStore = defineStore('BQueueStore', {
               this.addQueue({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.queueTableShow = false
           }
         })
     },
     deleteSchedule: function (payload: { deletecount: number, id: string }) {
+      this.loadingShow.queueTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseQueueUrl + payload.id + '/' + this.apiUrl.deleteQueueUrl, {
         data: {
@@ -106,6 +122,7 @@ const useBQueueStore = defineStore('BQueueStore', {
           this.getQueue({ getcount: 0 })
           this.getScheduleData({getcount:0})
           this.selectData.scheduleSelect = ''
+          this.loadingShow.queueTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -114,13 +131,16 @@ const useBQueueStore = defineStore('BQueueStore', {
               this.deleteSchedule({ deletecount: payload.deletecount, id: payload.id })
             } else {
               console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.queueTableShow = false
           }
         })
     },
     switchQueue: function (payload: { putcount: number, id: string, direction: string }) {
+      this.loadingShow.queueTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseQueueUrl + payload.id + '/' + this.apiUrl.switchQueueUrl, {
         data: {
@@ -131,6 +151,7 @@ const useBQueueStore = defineStore('BQueueStore', {
         .then(response => {
           console.log('put schedule data')
           this.getQueue({ getcount: 0 })
+          this.loadingShow.queueTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -139,9 +160,11 @@ const useBQueueStore = defineStore('BQueueStore', {
               this.switchQueue({ putcount: payload.putcount + 1, id: payload.id, direction: payload.direction })
             } else {
               console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.queueTableShow = false
           }
         })
     },

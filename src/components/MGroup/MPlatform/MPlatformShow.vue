@@ -103,7 +103,7 @@ import usePlatformStore from "../../../store/MGroup/MPlatformStore";
 import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const PlatformStore = usePlatformStore();
-const { platformGetData, DetailPlatformData, selectData, disableControl } = storeToRefs(PlatformStore);
+const { platformGetData, DetailPlatformData, selectData, disableControl, loadingShow } = storeToRefs(PlatformStore);
 const { getSelectRoute, selectPlatform, addPlatformRoute, deletePlatformRoute, submitPlatformData, changeCamera } = PlatformStore;
 
 const MCompanyStore = useMCompanyStore();

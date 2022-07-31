@@ -13,6 +13,7 @@
   </el-button>
   <el-table
     :data="getData.queueData"
+    v-loading="loadingShow.queueTableShow"
     id="queue_table"
     style="width: 100%"
     :default-sort="{prop: 'order', order: 'ascending'}">
@@ -94,7 +95,7 @@ import { ElMessageBox } from 'element-plus';
 import useBQueueStore from "../../../store/BGroup/BQueueStore";
 
 const BQueueStore = useBQueueStore();
-const { getData, selectData } = storeToRefs(BQueueStore);
+const { getData, loadingShow, selectData } = storeToRefs(BQueueStore);
 const { getScheduleData, addQueue, deleteSchedule, switchQueue } = BQueueStore;
 
 getScheduleData({getcount:0})

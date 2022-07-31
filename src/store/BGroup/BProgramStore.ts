@@ -34,6 +34,9 @@ const useBProgramStore = defineStore('BProgramStore', {
       program_content_text: '',
       program_content_file: new FormData(),
       uploadFileList: String['']
+    },
+    loadingShow: {
+      programTableShow: false
     }
   }),
   getters: {},
@@ -101,11 +104,13 @@ const useBProgramStore = defineStore('BProgramStore', {
       this.dialogSetting.addEditChange = true
     },
     getProgramType: function (payload: { getcount: number }) {
+      this.loadingShow.programTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseProgramUrl + this.apiUrl.getProgramTypeUrl)
         .then(response => {
           console.log('get program type data')
           this.getData.programTypeData = response.data
+          this.loadingShow.programTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -115,19 +120,23 @@ const useBProgramStore = defineStore('BProgramStore', {
             } else {
               this.getData.programTypeData = []
               console.log('沒有權限')
+              this.loadingShow.programTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.programTableShow = false
           }
         })
     },
     getProgram: function (payload: { getcount: number }) {
+      this.loadingShow.programTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseProgramUrl + this.apiUrl.getProgramUrl)
         .then(response => {
           console.log('get program data')
           this.getData.programData = response.data
           console.log(this.getData.programData)
+          this.loadingShow.programTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -137,13 +146,16 @@ const useBProgramStore = defineStore('BProgramStore', {
             } else {
               this.getData.programData = []
               console.log('沒有權限')
+              this.loadingShow.programTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.programTableShow = false
           }
         })
     },
     addProgram: function (payload: { postcount: number }) {
+      this.loadingShow.programTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.baseProgramUrl + this.apiUrl.postProgramUrl, 
         {
@@ -163,6 +175,7 @@ const useBProgramStore = defineStore('BProgramStore', {
             this.fileUploadProgram({putcount:0})
           }
           this.dialogClear()
+          this.loadingShow.programTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -172,14 +185,17 @@ const useBProgramStore = defineStore('BProgramStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.programTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.programTableShow = false
           }
         })
     },
     updateProgram: function (payload: { putcount: number }) {
+      this.loadingShow.programTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseProgramUrl + this.dialogSetting.program_uuid + '/' + this.apiUrl.putProgramUrl, {
         data: {
@@ -197,6 +213,7 @@ const useBProgramStore = defineStore('BProgramStore', {
             this.fileUploadProgram({putcount:0})
           }
           this.dialogClear()
+          this.loadingShow.programTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -206,14 +223,17 @@ const useBProgramStore = defineStore('BProgramStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.programTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.programTableShow = false
           }
         })
     },
     deleteProgram: function (payload: { deletecount: number, id: string }) {
+      this.loadingShow.programTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseProgramUrl + payload.id + '/' + this.apiUrl.deleteProgramUrl, {
         data: {
@@ -224,6 +244,7 @@ const useBProgramStore = defineStore('BProgramStore', {
           console.log('delete program data')
           this.getProgram({ getcount: 0 })
           this.dialogClear()
+          this.loadingShow.programTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -233,10 +254,12 @@ const useBProgramStore = defineStore('BProgramStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.programTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.programTableShow = false
           }
         })
     },

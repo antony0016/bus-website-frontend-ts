@@ -1,3 +1,4 @@
+import { ElMessage } from "element-plus";
 import { kebabCase } from "element-plus/lib/utils";
 import { defineStore } from "pinia";
 import axios from "../../axios";
@@ -46,10 +47,14 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       bus_note: '',
       bus_type: '',
     },
+    loadingShow: {
+      busTableShow: false
+    }
   }),
   getters: {},
   actions: {
     postBusCsvData: function (payload:{data: any, postcount: number}) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore(); 
       axios.post(this.apiUrl.busBaseUrl + this.apiUrl.busPostCsvUrl, {
         data: {
@@ -58,7 +63,13 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       })
         .then(response => {
           console.log('post csv bus data')
+          if (response.data == 'problem'){
+            ElMessage.error('匯入資料格式錯誤或資料已存在')
+          }else{
+            ElMessage({message:'匯入資料成功', type: 'success'})
+          }
           this.getBusRoute({getcount:0, select: 'main'})
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -67,13 +78,12 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
               this.postBusCsvData({ data: payload.data, postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
+              this.loadingShow.busTableShow = false
             }
           } 
-          else if (error.response.status == '500'){
-            console.log('文件內項目已經添加了')
-          }
           else {
             console.log(error)
+            this.loadingShow.busTableShow = false
           }
         })    
     },
@@ -119,6 +129,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
       }
     },
     getBusCompany: function (payload: { getcount: number }) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.companyBaseUrl + this.apiUrl.companyGetUrl)
         .then(response => {
@@ -128,6 +139,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
             this.getData.getCompanyName.push({ label: v['company_name'], value: v['company_uuid'] })
           }
           this.getData.getCompanyData = response.data
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -138,13 +150,16 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
               this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
               this.getData.getCompanyData = []
               console.log('沒有權限')
+              this.loadingShow.busTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busTableShow = false
           }
         })
     },
     getBusRoute: function (payload: { getcount: number, select: string }) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore();
       let companyFilter: string
       if (payload.select=='main'){
@@ -168,6 +183,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           }else{
             this.getData.getRouteData = response.data
           }
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -178,13 +194,16 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
               this.getData.getRouteDataName = [{ label: '所有路線', value: 'all' }]
               this.getData.getRouteData = []
               console.log('沒有權限')
+              this.loadingShow.busTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busTableShow = false
           }
         })
     },
     getBus: function (payload: { getcount: number }) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.busBaseUrl + this.apiUrl.busGetUrl, {
         data: {
@@ -195,6 +214,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
         .then(response => {
           console.log('get bus data')
           this.getData.getBusData = response.data
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -204,13 +224,16 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
             } else {
               this.getData.getBusData = []
               console.log('沒有權限')
+              this.loadingShow.busTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busTableShow = false
           }
         })
     },
     postBus: function (payload: { postcount: number }) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.busBaseUrl + this.apiUrl.busPostUrl, {
         data: {
@@ -225,6 +248,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           console.log('post bus data')
           this.getBus({ getcount: 0 })
           this.busDialogClear()
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -234,14 +258,17 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
             } else {
               console.log('沒有權限')
               this.busDialogClear()
+              this.loadingShow.busTableShow = false
             }
           } else {
             console.log(error)
             this.busDialogClear()
+            this.loadingShow.busTableShow = false
           }
         })
     },
     putBus: function (payload: { putcount: number }) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.busBaseUrl + this.busDialogForm.uuid + '/' + this.apiUrl.busPutUrl, {
         data: {
@@ -257,6 +284,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           console.log('put company data')
           this.getBus({ getcount: 0 })
           this.busDialogClear()
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -266,14 +294,17 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
             } else {
               console.log('沒有權限')
               this.busDialogClear()
+              this.loadingShow.busTableShow = false
             }
           } else {
             console.log(error)
             this.busDialogClear()
+            this.loadingShow.busTableShow = false
           }
         })
     },
     deleteBus: function (payload: { deletecount: number }) {
+      this.loadingShow.busTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.busBaseUrl + this.busDialogForm.uuid + '/' + this.apiUrl.busDeleteUrl, {
         data: {
@@ -284,6 +315,7 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
           console.log('delete bus data')
           this.getBus({ getcount: 0 })
           this.busDialogClear()
+          this.loadingShow.busTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -293,10 +325,12 @@ const useMBusInfoStore = defineStore('MBusInfoStore', {
             } else {
               console.log('沒有權限')
               this.busDialogClear()
+              this.loadingShow.busTableShow = false
             }
           } else {
             console.log(error)
             this.busDialogClear()
+            this.loadingShow.busTableShow = false
           }
         })
     },

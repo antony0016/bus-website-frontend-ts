@@ -38,6 +38,9 @@ const usePlatformStore = defineStore('MPlatformStore', {
       selectPlatformCameraPassword: '',
       selectPlatformCompany: '',
       selectPlatformRoute: '',
+    },
+    loadingShow: {
+      platformTableShow: false
     }
   }),
   getters: {

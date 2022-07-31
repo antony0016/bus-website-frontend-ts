@@ -15,6 +15,7 @@
   </el-container>
   <el-table
     :data="getData.getCompanyData"
+    v-loading="loadingShow.companyTableShow"
     id="company_table"
     style="width: 100%"
     :default-sort="{prop: 'company_no', order: 'ascending'}">
@@ -143,7 +144,7 @@ import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 import useLoginManagerStore from "../../../store/LoginManagerStore";
 
 const MCompanyStore = useMCompanyStore();
-const { getData } = storeToRefs(MCompanyStore);
+const { getData, loadingShow } = storeToRefs(MCompanyStore);
 const { postCompanyCsvData, CompanyDialogAddShow, CompanyDialogEditShow, CompanyGoToRoute, companyAccountDialogOpen } = MCompanyStore;
 
 const loginManagerStore = useLoginManagerStore();

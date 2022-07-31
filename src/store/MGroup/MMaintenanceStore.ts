@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import router from "../../router";
 import axios from "../../axios";
 import useLoginManagerStore from "../LoginManagerStore";
+import { ElMessage } from "element-plus";
 
 const useMMaintenanceStore = defineStore('MMaintenanceStore', {
   state: () => ({
@@ -69,6 +70,9 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       SaturdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
       SundayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
       belongRoute: '',
+    },
+    loadingShow: {
+      busShiftTableShow: false
     }
   }),
   getters: {},
@@ -77,6 +81,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       this.filterData.selectChoiceRoute = payload.data
     },
     postBusShiftCsvData: function (payload:{data: any, postcount: number}){
+      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore(); 
       axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftCsvEditUrl, {
         data: {
@@ -86,7 +91,13 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       })
         .then(response => {
           console.log('post csv busshift data')
+          if (response.data == 'problem'){
+            ElMessage.error('匯入資料格式錯誤或資料已存在')
+          }else{
+            ElMessage({message:'匯入資料成功', type: 'success'})
+          }
           this.getMaintenanceRoute({getcount:0})
+          this.loadingShow.busShiftTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -95,13 +106,12 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               this.postBusShiftCsvData({ data: payload.data, postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
+              this.loadingShow.busShiftTableShow = false
             }
           } 
-          else if (error.response.status == '500'){
-            console.log('文件內項目已經添加了')
-          }
           else {
             console.log(error)
+            this.loadingShow.busShiftTableShow = false
           }
         })    
     },
@@ -190,6 +200,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       }
     },
     getMaintenanceCompany: function (payload: { getcount: number }) {
+      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.companyBaseUrl + this.apiUrl.companyGetUrl)
         .then(response => {
@@ -199,6 +210,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             this.getData.getCompanyName.push({ label: v['company_name'], value: v['company_uuid'] })
           }
           this.getData.getCompanyData = response.data
+          this.loadingShow.busShiftTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -209,13 +221,16 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
               this.getData.getCompanyData = []
               console.log('沒有權限')
+              this.loadingShow.busShiftTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busShiftTableShow = false
           }
         })
     },
     getMaintenanceRoute: function (payload: { getcount: number }) {
+      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.routeBaseUrl + this.apiUrl.routeGetUrl, {
         data: {
@@ -227,6 +242,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           this.getData.getRouteShiftData = []
           for (let val of response.data){
             this.getBusShift({getcount: 0, routeData: val, len: response.data.length})
+            this.loadingShow.busShiftTableShow = false
           }
         })
         .catch(error => {
@@ -237,13 +253,16 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             } else {
               this.getData.getRouteShiftData = []
               console.log('沒有權限')
+              this.loadingShow.busShiftTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busShiftTableShow = false
           }
         })
     },
     getBusShift: function (payload: { getcount: number, routeData: Array<object>, len: number }) {
+      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftGetUrl, {
         data: {
@@ -287,6 +306,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             )
           }
           console.log(this.getData.getRouteShiftData)
+          this.loadingShow.busShiftTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -296,13 +316,16 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             } else {
               this.getData.getRouteShiftData = []
               console.log('沒有權限')
+              this.loadingShow.busShiftTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busShiftTableShow = false
           }
         })
     },
     editBusShift: function (payload: { postcount: number }) {
+      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftEditUrl, {
         data: {
@@ -319,6 +342,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
         .then(response => {
           console.log('post busshift data')
           console.log(response.data)
+          this.loadingShow.busShiftTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -327,9 +351,11 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               this.editBusShift({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
+              this.loadingShow.busShiftTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.busShiftTableShow = false
           }
         })
     },

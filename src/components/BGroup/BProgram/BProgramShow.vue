@@ -5,6 +5,7 @@
   <el-input v-model="getData.filterText" placeholder="請輸入程序名稱" autocomplete="off"/>
   <el-table
     :data="filterTextComputed"
+    v-loading="loadingShow.programTableShow"
     id="program_table"
     style="width: 100%"
     :default-sort="{prop: 'program_type', order: 'ascending'}">
@@ -59,7 +60,7 @@ import { ElMessageBox } from 'element-plus';
 import useBProgramStore from "../../../store/BGroup/BProgramStore";
 
 const BProgramStore = useBProgramStore();
-const { getData } = storeToRefs(BProgramStore);
+const { getData, loadingShow } = storeToRefs(BProgramStore);
 const { dialogAddOpen, dialogEditOpen, deleteProgram, pilotProgram } = BProgramStore;
 
 const filterTextComputed = computed(() => {

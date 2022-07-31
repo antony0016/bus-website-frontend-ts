@@ -39,6 +39,9 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
       equipment_password: '',
       belong_platform: '',
     },
+    loadingShow: {
+      equipmentTableShow: false
+    }
   }),
   getters: {},
   actions: {
@@ -73,12 +76,14 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
       this.dialogVisible.equipmentDialogFormVisable = true
     },
     getEquipment: function (payload: { getcount: number }) {
+      this.loadingShow.equipmentTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseEquipmentUrl + this.apiUrl.getEquipmentUrl)
         .then(response => {
           console.log('get equipment data')
           this.getData.equipmentData = response.data
           this.filterEquipment()
+          this.loadingShow.equipmentTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -87,18 +92,22 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
               this.getEquipment({ getcount: payload.getcount + 1 })
             } else {
               console.log('沒有權限')
+              this.loadingShow.equipmentTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.equipmentTableShow = false
           }
         })
     },
     getEquipmentType: function (payload: { getcount: number }) {
+      this.loadingShow.equipmentTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseEquipmentUrl + this.apiUrl.getEquipmentTypeUrl)
         .then(response => {
           console.log('get equipment type data')
           this.selectItem = response.data
+          this.loadingShow.equipmentTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -110,13 +119,16 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
                 { type_id: '', type_name: '', type_ch_name: '' }
               ]
               console.log('沒有權限')
+              this.loadingShow.equipmentTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.equipmentTableShow = false
           }
         })
     },
     getPlatform: function (payload: { getcount: number }) {
+      this.loadingShow.equipmentTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.basePlatformUrl + this.apiUrl.getPlatformUrl)
         .then(response => {
@@ -125,6 +137,7 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
           for (let v of response.data){
             this.getData.platformData.push(v)
           }
+          this.loadingShow.equipmentTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -134,13 +147,16 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
             } else {
               this.getData.platformData = [{uuid: 'null', platform_name: '無設定'}]
               console.log('沒有權限')
+              this.loadingShow.equipmentTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.equipmentTableShow = false
           }
         })
     },
     postEquipment: function (payload: { postcount: number }) {
+      this.loadingShow.equipmentTableShow = true
       const loginManagerStore = useLoginManagerStore();    
       axios.post(this.apiUrl.baseEquipmentUrl + this.apiUrl.postEquipment, {
         data: {
@@ -158,6 +174,7 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
           console.log('post equipment data')
           this.getEquipment({ getcount: 0 })
           this.equipmentDialogClear()
+          this.loadingShow.equipmentTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -167,14 +184,17 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
             } else {
               console.log('沒有權限')
               this.equipmentDialogClear()
+              this.loadingShow.equipmentTableShow = false
             }
           } else {
             console.log(error)
             this.equipmentDialogClear()
+            this.loadingShow.equipmentTableShow = false
           }
         })
     },
     putEquipment: function (payload: { putcount: number }) {
+      this.loadingShow.equipmentTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseEquipmentUrl + this.equipmentDialogFormData.equipment_uuid + '/' + this.apiUrl.putEquipment, {
         data: {
@@ -193,6 +213,7 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
           console.log('put equipment data')
           this.getEquipment({ getcount: 0 })
           this.equipmentDialogClear()
+          this.loadingShow.equipmentTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -202,14 +223,17 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
             } else {
               console.log('沒有權限')
               this.equipmentDialogClear()
+              this.loadingShow.equipmentTableShow = false
             }
           } else {
             console.log(error)
             this.equipmentDialogClear()
+            this.loadingShow.equipmentTableShow = false
           }
         })
     },
     deleteEquipment: function (payload: { deletecount: number, id: string }) {
+      this.loadingShow.equipmentTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseEquipmentUrl + payload.id + '/' + this.apiUrl.deleteEquipment, {
         data: {
@@ -220,6 +244,7 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
           console.log('delete equipment data')
           this.getEquipment({ getcount: 0 })
           this.equipmentDialogClear()
+          this.loadingShow.equipmentTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -229,10 +254,12 @@ const useCEquipmentStore = defineStore('CEquipmentStore', {
             } else {
               console.log('沒有權限')
               this.equipmentDialogClear()
+              this.loadingShow.equipmentTableShow = false
             }
           } else {
             console.log(error)
             this.equipmentDialogClear()
+            this.loadingShow.equipmentTableShow = false
           }
         })
     },

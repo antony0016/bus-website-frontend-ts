@@ -53,6 +53,9 @@ const useBScheduleStore = defineStore('BScheduleStore', {
       schedule_program_select: '',
       schedule_programs: [{}]
     },
+    loadingShow: {
+      scheduleTableShow: false
+    }
   }),
   getters: {},
   actions: {
@@ -257,12 +260,14 @@ const useBScheduleStore = defineStore('BScheduleStore', {
       this.dialogSetting.visable = true
     },
     getProgram: function (payload: { getcount: number }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseProgramUrl + this.apiUrl.getProgramUrl)
         .then(response => {
           console.log('get program data')
           this.getData.programData = response.data
           console.log(this.getData.programData)
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -272,19 +277,23 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             } else {
               this.getData.programData = []
               console.log('沒有權限')
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },
     getSchedule: function (payload: { getcount: number }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.baseScheduleUrl + this.apiUrl.getScheduleUrl)
         .then(response => {
           console.log('get schedule data')
           this.getData.scheduleData = response.data
           console.log(this.getData.scheduleData)
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -294,13 +303,16 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             } else {
               this.getData.scheduleData = []
               console.log('沒有權限')
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },
     addSchedule: function (payload: { postcount: number }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.baseScheduleUrl + this.apiUrl.postScheduleUrl, 
         {
@@ -324,6 +336,7 @@ const useBScheduleStore = defineStore('BScheduleStore', {
           console.log('post program data')
           this.getSchedule({ getcount: 0 })
           this.dialogClear()
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -333,14 +346,17 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },
     updateSchedule: function (payload: { putcount: number }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseScheduleUrl + this.dialogSetting.schedule_id + '/' + this.apiUrl.putScheduleUrl, {
         data: {
@@ -363,6 +379,7 @@ const useBScheduleStore = defineStore('BScheduleStore', {
           console.log('put schedule data')
           this.getSchedule({ getcount: 0 })
           this.dialogClear()
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -372,14 +389,17 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },
     deleteSchedule: function (payload: { deletecount: number, id: string }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseScheduleUrl + payload.id + '/' + this.apiUrl.deleteScheduleUrl, {
         data: {
@@ -390,6 +410,7 @@ const useBScheduleStore = defineStore('BScheduleStore', {
           console.log('delete schedule data')
           this.getSchedule({ getcount: 0 })
           this.dialogClear()
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -399,14 +420,17 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },
     scheduleOpenCloseSwitch: function (payload: { putcount: number, id: string }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseScheduleUrl + payload.id + '/' + this.apiUrl.openCloseSwitchUrl, {
         data: {
@@ -417,6 +441,7 @@ const useBScheduleStore = defineStore('BScheduleStore', {
           console.log('schedule open close switch ok')
           this.getSchedule({ getcount: 0 })
           this.dialogClear()
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -426,14 +451,17 @@ const useBScheduleStore = defineStore('BScheduleStore', {
             } else {
               console.log('沒有權限')
               this.dialogClear()
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
             this.dialogClear()
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },
     inStreamScheduleSwitch: function (payload: { putcount: number, id: string }) {
+      this.loadingShow.scheduleTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.apiUrl.baseScheduleUrl + payload.id + '/' + this.apiUrl.InStreamScheduleUrl, {
         data: {
@@ -443,6 +471,7 @@ const useBScheduleStore = defineStore('BScheduleStore', {
         .then(response => {
           console.log('instream schedule switch ok')
           this.getSchedule({ getcount: 0 })
+          this.loadingShow.scheduleTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -451,9 +480,11 @@ const useBScheduleStore = defineStore('BScheduleStore', {
               this.inStreamScheduleSwitch({ putcount: payload.putcount, id: payload.id })
             } else {
               console.log('沒有權限')
+              this.loadingShow.scheduleTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.scheduleTableShow = false
           }
         })
     },

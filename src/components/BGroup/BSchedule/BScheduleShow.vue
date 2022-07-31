@@ -5,6 +5,7 @@
   <el-input v-model="getData.filterText" placeholder="請輸入排程名稱" autocomplete="off"/>
   <el-table
     :data="filterTextComputed"
+    v-loading="loadingShow.scheduleTableShow"
     id="schedule_table"
     style="width: 100%"
     :default-sort="{prop: 'schedule_name', order: 'ascending'}">
@@ -133,7 +134,7 @@ import { ElMessageBox } from 'element-plus';
 import useBScheduleStore from "../../../store/BGroup/BScheduleStore";
 
 const BScheduleStore = useBScheduleStore();
-const { getData } = storeToRefs(BScheduleStore);
+const { getData, loadingShow } = storeToRefs(BScheduleStore);
 const { dialogAddShow, dialogEditShow, deleteSchedule, scheduleOpenCloseSwitch, inStreamScheduleSwitch } = BScheduleStore;
 
 const filterTextComputed = computed(() => {

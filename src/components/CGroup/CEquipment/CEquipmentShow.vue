@@ -1,6 +1,7 @@
 <template>
   <el-table
     :data="getData.filterEquipmentData"
+    v-loading="loadingShow.equipmentTableShow"
     style="width: 100%"
     :default-sort = "{prop: 'equipment_no', order: 'ascending'}">
     <el-table-column
@@ -76,7 +77,7 @@ import * as XLSX from "xlsx";
 import useCEquipmentStore from "../../../store/CGrroup/CEquipmentStore";
 
 const CEquipmentStore = useCEquipmentStore();
-const { getData } = storeToRefs(CEquipmentStore);
+const { getData, loadingShow } = storeToRefs(CEquipmentStore);
 const { equipmentDialogUpdate, deleteEquipment } = CEquipmentStore;
 
 </script>

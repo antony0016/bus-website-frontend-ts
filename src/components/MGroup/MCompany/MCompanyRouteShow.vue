@@ -23,6 +23,7 @@
   </el-container>
   <el-table
     :data="getData.getRouteData"
+    v-loading="loadingShow.routeTableShow"
     id="route_table"
     style="width: 100%"
     :default-sort="{prop: 'route_no', order: 'ascending'}">
@@ -129,7 +130,7 @@ import * as XLSX from "xlsx";
 import useMCompanyStore from "../../../store/MGroup/MCompanyStore";
 
 const MCompanyStore = useMCompanyStore();
-const { getData } = storeToRefs(MCompanyStore);
+const { getData, loadingShow } = storeToRefs(MCompanyStore);
 const { getRoute, postRouteCsvData, RouteDialogAddShow, RouteDialogEditShow, goToBusInfo } = MCompanyStore;
 
 const mrouteUploadChange = (file: any, fileList: any) => {

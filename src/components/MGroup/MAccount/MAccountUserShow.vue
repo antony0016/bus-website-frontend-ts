@@ -2,6 +2,7 @@
   <el-button @click="addNewUserDialog()" :disabled="buttonDisable.superAdminDisable">新增使用者</el-button>
   <el-table
     :data="getData.getUserData"
+    v-loading="loadingShow.userTableShow"
     style="width: 100%"
     :default-sort = "{prop: 'username', order: 'ascending'}">
     <el-table-column
@@ -60,7 +61,7 @@ import useMAccountStore from "../../../store/MGroup/MAccountStore";
 import useLoginManagerStore from "../../../store/LoginManagerStore";
 
 const MAccountStore = useMAccountStore();
-const { getData } = storeToRefs(MAccountStore);
+const { getData, loadingShow } = storeToRefs(MAccountStore);
 const { openUserEdit, addNewUserDialog } = MAccountStore;
 
 const loginManagerStore = useLoginManagerStore();

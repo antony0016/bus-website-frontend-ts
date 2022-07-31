@@ -132,6 +132,10 @@ const useMAccountStore = defineStore('MAccountStore', {
           BRC: { name: "播放紀錄查詢", allow: false },
         }
       }
+    },
+    loadingShow: {
+      groupTableShow: false,
+      userTableShow: false
     }
   }),
   getters: {},
@@ -263,12 +267,14 @@ const useMAccountStore = defineStore('MAccountStore', {
         })
     },
     getUser: function (payload: { getCount: number }) {
+      this.loadingShow.userTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.ApiUrl.userBaseUrl + this.ApiUrl.userGetUrl)
         .then(response => {
           console.log('get user data')
           this.getData.getUserData = response.data
           console.log(this.getData.getUserData)
+          this.loadingShow.userTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -278,9 +284,11 @@ const useMAccountStore = defineStore('MAccountStore', {
             } else {
               this.getData.getUserData = []
               console.log('沒有權限')
+              this.loadingShow.userTableShow = false
             }
           } else {
             console.log(error)
+            this.loadingShow.userTableShow = false
           }
         })
     },
@@ -316,6 +324,7 @@ const useMAccountStore = defineStore('MAccountStore', {
       this.UserDialogFormVisible = true
     },
     postUser: function (payload: { postCount: number }) {
+      this.loadingShow.userTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.ApiUrl.userBaseUrl + this.ApiUrl.userPostUrl, {
         data: {
@@ -333,6 +342,7 @@ const useMAccountStore = defineStore('MAccountStore', {
           console.log('post user data')
           this.getUser({ getCount: 0 })
           this.userDialogClear()
+          this.loadingShow.userTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -342,14 +352,17 @@ const useMAccountStore = defineStore('MAccountStore', {
             } else {
               console.log('沒有權限')
               this.userDialogClear()
+              this.loadingShow.userTableShow = false
             }
           } else {
             console.log(error)
             this.userDialogClear()
+            this.loadingShow.userTableShow = false
           }
         })
     },
     putUser: function (payload: { putCount: number }) {
+      this.loadingShow.userTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.ApiUrl.userBaseUrl + this.UserDialogForm.userID + '/' + this.ApiUrl.userPutUrl, {
         data: {
@@ -368,6 +381,7 @@ const useMAccountStore = defineStore('MAccountStore', {
           console.log('put user data')
           this.getUser({ getCount: 0 })
           this.userDialogClear()
+          this.loadingShow.userTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -377,14 +391,17 @@ const useMAccountStore = defineStore('MAccountStore', {
             } else {
               console.log('沒有權限')
               this.userDialogClear()
+              this.loadingShow.userTableShow = false
             }
           } else {
             console.log(error)
             this.userDialogClear()
+            this.loadingShow.userTableShow = false
           }
         })
     },
     deleteUser: function (payload: { deleteCount: number }) {
+      this.loadingShow.userTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.put(this.ApiUrl.userBaseUrl + this.UserDialogForm.userID + '/' + this.ApiUrl.userDeleteUrl, {
         data: {
@@ -395,6 +412,7 @@ const useMAccountStore = defineStore('MAccountStore', {
           console.log('delete group data')
           this.getUser({ getCount: 0 })
           this.userDialogClear()
+          this.loadingShow.userTableShow = false
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -404,10 +422,12 @@ const useMAccountStore = defineStore('MAccountStore', {
             } else {
               console.log('沒有權限')
               this.userDialogClear()
+              this.loadingShow.userTableShow = false
             }
           } else {
             console.log(error)
             this.userDialogClear()
+            this.loadingShow.userTableShow = false
           }
         })
     },

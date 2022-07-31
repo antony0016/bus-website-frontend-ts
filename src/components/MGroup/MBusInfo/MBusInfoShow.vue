@@ -32,6 +32,7 @@
   </el-container>
   <el-table
     :data="getData.getBusData"
+    v-loading="loadingShow.busTableShow"
     id="bus_table"
     style="width: 100%"
     :default-sort="{prop: 'belong_company', order: 'ascending'}">
@@ -117,7 +118,7 @@ import * as XLSX from "xlsx";
 import useMBusInfoStore from "../../../store/MGroup/MBusInfoStore"
 
 const MBusInfoStore = useMBusInfoStore();
-const { getData, filterData, disableControl } = storeToRefs(MBusInfoStore);
+const { getData, loadingShow, filterData, disableControl } = storeToRefs(MBusInfoStore);
 const { SelectCompanyDialogChange, getBus, busDialogEdit, busDialogAdd, postBusCsvData } = MBusInfoStore;
 
 const mbusinfoUploadChange = (file: any, fileList: any) => {
