@@ -1,6 +1,7 @@
 import TTS from '../../views/UnitTest/TTS.vue'
 import NXStream from '../../views/UnitTest/NXStream.vue'
 import InAndOut from '../../views/UnitTest/InAndOut.vue'
+import CMS from '../../views/UnitTest/CMS.vue'
 
 const UnitTestRoutes = [
     {
@@ -17,6 +18,14 @@ const UnitTestRoutes = [
         component: NXStream,
         meta: {
             requiredAuth: true,
+        }
+    },
+    {
+        path: "/CMS",
+        name: "CMS",
+        component: CMS,
+        meta: {
+            requiredAuth: false,
         }
     },
     {
