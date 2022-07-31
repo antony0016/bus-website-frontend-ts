@@ -16,6 +16,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       busShiftGetUrl: 'view_busshift/',
       busShiftEditUrl: 'edit_busshift/',
       busShiftCsvEditUrl: 'edit_csv_busshift/',
+      busShiftPlayAudioUrl: 'play_broadcast_busshift/',
     },
     visableControl: {
       shiftDialogFormVisible: false,
@@ -34,25 +35,25 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           route_via_station: '',
           MondayStartTime: '',
           MondayEndTime: '',
-          MondayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          MondayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
           TuesdayStartTime: '',
           TuesdayEndTime: '',
-          TuesdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          TuesdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
           WednesdayStartTime: '',
           WednesdayEndTime: '',
-          WednesdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          WednesdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
           ThursdayStartTime: '',
           ThursdayEndTime: '',
-          ThursdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          ThursdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
           FridayStartTime: '',
           FridayEndTime: '',
-          FridayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          FridayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
           SaturdayStartTime: '',
           SaturdayEndTime: '',
-          SaturdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          SaturdayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
           SundayStartTime: '',
           SundayEndTime: '',
-          SundayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+          SundayBusShiftData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
         }
       ],
     },
@@ -62,13 +63,13 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       selectChoiceWeekType: ''
     },
     ShiftDialogForm: {
-      MondayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      TuesdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      WednesdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      ThursdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      FridayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      SaturdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
-      SundayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }],
+      MondayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
+      TuesdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
+      WednesdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
+      ThursdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
+      FridayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
+      SaturdayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
+      SundayData: [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }],
       belongRoute: '',
     },
     loadingShow: {
@@ -128,13 +129,13 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       this.visableControl.shiftDialogFormVisible = true
     },
     shifDialogClear: function (){
-      this.ShiftDialogForm.MondayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.TuesdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.WednesdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.ThursdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.FridayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.SaturdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
-      this.ShiftDialogForm.SundayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', is_exist: '' }]
+      this.ShiftDialogForm.MondayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
+      this.ShiftDialogForm.TuesdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
+      this.ShiftDialogForm.WednesdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
+      this.ShiftDialogForm.ThursdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
+      this.ShiftDialogForm.FridayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
+      this.ShiftDialogForm.SaturdayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
+      this.ShiftDialogForm.SundayData = [{ shift_uuid: 0, arrival_time: '', week_type: '', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: '' }]
       this.ShiftDialogForm.belongRoute = ''
       this.getMaintenanceRoute({getcount:0})
     },
@@ -152,19 +153,19 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
         nowUuid = payload.data[payload.data.length-1]['shift_uuid'] + 1
       }
       if (payload.weekType == 'Monday'){
-        this.ShiftDialogForm.MondayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Monday', is_exist: 'newdata' })
+        this.ShiftDialogForm.MondayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Monday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }else if (payload.weekType == 'Tuesday'){
-        this.ShiftDialogForm.TuesdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Tuesday', is_exist: 'newdata' })
+        this.ShiftDialogForm.TuesdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Tuesday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }else if (payload.weekType == 'Wednesday'){
-        this.ShiftDialogForm.WednesdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Wednesday', is_exist: 'newdata' })
+        this.ShiftDialogForm.WednesdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Wednesday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }else if (payload.weekType == 'Thursday'){
-        this.ShiftDialogForm.ThursdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Thursday', is_exist: 'newdata' })
+        this.ShiftDialogForm.ThursdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Thursday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }else if (payload.weekType == 'Friday'){
-        this.ShiftDialogForm.FridayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Friday', is_exist: 'newdata' })
+        this.ShiftDialogForm.FridayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Friday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }else if (payload.weekType == 'Saturday'){
-        this.ShiftDialogForm.SaturdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Saturday', is_exist: 'newdata' })
+        this.ShiftDialogForm.SaturdayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Saturday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }else if (payload.weekType == 'Sunday'){
-        this.ShiftDialogForm.SundayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Sunday', is_exist: 'newdata' })
+        this.ShiftDialogForm.SundayData.push({ shift_uuid: nowUuid, arrival_time: '', week_type: 'Sunday', broadcast_time_default:'', broadcast_time:'', is_auto_broadcast:false, kanban_status:false, have_broadcast: '', is_exist: 'newdata' })
       }
       console.log(this.getData.getRouteShiftData)
     },
@@ -349,6 +350,34 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             if (payload.postcount < 6) {
               loginManagerStore.refreshToken()
               this.editBusShift({ postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.loadingShow.busShiftTableShow = false
+            }
+          } else {
+            console.log(error)
+            this.loadingShow.busShiftTableShow = false
+          }
+        })
+    },
+    playBusShiftAudio: function (payload: { postcount: number, shift_uuid: Number }) {
+      this.loadingShow.busShiftTableShow = true
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.apiUrl.busShiftBaseUrl + this.apiUrl.busShiftPlayAudioUrl, {
+        data: {
+          shift_uuid: payload.shift_uuid
+        }
+      })
+        .then(response => {
+          console.log('play busshift audio')
+          console.log(response.data)
+          this.loadingShow.busShiftTableShow = false
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.playBusShiftAudio({ postcount: payload.postcount + 1, shift_uuid: payload.shift_uuid })
             } else {
               console.log('沒有權限')
               this.loadingShow.busShiftTableShow = false
