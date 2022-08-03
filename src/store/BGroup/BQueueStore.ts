@@ -12,6 +12,8 @@ const useBQueueStore = defineStore('BQueueStore', {
       postQueueUrl: 'add_queue/',
       deleteQueueUrl: 'delete_queue/',
       switchQueueUrl: 'switch_order_queue/',
+      allQueueDelete: 'all_queue_delete/',
+      allQueueLeaveOneDelete: 'all_leave_one_queue_delete/'
     },
     getData: {
       scheduleData: [],
@@ -158,6 +160,70 @@ const useBQueueStore = defineStore('BQueueStore', {
             if (payload.putcount < 6) {
               loginManagerStore.refreshToken()
               this.switchQueue({ putcount: payload.putcount + 1, id: payload.id, direction: payload.direction })
+            } else {
+              console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
+            }
+          } else {
+            console.log(error)
+            this.loadingShow.queueTableShow = false
+          }
+        })
+    },
+    allQueueDelete: function (payload: { postcount: number }) {
+      this.loadingShow.queueTableShow = true
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.apiUrl.baseQueueUrl + this.apiUrl.allQueueDelete, 
+        {
+        data: {
+          note: 'delete all',
+          }
+        }
+      )
+        .then(response => {
+          console.log('delete all queue data')
+          this.getQueue({ getcount: 0 })
+          this.getScheduleData({getcount:0})
+          this.selectData.scheduleSelect = ''
+          this.loadingShow.queueTableShow = false
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.addQueue({ postcount: payload.postcount + 1 })
+            } else {
+              console.log('沒有權限')
+              this.loadingShow.queueTableShow = false
+            }
+          } else {
+            console.log(error)
+            this.loadingShow.queueTableShow = false
+          }
+        })
+    },
+    allQueueLeaveOneDelete: function (payload: { postcount: number }) {
+      this.loadingShow.queueTableShow = true
+      const loginManagerStore = useLoginManagerStore();
+      axios.post(this.apiUrl.baseQueueUrl + this.apiUrl.allQueueLeaveOneDelete, 
+        {
+        data: {
+          note: 'delete all leave one',
+          }
+        }
+      )
+        .then(response => {
+          console.log('delete all leave one queue data')
+          this.getQueue({ getcount: 0 })
+          this.getScheduleData({getcount:0})
+          this.selectData.scheduleSelect = ''
+          this.loadingShow.queueTableShow = false
+        })
+        .catch(error => {
+          if (error.response.status == '401' || error.response.status == '403') {
+            if (payload.postcount < 6) {
+              loginManagerStore.refreshToken()
+              this.addQueue({ postcount: payload.postcount + 1 })
             } else {
               console.log('沒有權限')
               this.loadingShow.queueTableShow = false

@@ -11,6 +11,12 @@
   <el-button type="primary" @click="addQueue({postcount:0})">
     增加排程
   </el-button>
+  <el-button type="primary" @click="allQueueDelete({postcount:0})">
+    刪除所有列隊資料
+  </el-button>
+  <el-button type="primary" @click="allQueueLeaveOneDelete({postcount:0})">
+    只留順序1之排程其餘刪除
+  </el-button>
   <el-table
     :data="getData.queueData"
     v-loading="loadingShow.queueTableShow"
@@ -96,7 +102,7 @@ import useBQueueStore from "../../../store/BGroup/BQueueStore";
 
 const BQueueStore = useBQueueStore();
 const { getData, loadingShow, selectData } = storeToRefs(BQueueStore);
-const { getScheduleData, addQueue, deleteSchedule, switchQueue } = BQueueStore;
+const { getScheduleData, addQueue, deleteSchedule, switchQueue, allQueueDelete, allQueueLeaveOneDelete } = BQueueStore;
 
 getScheduleData({getcount:0})
 
