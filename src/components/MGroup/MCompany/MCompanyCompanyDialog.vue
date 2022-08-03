@@ -6,7 +6,7 @@
   >
     <el-form :model="CompanyDialogForm" label-position="left">
       <el-form-item label="業者編號" :label-width="formLabelWidth">
-        <el-input v-model="CompanyDialogForm.company_no" autocomplete="off"/>
+        <el-input v-model="CompanyDialogForm.company_no" autocomplete="off" :disabled="true"/>
       </el-form-item>
       <el-form-item label="公司名稱" :label-width="formLabelWidth">
         <el-input v-model="CompanyDialogForm.company_name" autocomplete="off"/>
@@ -30,7 +30,7 @@
         <el-input v-model="CompanyDialogForm.company_address" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="合約狀態" :label-width="formLabelWidth">
-        <el-input v-model="CompanyDialogForm.contract_state" autocomplete="off"/>
+        <el-input v-model="CompanyDialogForm.contract_state" autocomplete="off" :disabled="true"/>
       </el-form-item>
       <el-form-item label="合約開始期間" :label-width="formLabelWidth">
         <el-input type="datetime-local" v-model="CompanyDialogForm.contract_datetime" autocomplete="off"/>

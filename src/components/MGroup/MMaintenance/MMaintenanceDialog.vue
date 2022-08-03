@@ -137,6 +137,12 @@
             sortable>
             <template #default="{row,$index}">
               <el-button type="danger" @click="deleteDialogValue({nowId: ShiftDialogForm.TuesdayData[$index].shift_uuid, weekType: 'Tuesday'})">刪除</el-button>
+              <div v-if="ShiftDialogForm.MondayData[$index].is_exist=='existed'">
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.TuesdayData[$index].shift_uuid})">播放</el-button>
+              </div>
+              <div v-else>
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.TuesdayData[$index].shift_uuid})" :disabled="true">播放</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -202,6 +208,12 @@
             sortable>
             <template #default="{row,$index}">
               <el-button type="danger" @click="deleteDialogValue({nowId: ShiftDialogForm.WednesdayData[$index].shift_uuid, weekType: 'Wednesday'})">刪除</el-button>
+              <div v-if="ShiftDialogForm.MondayData[$index].is_exist=='existed'">
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.WednesdayData[$index].shift_uuid})">播放</el-button>
+              </div>
+              <div v-else>
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.WednesdayData[$index].shift_uuid})" :disabled="true">播放</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -267,6 +279,12 @@
             sortable>
             <template #default="{row,$index}">
               <el-button type="danger" @click="deleteDialogValue({nowId: ShiftDialogForm.ThursdayData[$index].shift_uuid, weekType: 'Thursday'})">刪除</el-button>
+              <div v-if="ShiftDialogForm.MondayData[$index].is_exist=='existed'">
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.ThursdayData[$index].shift_uuid})">播放</el-button>
+              </div>
+              <div v-else>
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.ThursdayData[$index].shift_uuid})" :disabled="true">播放</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -332,6 +350,12 @@
             sortable>
             <template #default="{row,$index}">
               <el-button type="danger" @click="deleteDialogValue({nowId: ShiftDialogForm.FridayData[$index].shift_uuid, weekType: 'Friday'})">刪除</el-button>
+              <div v-if="ShiftDialogForm.MondayData[$index].is_exist=='existed'">
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.FridayData[$index].shift_uuid})">播放</el-button>
+              </div>
+              <div v-else>
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.FridayData[$index].shift_uuid})" :disabled="true">播放</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -397,6 +421,12 @@
             sortable>
             <template #default="{row,$index}">
               <el-button type="danger" @click="deleteDialogValue({nowId: ShiftDialogForm.SaturdayData[$index].shift_uuid, weekType: 'Saturday'})">刪除</el-button>
+              <div v-if="ShiftDialogForm.MondayData[$index].is_exist=='existed'">
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.SaturdayData[$index].shift_uuid})">播放</el-button>
+              </div>
+              <div v-else>
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.SaturdayData[$index].shift_uuid})" :disabled="true">播放</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -462,6 +492,12 @@
             sortable>
             <template #default="{row,$index}">
               <el-button type="danger" @click="deleteDialogValue({nowId: ShiftDialogForm.SundayData[$index].shift_uuid, weekType: 'Sunday'})">刪除</el-button>
+              <div v-if="ShiftDialogForm.MondayData[$index].is_exist=='existed'">
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.SundayData[$index].shift_uuid})">播放</el-button>
+              </div>
+              <div v-else>
+                <el-button type="primary" @click="playBusShiftAudio({postcount:0, shift_uuid:ShiftDialogForm.SundayData[$index].shift_uuid})" :disabled="true">播放</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>

@@ -201,7 +201,6 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
       }
     },
     getMaintenanceCompany: function (payload: { getcount: number }) {
-      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.get(this.apiUrl.companyBaseUrl + this.apiUrl.companyGetUrl)
         .then(response => {
@@ -211,7 +210,7 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             this.getData.getCompanyName.push({ label: v['company_name'], value: v['company_uuid'] })
           }
           this.getData.getCompanyData = response.data
-          this.loadingShow.busShiftTableShow = false
+
         })
         .catch(error => {
           if (error.response.status == '401' || error.response.status == '403') {
@@ -222,16 +221,13 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
               this.getData.getCompanyName = [{ label: '所有公司', value: 'all' }]
               this.getData.getCompanyData = []
               console.log('沒有權限')
-              this.loadingShow.busShiftTableShow = false
             }
           } else {
             console.log(error)
-            this.loadingShow.busShiftTableShow = false
           }
         })
     },
     getMaintenanceRoute: function (payload: { getcount: number }) {
-      this.loadingShow.busShiftTableShow = true
       const loginManagerStore = useLoginManagerStore();
       axios.post(this.apiUrl.routeBaseUrl + this.apiUrl.routeGetUrl, {
         data: {
@@ -243,7 +239,6 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
           this.getData.getRouteShiftData = []
           for (let val of response.data){
             this.getBusShift({getcount: 0, routeData: val, len: response.data.length})
-            this.loadingShow.busShiftTableShow = false
           }
         })
         .catch(error => {
@@ -254,11 +249,9 @@ const useMMaintenanceStore = defineStore('MMaintenanceStore', {
             } else {
               this.getData.getRouteShiftData = []
               console.log('沒有權限')
-              this.loadingShow.busShiftTableShow = false
             }
           } else {
             console.log(error)
-            this.loadingShow.busShiftTableShow = false
           }
         })
     },
